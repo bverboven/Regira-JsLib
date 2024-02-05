@@ -1,5 +1,5 @@
 import type { IPagingInfo, IEntity, IConfig, ISearchObject, IEntityService, SaveResult } from "../abstractions"
-import type { FeedbackOut, FeedbackError } from "@/vue_modules/ui/feedback"
+import type { FeedbackOut, FeedbackError } from "@/vue/ui/feedback"
 import type { Ref } from "vue"
 
 export const DEFAULT_DEBOUNCE = 250

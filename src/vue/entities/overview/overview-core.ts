@@ -1,4 +1,4 @@
-import { useFeedback } from "@/vue_modules/ui"
+import { useFeedback } from "@/vue/ui"
 import { ref, type Ref } from "vue"
 import { DEFAULT_PAGESIZE, PagingInfo, type IEntity, type IPagingInfo, type ISearchObject, type SaveResult } from "../abstractions"
 import type { OverviewCoreIn, OverviewCoreOut, OverviewError } from "./overview"

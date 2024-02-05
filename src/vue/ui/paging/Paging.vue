@@ -21,9 +21,9 @@
 </template>
 
 <script setup lang="ts">
-import type { IPagingInfo } from "@/vue_modules/entities/abstractions/PagingInfo"
+import type { IPagingInfo } from "@/vue/entities/abstractions/PagingInfo"
 import { toRefs } from "vue"
-import { useVModelField } from "@/vue_modules/vue-helper"
+import { useVModelField } from "@/vue/vue-helper"
 import usePaging, { ButtonType, type PagingEmits, pagingDefaults } from "./paging"
 import PagingAnchor from "./PagingAnchor.vue"
 import PagingButton from "./PagingButton.vue"

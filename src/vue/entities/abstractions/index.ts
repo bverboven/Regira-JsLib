@@ -1,11 +1,11 @@
-export * from "../abstractions"
-export type { default as IEntity } from "./IEntity"
-export type { IEntityService, DetailsResult, ListResult, SaveResult, SearchResult, DeleteResult } from "./IEntityService"
-export { type default as IConfig, type IConfigWithKey, NavTypes } from "./IConfig"
-export type { default as ISearchObject } from "./ISearchObject"
-export { type IPagingInfo, PagingInfo, DEFAULT_PAGESIZE } from "./PagingInfo"
-export { type ISortByInfo, SortByInfo } from "./SortByInfo"
-export { default as EntityServiceBase } from "./EntityServiceBase"
-export { default as JSONService } from "./JSONService"
-export { default as EntityBase } from "./EntityBase"
-export { default as SearchObjectBase, DefaultSearchObject } from "./SearchObjectBase"
+export * from "../abstractions";
+export type { IEntity } from "./IEntity";
+export type { IEntityService, DetailsResult, ListResult, SaveResult, SearchResult, DeleteResult } from "./IEntityService";
+export { type IConfig, NavTypes } from "./IConfig";
+export type { default as ISearchObject } from "./ISearchObject";
+export { type IPagingInfo, PagingInfo, DEFAULT_PAGESIZE } from "./PagingInfo";
+export { type ISortByInfo, SortByInfo } from "./SortByInfo";
+export { default as EntityServiceBase } from "./EntityServiceBase";
+export { default as JSONService } from "./JSONService";
+export { default as EntityBase } from "./EntityBase";
+export { default as SearchObjectBase, DefaultSearchObject } from "./SearchObjectBase";

@@ -1,4 +1,4 @@
-import type { IConfigWithKey } from "@/vue_modules/entities"
+import type { IConfigWithKey } from "@/vue/entities"
 
 export type DashboardItem = {
     name: string

@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue"
-import { dateInputString } from "@/vue_modules/formatters"
+import { dateInputString } from "@/vue/formatters"
 import { isValid } from "date-fns"
 
 const emit = defineEmits<{

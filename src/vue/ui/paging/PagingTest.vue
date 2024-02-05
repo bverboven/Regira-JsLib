@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IPagingInfo } from "@/vue_modules/entities/abstractions/PagingInfo"
+import type { IPagingInfo } from "@/vue/entities/abstractions/PagingInfo"
 import { ref } from "vue"
 import Paging from "./Paging.vue"
 

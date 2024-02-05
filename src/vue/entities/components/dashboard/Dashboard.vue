@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import type { DashboardItem } from "@/vue_modules/entities"
+import type { DashboardItem } from "@/vue/entities"
 import DashboardCard from "./DashboardCard.vue"
 
 defineProps<{

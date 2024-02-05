@@ -1,8 +1,8 @@
 import { deepCopy } from "@/regira_modules/utilities/object-utility"
 import { ref, unref, type Ref, getCurrentInstance, inject } from "vue"
-import { type FeedbackOut } from "@/vue_modules/ui"
+import { type FeedbackOut } from "@/vue/ui"
 import type { IEntity } from "../abstractions/IEntity"
-import type { IEntityService, SaveResult } from "@/vue_modules/entities/abstractions/IEntityService"
+import type { IEntityService, SaveResult } from "@/vue/entities/abstractions/IEntityService"
 import type { FormEmits, FormProps } from "./form"
 
 export interface FormModalEmits<T extends IEntity> extends FormEmits<T> {

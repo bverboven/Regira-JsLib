@@ -1,5 +1,5 @@
 import { ref, watch, onMounted } from "vue"
-import { useVModelField } from "@/vue_modules/vue-helper"
+import { useVModelField } from "@/vue/vue-helper"
 import { min } from "@/regira_modules/utilities/array-utility"
 import type { IEntity, SaveResult } from "../abstractions"
 

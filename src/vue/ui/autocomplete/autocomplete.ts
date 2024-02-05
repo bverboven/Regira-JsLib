@@ -1,5 +1,5 @@
 import { ref, computed, watch, onMounted, onUnmounted, type Ref, type StyleValue } from "vue"
-import { useEventListener } from "@/vue_modules/vue-helper"
+import { useEventListener } from "@/vue/vue-helper"
 import { debounceToPromise } from "@/regira_modules/utilities/promise-utility"
 import { getAbsScrollPosition } from "@/regira_modules/utilities/html-utility"
 

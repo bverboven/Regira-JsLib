@@ -1,6 +1,6 @@
 import { ref, watch, onMounted, toRefs, type Ref } from "vue"
 import { useRouter, type RouteLocationRaw } from "vue-router"
-import useFeedback, { type FeedbackError, type FeedbackOut } from "@/vue_modules/ui/feedback"
+import useFeedback, { type FeedbackError, type FeedbackOut } from "@/vue/ui/feedback"
 import { deepCopy } from "@/regira_modules/utilities/object-utility"
 import type { IEntity } from "../abstractions/IEntity"
 import type { IEntityService, SaveResult } from "../abstractions/IEntityService"

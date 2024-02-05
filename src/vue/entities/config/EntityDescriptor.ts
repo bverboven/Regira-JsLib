@@ -1,4 +1,4 @@
-import type { IServiceProvider } from "@/vue_modules/ioc"
+import type { IServiceProvider } from "@/vue/ioc"
 import type { IConfig, IEntity, IEntityService } from "../abstractions"
 
 type IEntityControls = { Overview?: any; Details?: any; Form?: any; Fiche?: any }

@@ -1,6 +1,6 @@
 import { ref, computed, watch, onMounted, type Ref, type ComputedRef } from "vue"
 import { useRouter, type RouteRecordRaw } from "vue-router"
-import { useFeedback, type FeedbackOut } from "@/vue_modules/ui/feedback"
+import { useFeedback, type FeedbackOut } from "@/vue/ui/feedback"
 import type { IEntity } from "../abstractions/IEntity"
 import type { IEntityService } from "../abstractions/IEntityService"
 
