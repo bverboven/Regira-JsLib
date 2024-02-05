@@ -1,6 +1,6 @@
 import { debounce } from "lodash"
 import type { App } from "vue"
-import useScreen, { SCREEN_SIZES, getWindowSize, type IScreen } from "./screen"
+import useScreen, { SCREEN_SIZES, getWindowSize } from "./screen"
 
 export default {
     install: (app: App<Element>, { sizes }: { sizes?: Record<string, number> } = {}) => {
