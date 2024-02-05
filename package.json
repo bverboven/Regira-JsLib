@@ -1,0 +1,38 @@
+{
+  "name": "regira_modules",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/regira_modules.umd.cjs",
+  "module": "./dist/regira_modules.js",
+  "exports": {
+    ".": {
+      "import": "./dist/regira_modules.js",
+      "require": "./dist/regira_modules.umd.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && vue-tsc --emitDeclarationOnly",
+    "types": "vue-tsc ",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "pinia": "^2.1.7",
+    "vue": "^3.4.15",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "@vitejs/plugin-vue": "^5.0.3",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vue-tsc": "^1.8.27"
+  }
+}

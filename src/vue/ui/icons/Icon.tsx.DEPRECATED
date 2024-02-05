@@ -1,0 +1,24 @@
+// import type { VNode } from "vue"
+// import { iconMap } from "./icons"
+
+
+// export function BsIcon({ name, size = "md" }: Props): VNode {
+//     if (!iconMap.has(name)) {
+//         console.warn(`Icon ${name} not found`, { icons: iconMap.values() })
+//     }
+
+//     const fontSizes = { sm: 0.75, md: 1, lg: 2, xl: 3 }
+//     const style = { "font-size": `${fontSizes[size]}rem` }
+//     return <i class={iconMap.get(name)} style={style} />
+// }
+// export function FaIcon({ name, size = "md" }: Props): VNode {
+//     if (!iconMap.has(name)) {
+//         console.warn(`Icon ${name} not found`, { icons: iconMap.values() })
+//     }
+
+//     const faSizes = { sm: "fa-sm", md: "fa-md", lg: "fa-lg", xl: "fa-3x" }
+//     //return <i class={iconMap.get(name)} />
+//     return <i class={[iconMap.get(name), faSizes[size]]} />
+// }
+
+// export default IconType
