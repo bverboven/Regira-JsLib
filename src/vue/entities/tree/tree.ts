@@ -1,5 +1,5 @@
 import { ref, computed, toRaw, type Ref } from "vue";
-import { TreeList, type IFindParents, TreeNode } from "@/treelist";
+import { TreeList, type IFindParents, TreeNode } from "../../../treelist";
 import type { IEntity } from "../abstractions/IEntity";
 
 function defaultEquals<T extends { $id: number | string }>(item1: T, item2: T) {

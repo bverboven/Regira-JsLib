@@ -1,5 +1,5 @@
 ﻿import TreeNode from "./TreeNode";
-import { isIterable, toArray, distinct } from "@/utilities/array-utility";
+import { isIterable, toArray, distinct } from "../utilities/array-utility";
 
 export type IFindParents<T = any> = (value: T, candidates: Array<T>) => Array<T>;
 type IParentNode<T> = TreeNode<T> | null;

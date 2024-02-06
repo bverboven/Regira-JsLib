@@ -1,61 +1,61 @@
-import { debounceToPromise } from "@/regira_modules/utilities/promise-utility"
-import { DEFAULT_PAGESIZE, type IEntity, type ISearchObject } from "../abstractions"
-import { DEFAULT_DEBOUNCE, type IListViewIn, type IListViewOut, type OverviewError } from "./overview"
-import { useOverviewCore } from "./overview-core"
+import { debounceToPromise } from "../../../utilities/promise-utility";
+import { DEFAULT_PAGESIZE, type IEntity, type ISearchObject } from "../abstractions";
+import { DEFAULT_DEBOUNCE, type IListViewIn, type IListViewOut, type OverviewError } from "./overview";
+import { useOverviewCore } from "./overview-core";
 
 export function useListView<T extends IEntity, SO extends ISearchObject = ISearchObject>({
-    service,
-    searchObject,
-    defaultPageSize = DEFAULT_PAGESIZE,
-    debounceDelay = DEFAULT_DEBOUNCE,
+  service,
+  searchObject,
+  defaultPageSize = DEFAULT_PAGESIZE,
+  debounceDelay = DEFAULT_DEBOUNCE,
 }: IListViewIn<T, SO>): IListViewOut<T, SO> {
-    const {
-        searchObject: searchObjectRef,
-        pagingInfo,
-        items,
-        itemsCount,
-        isLoading,
-        feedback,
-        applySave,
-        applyRemove,
-        handleSave,
-        handleRemove,
-    } = useOverviewCore({ service, searchObject, defaultPageSize })
+  const {
+    searchObject: searchObjectRef,
+    pagingInfo,
+    items,
+    itemsCount,
+    isLoading,
+    feedback,
+    applySave,
+    applyRemove,
+    handleSave,
+    handleRemove,
+  } = useOverviewCore({ service, searchObject, defaultPageSize });
 
-    async function listHandler(): Promise<void> {
-        isLoading.value = true
-        try {
-            console.debug("listHandler", { searchObject, pagingInfo, items })
-            feedback.reset()
-            items.value = await service.list({ ...(searchObject.value || {}), ...(pagingInfo.value || {}) })
-            itemsCount.value = items.value.length
-        } catch (ex) {
-            console.error("fetching failed", { ex })
-            const error = ex as OverviewError
-            feedback.fail("fetching data failed", error.response?.data?.errors)
-        } finally {
-            isLoading.value = false
-        }
+  async function listHandler(): Promise<void> {
+    isLoading.value = true;
+    try {
+      console.debug("listHandler", { searchObject, pagingInfo, items });
+      feedback.reset();
+      items.value = await service.list({ ...(searchObject.value || {}), ...(pagingInfo.value || {}) });
+      itemsCount.value = items.value.length;
+    } catch (ex) {
+      console.error("fetching failed", { ex });
+      const error = ex as OverviewError;
+      feedback.fail("fetching data failed", error.response?.data?.errors);
+    } finally {
+      isLoading.value = false;
     }
-    const debouncedListHandler = debounceToPromise(listHandler, debounceDelay) as unknown as () => Promise<void>
+  }
+  const debouncedListHandler = debounceToPromise(listHandler, debounceDelay) as unknown as () => Promise<void>;
 
-    return {
-        searchObject: searchObjectRef,
-        pagingInfo,
-        items,
-        itemsCount,
+  return {
+    searchObject: searchObjectRef,
+    pagingInfo,
+    items,
+    itemsCount,
 
-        isLoading,
-        feedback,
+    isLoading,
+    feedback,
 
-        applySave,
-        applyRemove,
-        handleSave,
-        handleRemove,
+    applySave,
+    applyRemove,
+    handleSave,
+    handleRemove,
 
-        listHandler,
-        debouncedListHandler,
-    }
+    listHandler,
+    debouncedListHandler,
+  };
 }
 
-export default useListView
+export default useListView;

@@ -5,7 +5,7 @@ export * from "./details";
 export * from "./filter";
 export * from "./form";
 export * from "./overview";
-export { usePreloader, plugin as preloadingPlugin } from "./preloading";
+export { usePreloader, plugin as preloaderPlugin } from "./preloading";
 export * from "./pooling";
 export * from "./tree";
 export * from "./utilities";

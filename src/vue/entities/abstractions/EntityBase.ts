@@ -1,5 +1,5 @@
 import type { IEntity } from "./IEntity"
-//import { newGuid } from "@/regira_modules/utilities/string-utility"
+//import { newGuid } from "../../../utilities/string-utility"
 
 export abstract class EntityBase implements IEntity {
     //guid: string

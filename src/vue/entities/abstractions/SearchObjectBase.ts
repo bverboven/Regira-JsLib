@@ -1,4 +1,4 @@
-import type { ISearchObject } from "@/vue/entities"
+import type { ISearchObject } from "../../entities"
 
 export abstract class SearchObjectBase implements ISearchObject {
     q?: string
