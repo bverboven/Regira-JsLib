@@ -1,13 +1,13 @@
 <template>
-  <div v-if="$isDebug" class="debug pre text-muted">{{ value }}</div>
+    <div v-if="$isDebug.value" class="debug pre text-muted">{{ value }}</div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from "vue"
 
 const props = defineProps<{
-  modelValue?: any;
-}>();
+    modelValue?: any
+}>()
 
-const value = computed(() => JSON.stringify(props.modelValue || {}, null, 2));
+const value = computed(() => JSON.stringify(props.modelValue || {}, null, 2))
 </script>
