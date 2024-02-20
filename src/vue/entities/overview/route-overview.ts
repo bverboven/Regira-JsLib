@@ -1,3 +1,4 @@
+//import { debounce } from "lodash"
 import { watch, onMounted, type Ref, type WatchStopHandle } from "vue"
 import { useRouter } from "vue-router"
 import { parseQueryParams, cleanQueryParams } from "../utilities/query"
@@ -74,7 +75,7 @@ export function useRouteOverview({ pagingInfo, searchObject, defaultPageSize = D
     onMounted(routeSearchHandler)
 
     return {
-        updateOverviewRoute,
+        updateOverviewRoute,//: debounce(updateOverviewRoute, 50),
         routeSearchHandler,
         routeWatcher,
     }
