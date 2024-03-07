@@ -17,9 +17,9 @@ export type AuthComputed = {
     isRequired: ComputedRef<boolean>
     hasPermission: ComputedRef<(permission: string) => boolean>
     displayName: ComputedRef<string | undefined>
-    permissions: ComputedRef<Array<string>>
     isAdmin: ComputedRef<boolean>
     hasClaim: ComputedRef<(type: string, value?: string) => boolean>
+    getClaimValue: ComputedRef<(type: string) => string | Array<string> | undefined>
 }
 export type AuthActions = {
     setClientApp(clientApp?: string): void
@@ -42,14 +42,14 @@ function createStore(): IAuthStore {
 
     const isRequired = computed(() => enabled.value && !router.currentRoute.value?.meta?.allowAnonymous)
     const isAuthenticated = computed(() => !!authData.value.isAuthenticated)
-    const hasPermission = computed(() => (permission: string) => authData.value?.permissions?.includes(permission) || false)
+    const hasPermission = computed(() => (permission: string) => authData.value?.hasPermission(permission) || false)
     const displayName = computed(() => authData.value?.displayName)
-    const permissions = computed(() => authData.value?.permissions || [])
     const isAdmin = computed(() => authData.value.get("http://schemas.microsoft.com/ws/2008/06/identity/claims/role") == "SuperUser")
     const hasClaim = computed(() => (type: string, value?: string) => {
         const claimValue = authData.value.get(type)
         return value == null ? type in authData.value : (Array.isArray(claimValue) && claimValue.includes(value)) || claimValue == value
     })
+    const getClaimValue = computed(() => (type: string) => authData.value.get(type))
 
     function setClientApp(value?: string) {
         clientApp.value = value
@@ -85,9 +85,9 @@ function createStore(): IAuthStore {
         isAuthenticated,
         hasPermission,
         displayName,
-        permissions,
         isAdmin,
         hasClaim,
+        getClaimValue,
 
         setClientApp,
         login,

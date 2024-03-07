@@ -71,6 +71,7 @@ export default {
     security: "bi bi-shield-check",
     select: "bi bi-cursor",
     selected: "bi bi-cursor-fill",
+    statistics: "bi bi-graph-up",
     submit: "bi bi-check-circle",
     times: "bi bi-x-lg",
     timespan: "bi bi-hourglass",

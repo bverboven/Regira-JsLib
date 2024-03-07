@@ -1,7 +1,7 @@
 import type { AxiosInstance } from "axios"
 import { createQueryString } from "../http/query"
 import type ITokenManager from "./token-manager"
-import type { IAuthData } from "./AuthData"
+import { AuthData, type IAuthData } from "./AuthData"
 import type { IAuthOptions } from "./auth"
 
 export type IAuthenticateInput = { token: string; isAuthenticated: boolean }
@@ -20,7 +20,7 @@ export interface IAuthService {
     forgotPassword(input: IForgotPasswordInput): Promise<void>
     resetPassword(input: IResetPasswordInput): Promise<void>
 }
-export const emptyAuthData = (): IAuthData => ({ isAuthenticated: false, permissions: [], expires: 0, get: () => undefined })
+export const emptyAuthData = (): IAuthData => new AuthData()
 
 export class AuthService implements IAuthService {
     options: IAuthOptions
@@ -36,21 +36,7 @@ export class AuthService implements IAuthService {
     authenticate({ token, isAuthenticated }: IAuthenticateInput): IAuthData {
         if (isAuthenticated) {
             this.tokenManager.token = token
-            const decodedToken = JSON.parse(window.atob(token.split(".")[1]))
-            const expiresInSeconds = decodedToken.exp - decodedToken.nbf
-            const data: IAuthData = {
-                ...decodedToken,
-                isAuthenticated,
-                expires: expiresInSeconds,
-                permissions: Object.keys(decodedToken)
-                    .filter((key) => key.startsWith("Read") || key.startsWith("Edit"))
-                    .filter((key) => decodedToken[key] == decodedToken.ActiveSupplierId?.toString() || decodedToken[key].includes(decodedToken.ActiveSupplierId?.toString())),
-                get: (claimType) => {
-                    console.debug("authData.get", { claimType, decodedToken })
-                    return decodedToken[claimType]
-                },
-            }
-            return data
+            return new AuthData(token, { isAuthenticated })
         }
 
         // clear token
@@ -59,6 +45,7 @@ export class AuthService implements IAuthService {
     }
     async login(username: string, password: string): Promise<IAuthData> {
         const url = this.options?.loginUrl || "auth"
+        console.debug("authService.login", { url, options: this.options })
         const response = await this.axios.post(url, { username, password })
         console.debug("login", { response })
         return this.authenticate(response.data)

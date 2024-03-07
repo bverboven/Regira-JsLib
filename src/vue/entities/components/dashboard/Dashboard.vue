@@ -7,10 +7,10 @@
 </template>
 
 <script setup lang="ts">
-import type { DashboardItem } from "../../../entities";
+import type { IDashboardItem } from "../../../entities";
 import DashboardCard from "./DashboardCard.vue";
 
 defineProps<{
-  items: Array<DashboardItem>;
+  items: Array<IDashboardItem>;
 }>();
 </script>
