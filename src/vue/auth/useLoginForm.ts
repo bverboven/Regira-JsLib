@@ -15,7 +15,7 @@ export interface IProps {
 
 export function useLoginForm(props: IProps, emit: IEmits) {
     console.debug("useLoginForm", { props, emit })
-    const username = ref(props.username)
+    const username = ref(props.username || "")
     const password = ref("")
 
     const failed = ref(false)

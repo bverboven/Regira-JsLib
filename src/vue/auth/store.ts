@@ -8,7 +8,7 @@ import type { LoginInput } from "./useLoginForm"
 
 export type AuthRefs = {
     enabled: Ref<boolean>
-    clientId?: Ref<string | undefined>
+    clientApp?: Ref<string | undefined>
     authData: Ref<IAuthData>
     authRequired: Ref<boolean>
 }
@@ -22,7 +22,7 @@ export type AuthComputed = {
     hasClaim: ComputedRef<(type: string, value?: string) => boolean>
 }
 export type AuthActions = {
-    setClientId(clientId?: string): void
+    setClientApp(clientApp?: string): void
     login({ username, password }: LoginInput): Promise<boolean>
     validateToken(): Promise<boolean>
     refresh(o: Record<string, any>): Promise<boolean>
@@ -34,7 +34,7 @@ export type IAuthStore = AuthRefs & AuthComputed & AuthActions
 
 function createStore(): IAuthStore {
     const enabled = ref(true)
-    const clientId = ref<string>()
+    const clientApp = ref<string>()
     const authData = ref(emptyAuthData())
     const authRequired = ref(false)
 
@@ -51,12 +51,12 @@ function createStore(): IAuthStore {
         return value == null ? type in authData.value : (Array.isArray(claimValue) && claimValue.includes(value)) || claimValue == value
     })
 
-    function setClientId(value?: string) {
-        clientId.value = value
+    function setClientApp(value?: string) {
+        clientApp.value = value
     }
     async function login({ username, password }: LoginInput) {
         const { service } = useAuth()
-        authData.value = await service.login(username, password, clientId.value)
+        authData.value = await service.login(username, password, clientApp.value)
         return authData.value.isAuthenticated
     }
     async function refresh(o?: Record<string, any>) {
@@ -77,7 +77,7 @@ function createStore(): IAuthStore {
 
     return {
         enabled,
-        clientId,
+        clientApp,
         authData,
         authRequired,
 
@@ -89,7 +89,7 @@ function createStore(): IAuthStore {
         isAdmin,
         hasClaim,
 
-        setClientId,
+        setClientApp,
         login,
         refresh,
         validateToken,

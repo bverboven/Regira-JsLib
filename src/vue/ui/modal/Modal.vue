@@ -6,20 +6,22 @@
                     <div class="modal-dialog modal-dialog-scrollable" :class="{ 'full-width': fullWidth }">
                         <div class="modal-content" :style="{ 'min-height': fullWidth ? '60vh' : 'inherit' }">
                             <div v-if="showHeader" class="modal-header py-2" :class="titleClass">
-                                <slot name="title">
-                                    <h3 class="modal-title">
-                                        <template v-show="isDanger">
-                                            <Icon name="alert" class="me-2" />
-                                        </template>
-                                        <template v-show="isWarning">
-                                            <Icon name="warning" class="me-2" />
-                                        </template>
-                                        {{ title }}
-                                    </h3>
-                                </slot>
-                                <slot name="header-close-button" :handleClose="handleClose">
-                                    <IconButton icon="close" :class="[isDanger ? 'btn-danger' : 'btn-outline-danger']" title="close" @click="handleClose" data-dismiss="modal" />
-                                </slot>
+                                <div class="d-flex justify-content-between w-100">
+                                    <slot name="title">
+                                        <h3 class="modal-title">
+                                            <template v-show="isDanger">
+                                                <Icon name="alert" class="me-2" />
+                                            </template>
+                                            <template v-show="isWarning">
+                                                <Icon name="warning" class="me-2" />
+                                            </template>
+                                            {{ title }}
+                                        </h3>
+                                    </slot>
+                                    <slot name="header-close-button" :handleClose="handleClose">
+                                        <IconButton icon="close" :class="[isDanger ? 'btn-danger' : 'btn-outline-danger']" title="close" @click="handleClose" data-dismiss="modal" />
+                                    </slot>
+                                </div>
                             </div>
                             <div class="modal-body" :class="contentClass">
                                 <slot></slot>

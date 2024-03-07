@@ -2,6 +2,7 @@ import type { AxiosInstance } from "axios"
 import { createQueryString } from "../http/query"
 import type ITokenManager from "./token-manager"
 import type { IAuthData } from "./AuthData"
+import type { IAuthOptions } from "./auth"
 
 export type IAuthenticateInput = { token: string; isAuthenticated: boolean }
 export type IChangePasswordInput = { newPassword: string; currentPassword: string }
@@ -9,8 +10,9 @@ export type IForgotPasswordInput = { username: string; siteUrl: string; siteName
 export type IResetPasswordInput = { token: string; password: string }
 
 export interface IAuthService {
+    options: IAuthOptions
     authenticate({ token, isAuthenticated }: IAuthenticateInput): IAuthData
-    login(username: string, password: string, clientId?: string): Promise<IAuthData>
+    login(username: string, password: string, clientApp?: string): Promise<IAuthData>
     refresh(o?: Record<string, any>): Promise<IAuthData>
     validateToken(): Promise<IAuthData>
     logout(): void
@@ -21,10 +23,15 @@ export interface IAuthService {
 export const emptyAuthData = (): IAuthData => ({ isAuthenticated: false, permissions: [], expires: 0, get: () => undefined })
 
 export class AuthService implements IAuthService {
+    options: IAuthOptions
+
     constructor(
         private axios: AxiosInstance,
-        private tokenManager: ITokenManager
-    ) {}
+        private tokenManager: ITokenManager,
+        options?: IAuthOptions
+    ) {
+        this.options = options || {}
+    }
 
     authenticate({ token, isAuthenticated }: IAuthenticateInput): IAuthData {
         if (isAuthenticated) {
@@ -50,8 +57,8 @@ export class AuthService implements IAuthService {
         this.tokenManager.token = undefined
         return emptyAuthData()
     }
-    async login(username: string, password: string, clientId?: string): Promise<IAuthData> {
-        const url = `auth/?clientId=${clientId || ""}`
+    async login(username: string, password: string): Promise<IAuthData> {
+        const url = this.options?.loginUrl || "auth"
         const response = await this.axios.post(url, { username, password })
         console.debug("login", { response })
         return this.authenticate(response.data)
