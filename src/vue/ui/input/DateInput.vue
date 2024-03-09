@@ -20,7 +20,7 @@ const dateValue = computed(() => isValidDate.value ? dateInputString(new Date(pr
 const handleChange = (e: any) => {
     const date = new Date(e.target.value)
     if (!e.target.value || isValid(date)) {
-        //emit("update:modelValue", date || undefined) // causes error (e.target.value is empty string) when typing 3th character of year in format dd/MM/yyyy
+        emit("update:modelValue", date || e.target.value)
     }
 }
 </script>
