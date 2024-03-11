@@ -16,7 +16,7 @@ const props = defineProps<{
 }>()
 
 const isValidDate = computed(() => isValid(new Date(props.modelValue || "")))
-const dateValue = computed(() => isValidDate.value ? dateInputString(new Date(props.modelValue!)) : props.modelValue)
+const dateValue = computed(() => (isValidDate.value ? dateInputString(new Date(props.modelValue!)) : props.modelValue))
 const handleChange = (e: any) => {
     const date = new Date(e.target.value)
     if (!e.target.value || isValid(date)) {
