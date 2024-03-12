@@ -10,9 +10,9 @@ export interface IConfig extends Record<string, any> {
     baseQueryParams?: Record<string, any>
     initialQuery?: Record<string, any>
 
-    overviewTitle?: string
-    detailsTitle?: string
-    description?: string
+    overviewTitle?: string | Record<string, string>
+    detailsTitle?: string | Record<string, string>
+    description?: string | Record<string, string>
     icon?: string
 
     defaultPageSize: number

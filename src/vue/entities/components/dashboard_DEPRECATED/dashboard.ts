@@ -1,4 +1,4 @@
-import type { IConfig } from "../../../entities"
+import type { IConfig } from "../.."
 
 export type IDashboardItem = {
     name: string

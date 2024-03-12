@@ -1,5 +1,5 @@
 <template>
-    <div v-if="$isDebug.value" class="debug pre text-muted">{{ value }}</div>
+    <div v-if="$isDebug" class="debug pre text-muted">{{ value }}</div>
 </template>
 
 <script setup lang="ts">
