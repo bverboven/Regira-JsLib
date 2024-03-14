@@ -1,6 +1,6 @@
 <template>
     <transition name="modal">
-        <div class="modal-mask" @keydown.esc="handleClose">
+        <div v-if="isVisible" class="modal-mask" @keydown.esc="handleClose">
             <div class="modal-wrapper">
                 <div class="modal show d-block" tabindex="-1">
                     <div class="modal-dialog modal-dialog-scrollable" :class="{ 'full-width': fullWidth }">
@@ -9,10 +9,10 @@
                                 <div class="d-flex justify-content-between w-100">
                                     <slot name="title">
                                         <h3 class="modal-title">
-                                            <template v-show="isDanger">
+                                            <template v-if="isDanger">
                                                 <Icon name="alert" class="me-2" />
                                             </template>
-                                            <template v-show="isWarning">
+                                            <template v-if="isWarning">
                                                 <Icon name="warning" class="me-2" />
                                             </template>
                                             {{ title }}
@@ -60,6 +60,7 @@ const emit = defineEmits<{
 const props = withDefaults(
     defineProps<{
         title?: string
+        isVisible: boolean
         showHeader?: boolean
         showFooter?: boolean
         fullWidth?: boolean

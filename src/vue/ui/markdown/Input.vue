@@ -7,7 +7,7 @@
         </button>
 
         <Teleport to="#modals">
-            <Modal v-if="showPopup" title="MarkDown input" :fullWidth="true" @submit="showPopup = false" @close="showPopup = false" @cancel="showPopup = false">
+            <MyModal v-if="showPopup" title="MarkDown input" :fullWidth="true" @submit="showPopup = false" @close="showPopup = false" @cancel="showPopup = false">
                 <div style="position: relative; height: 75vh">
                     <textarea v-if="!readonly && !showDisplay" v-model="value" v-bind="$attrs" class="form-control" :style="{ width: '100%', height: '100%' }" @input="handleChange" />
                     <MarkDownDisplay v-if="readonly || showDisplay" :modelValue="value" :enablePopup="false" class="form-control" :style="{ width: '100%', height: '100%', overflow: 'auto' }" />
@@ -20,7 +20,7 @@
                     <Icon name="popOut" class="me-1" />
                     Markdown cheatsheet
                 </a>
-            </Modal>
+            </MyModal>
         </Teleport>
     </div>
 </template>

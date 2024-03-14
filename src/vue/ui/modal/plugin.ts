@@ -1,8 +1,8 @@
 import type { App } from "vue"
-import Modal from "./Modal.vue"
+import FallbackModal from "./DefaultModal.vue"
 
 export default {
-    install(app: App<Element>) {
-        app.component("Modal", Modal)
+    install(app: App<Element>, { DefaultModal } = { DefaultModal: FallbackModal }) {
+        app.component("MyModal", DefaultModal)
     },
 }

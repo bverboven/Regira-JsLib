@@ -2,9 +2,9 @@
     <button type="button" @click="showModal = true">
         <slot><Icon name="map" /></slot>
         <teleport to="#modals">
-            <Modal v-if="showModal" :title="address" :show-footer="false" :full-width="true" @close="showModal = false">
+            <MyModal v-if="showModal" :title="address" :show-footer="false" :full-width="true" @close="showModal = false">
                 <GMap id="gmap_canvas" :modelValue="modelValue" :zoom="zoom" class="w-100" />
-            </Modal>
+            </MyModal>
         </teleport>
     </button>
 </template>

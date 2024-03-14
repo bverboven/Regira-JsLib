@@ -7,7 +7,7 @@ export { useFeedback, Feedback, FeedbackStatus, plugin as feedbackPlugin, type F
 export { BsIcon, FaIcon, IconButton, plugin as iconPlugin, load as loadIcons } from "./icons"
 export { Loading, LoadingContainer, plugin as loadingPlugin } from "./loading"
 export * from "./markdown"
-export { Modal, ModalType, plugin as modalPlugin } from "./modal"
+export { DefaultModal, ModalType, plugin as modalPlugin } from "./modal"
 export { Paging, ButtonType, pagingDefaults, plugin as pagingPlugin } from "./paging"
 export { useScreen, plugin as screenPlugin } from "./screen"
 export * from "./tabs"

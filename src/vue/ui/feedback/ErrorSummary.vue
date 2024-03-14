@@ -32,7 +32,7 @@
             </template>
         </slot>
         <Teleport to="#modals">
-            <Modal v-if="showSummary" :title="msg" :show-footer="false" :type="ModalType.danger" @close="showSummary = false" @cancel="showSummary = false" @submit="showSummary = false">
+            <MyModal v-if="showSummary" :title="msg" :show-footer="false" :type="ModalType.danger" @close="showSummary = false" @cancel="showSummary = false" @submit="showSummary = false">
                 <div v-if="typeof error == 'string'" class="mt-2">{{ error }}</div>
                 <ul v-else class="list-unstyled mt-2" v-for="(msgs, code) in error" :key="code">
                     <li>
@@ -45,7 +45,7 @@
                         </ul>
                     </li>
                 </ul>
-            </Modal>
+            </MyModal>
         </Teleport>
     </div>
 </template>

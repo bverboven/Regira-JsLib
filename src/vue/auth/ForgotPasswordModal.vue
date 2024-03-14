@@ -1,7 +1,7 @@
 <template>
-    <Modal title="Forgot password" :showFooter="false">
+    <MyModal title="Forgot password" :showFooter="false">
         <slot v-bind="{ username }"></slot>
-    </Modal>
+    </MyModal>
 </template>
 
 <script setup lang="ts">

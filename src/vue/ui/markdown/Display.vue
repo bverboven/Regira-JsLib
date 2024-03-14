@@ -6,9 +6,9 @@
             <Icon name="popOut" />
         </button>
         <Teleport to="#modals">
-            <Modal v-if="showPopup" :title="title" :showFooter="false" :fullWidth="true" @close="showPopup = false" @cancel="showPopup = false">
+            <MyModal v-if="showPopup" :title="title" :showFooter="false" :fullWidth="true" @close="showPopup = false" @cancel="showPopup = false">
                 <div style="position: relative; height: 75vh">{{ modelValue }}</div>
-            </Modal>
+            </MyModal>
         </Teleport>
     </div>
 </template>
