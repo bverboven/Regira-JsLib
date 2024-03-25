@@ -43,6 +43,7 @@ export default {
     internet: "bi bi-globe",
     invoice: "bi bi-file-earmark-ruled",
     key: "bi bi-key",
+    language: "bi bi-translate",
     list: "bi bi-list-task",
     locked: "bi bi-lock-fill",
     look: "bi bi-eye",
