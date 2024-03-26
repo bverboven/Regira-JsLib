@@ -23,7 +23,7 @@
                 :key="i"
                 @click="handleSelect(item, i)"
                 class="autocomplete-item list-group-item list-group-item-action"
-                :class="[itemClass, { 'bg-light': item == selectedItem }]"
+                :class="[itemClass, { 'bg-light': i == selectedIndex }]"
             >
                 <slot :item="item" :q="q">
                     <div v-html="resultItemFormatter(item, q)"></div>
