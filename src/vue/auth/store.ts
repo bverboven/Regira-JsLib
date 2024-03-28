@@ -1,6 +1,6 @@
 import { ref, computed, type Ref, type ComputedRef } from "vue"
 import { useRouter } from "vue-router"
-import { defineStore, type Store } from "pinia"
+import { defineStore } from "pinia"
 import { emptyAuthData } from "./auth-service"
 import type { IAuthData } from "./AuthData"
 import { useAuth } from "./auth"
@@ -17,7 +17,6 @@ export type AuthComputed = {
     isRequired: ComputedRef<boolean>
     hasPermission: ComputedRef<(permission: string) => boolean>
     displayName: ComputedRef<string | undefined>
-    isAdmin: ComputedRef<boolean>
     hasClaim: ComputedRef<(type: string, value?: string) => boolean>
     getClaimValue: ComputedRef<(type: string) => string | Array<string> | undefined>
 }
@@ -32,7 +31,7 @@ export type AuthActions = {
 const storeName: string = "Auth"
 export type IAuthStore = AuthRefs & AuthComputed & AuthActions
 
-function createStore(): IAuthStore {
+export function createStore(): IAuthStore {
     const enabled = ref(true)
     const clientApp = ref<string>()
     const authData = ref(emptyAuthData())
@@ -44,7 +43,6 @@ function createStore(): IAuthStore {
     const isAuthenticated = computed(() => !!authData.value.isAuthenticated)
     const hasPermission = computed(() => (permission: string) => authData.value?.hasPermission(permission) || false)
     const displayName = computed(() => authData.value?.displayName)
-    const isAdmin = computed(() => authData.value.get("http://schemas.microsoft.com/ws/2008/06/identity/claims/role") == "SuperUser")
     const hasClaim = computed(() => (type: string, value?: string) => {
         const claimValue = authData.value.get(type)
         return value == null ? type in authData.value : (Array.isArray(claimValue) && claimValue.includes(value)) || claimValue == value
@@ -65,6 +63,7 @@ function createStore(): IAuthStore {
         return authData.value.isAuthenticated
     }
     async function validateToken() {
+        console.debug("validateToken")
         const { service } = useAuth()
         authData.value = await service.validateToken()
         return authData.value.isAuthenticated
@@ -85,7 +84,6 @@ function createStore(): IAuthStore {
         isAuthenticated,
         hasPermission,
         displayName,
-        isAdmin,
         hasClaim,
         getClaimValue,
 
@@ -96,6 +94,7 @@ function createStore(): IAuthStore {
         logout,
     }
 }
+createStore.storeName = storeName
 
 export const useAuthStore = defineStore<string, IAuthStore>(storeName, () => createStore())
 

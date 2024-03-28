@@ -1,4 +1,5 @@
 import { watch, type App } from "vue"
+import type { Store } from "pinia"
 import type { AxiosInstance } from "axios"
 import { addBearerHeader, autoLogoutOnFailedRequest } from "./auth-axios"
 import { useAuthStore } from "./store"
@@ -9,6 +10,7 @@ import type { IAuthData } from "./AuthData"
 
 interface Input extends IAuthOptions {
     tokenManager: ITokenManager
+    authStore?: Store
     axios: AxiosInstance
     enableRouteGuard?: boolean
     enabled?: boolean
@@ -17,7 +19,7 @@ interface Input extends IAuthOptions {
 
 export default {
     async install(app: App, options: Input) {
-        const { clientApp, loginUrl, tokenManager, axios, enableRouteGuard = true, enabled = true, onAuthenticationChange = () => {} } = options
+        const { clientApp, loginUrl, tokenManager, authStore, axios, enableRouteGuard = true, enabled = true, onAuthenticationChange = () => {} } = options
         const { $router: router } = app.config.globalProperties
 
         const auth = createAuth({
@@ -28,7 +30,7 @@ export default {
             loginUrl,
         })
 
-        const store = useAuthStore()
+        const store = (authStore as any) ?? useAuthStore()
 
         console.debug("authPlugin", { app, auth, router, store })
 
@@ -36,13 +38,10 @@ export default {
             app.config.globalProperties.$auth = {
                 ...auth,
                 get authData() {
-                    return store.authData
+                    return store.authData as IAuthData
                 },
                 get isAuthenticated() {
                     return !!this.authData?.isAuthenticated
-                },
-                get isAdmin() {
-                    return store.isAdmin
                 },
                 get isRequired() {
                     console.debug("auth.isRequired", store.authRequired)

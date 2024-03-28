@@ -1,10 +1,9 @@
-export { default as authModule } from "./store"
 export { AuthService, type IAuthenticateInput, type IChangePasswordInput, type IForgotPasswordInput, type IResetPasswordInput } from "./auth-service"
 export { default as routeGuard } from "./route-guard"
 export { type ITokenManager, CookieTokenManager, MemoryTokenManager } from "./token-manager"
 
 export { useAuth } from "./auth"
-export { useAuthStore } from "./store"
+export { useAuthStore, createStore, type IAuthStore } from "./store"
 export { default as plugin } from "./plugin"
 export { useLoginForm, type IEmits as ILoginEmits, type IProps as ILoginProps, type LoginInput } from "./useLoginForm"
 export { useForgotPasswordForm, type IEmits as IForgotPasswordEmits, type IProps as IForgotPasswordProps } from "./useForgotPasswordForm"
