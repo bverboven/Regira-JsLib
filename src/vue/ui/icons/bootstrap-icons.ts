@@ -1,5 +1,6 @@
 export default {
     address: "bi bi-journal-richtext",
+    admin: "bi bi-person-gear",
     alert: "bi bi-exclamation-circle",
     attachment: "bi bi-paperclip",
     bank: "bi bi-piggy-bank",
@@ -48,7 +49,7 @@ export default {
     locked: "bi bi-lock-fill",
     look: "bi bi-eye",
     mail: "bi bi-envelope-at",
-    manage: "bi bi-tools",
+    manage: "bi bi-gear-fill",
     map: "bi bi-geo-alt",
     markdown: "bi bi-markdown",
     maximize: "bi bi-plus-square",
@@ -73,6 +74,7 @@ export default {
     security: "bi bi-shield-check",
     select: "bi bi-cursor",
     selected: "bi bi-cursor-fill",
+    settings: "bi bi-tools",
     statistics: "bi bi-graph-up",
     submit: "bi bi-check-circle",
     times: "bi bi-x-lg",
