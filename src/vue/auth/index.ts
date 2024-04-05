@@ -1,6 +1,6 @@
 export { AuthService, type IAuthenticateInput, type IChangePasswordInput, type IForgotPasswordInput, type IResetPasswordInput } from "./auth-service"
 export { default as routeGuard } from "./route-guard"
-export { type ITokenManager, CookieTokenManager, MemoryTokenManager } from "./token-manager"
+export { type ITokenManager, CookieTokenManager, MemoryTokenManager, LocalStorageTokenManager } from "./token-manager"
 
 export { useAuth } from "./auth"
 export { useAuthStore, createStore, type IAuthStore } from "./store"
