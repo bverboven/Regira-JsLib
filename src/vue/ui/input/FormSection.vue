@@ -1,5 +1,5 @@
 <template>
-    <div class="form-section border mb-3">
+    <div class="form-section">
         <div class="form-section-title">
             <slot name="header" :collapsed="collapsed" :showSummary="showSummary">
                 <div class="row">
@@ -20,15 +20,13 @@
             </slot>
         </div>
         <div v-show="!collapsed" class="form-section-body" :class="showSummary && summaryClass">
-            <div class="container-fluid py-1">
-                <template v-if="!$slots.summary || !showSummary">
-                    <slot :collapsed="collapsed"></slot>
-                </template>
-                <template v-if="$slots.summary && showSummary">
-                    <slot name="summary" :collapsed="collapsed"></slot>
-                </template>
-                <slot name="always"></slot>
-            </div>
+            <template v-if="!$slots.summary || !showSummary">
+                <slot :collapsed="collapsed"></slot>
+            </template>
+            <template v-if="$slots.summary && showSummary">
+                <slot name="summary" :collapsed="collapsed"></slot>
+            </template>
+            <slot name="always"></slot>
         </div>
     </div>
 </template>
