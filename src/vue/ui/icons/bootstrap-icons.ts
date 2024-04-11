@@ -77,6 +77,7 @@ export default {
     settings: "bi bi-tools",
     statistics: "bi bi-graph-up",
     submit: "bi bi-check-circle",
+    tag: "bi bi-tag",
     times: "bi bi-x-lg",
     timespan: "bi bi-hourglass",
     title: "bi bi-fonts",
