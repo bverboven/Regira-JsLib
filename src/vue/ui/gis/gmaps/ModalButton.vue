@@ -2,15 +2,16 @@
     <button type="button" @click="showModal = true">
         <slot><Icon name="map" /></slot>
         <teleport to="#modals">
-            <MyModal v-if="showModal" :title="address" :show-footer="false" :full-width="true" @close="showModal = false">
+            <DefaultModal :is-visible="showModal" :title="address" :show-footer="false" :full-width="true" @close="showModal = false">
                 <GMap id="gmap_canvas" :modelValue="modelValue" :zoom="zoom" class="w-100" />
-            </MyModal>
+            </DefaultModal>
         </teleport>
     </button>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from "vue"
+import { DefaultModal } from "../../modal"
 import GMap from "./GMap.vue"
 
 const props = defineProps<{

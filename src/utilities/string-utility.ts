@@ -2,31 +2,31 @@ const ALPHABET_SIZE = 26
 const WHITESPACE_CHARS = " \t\v\f\uFEFF\n\r\u2028\u2029"
 
 // basic
-export const equals = (s1, s2, ignoreCase) => {
+export const equals = (s1: string, s2: string, ignoreCase: boolean) => {
     if (ignoreCase) {
         return s1.toLowerCase() === s2.toLowerCase()
     }
     return s1 === s2
 }
-export const contains = (s, searchString, ignoreCase) => {
+export const contains = (s: string, searchString: string, ignoreCase: boolean) => {
     if (ignoreCase) {
         return s.toLowerCase().indexOf(searchString.toLowerCase()) !== -1
     }
     return s.indexOf(searchString) !== -1
 }
-export const startsWith = (s, searchString, ignoreCase) => {
+export const startsWith = (s: string, searchString: string, ignoreCase: boolean) => {
     if (ignoreCase) {
         return s.toLowerCase().indexOf(searchString.toLowerCase()) === 0
     }
     return s.indexOf(searchString) === 0
 }
-export const endsWith = (s, searchString, ignoreCase) => {
+export const endsWith = (s: string, searchString: string, ignoreCase: boolean) => {
     if (ignoreCase) {
         return s.toLowerCase().indexOf(searchString.toLowerCase(), s.length - searchString.length) !== -1
     }
     return s.indexOf(searchString, s.length - searchString.length) !== -1
 }
-export const trimLeft = (s, chars = WHITESPACE_CHARS) => {
+export const trimLeft = (s: string, chars = WHITESPACE_CHARS) => {
     let s2 = "" + s
     for (let i = 0; i < s.length; i++) {
         if (chars.includes(s[i])) {
@@ -37,7 +37,7 @@ export const trimLeft = (s, chars = WHITESPACE_CHARS) => {
     }
     return s2
 }
-export const trimRight = (s, chars = WHITESPACE_CHARS) => {
+export const trimRight = (s: string, chars = WHITESPACE_CHARS) => {
     let s2 = "" + s
     for (let i = s.length - 1; i >= 0; i--) {
         if (chars.includes(s[i])) {
@@ -48,13 +48,13 @@ export const trimRight = (s, chars = WHITESPACE_CHARS) => {
     }
     return s2
 }
-export const trim = (s, chars = WHITESPACE_CHARS) => {
+export const trim = (s: string, chars = WHITESPACE_CHARS) => {
     if (chars == null) {
         return s.trim()
     }
     return trimRight(trimLeft(s, chars), chars)
 }
-export const replaceAll = (s, find, replace) => {
+export const replaceAll = (s: string, find: string, replace: string) => {
     return s.replace(new RegExp(find, "g"), replace)
 }
 
@@ -66,7 +66,7 @@ export const randomize = (length = 10) => {
         .join("")
 }
 export function newGuid() {
-    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))
+    return ("" + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c: any) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))
 }
 // random pasword from 8 to 32 characters
 export const newPassword = (length = Math.floor(Math.random() * 24) + 8) => randomize(length)
