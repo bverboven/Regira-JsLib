@@ -87,12 +87,12 @@ export const isPhone = (input: string) => {
 export const isDate = (input: string) => {
     // https://www.freecodecamp.org/news/regex-for-date-formats-what-is-the-regular-expression-for-matching-dates/
     return (
-        // european format
-        /^(0[1-9]|[12][0-9]|3[01])[\/ -](0[1-9]|1[1,2])[\/ -](19|20)\d{2}$/gi.test(input) ||
-        // american format
-        /^(0[1-9]|1[1,2])[\/ -](0[1-9]|[12][0-9]|3[01])[\/ -](19|20)\d{2}$/gi.test(input) ||
-        // computer format
-        /^(19|20)\d{2}[\/ -](0[1-9]|1[1,2])[\/ -](0[1-9]|[12][0-9]|3[01])$/gi.test(input)
+        // european format (DD-MM-YYYY)
+        /^(0?[1-9]|[12][0-9]|3[01])[\/\. -](0?[1-9]|1[1,2])[\/\. -](19|20)?\d{2}$/gi.test(input) ||
+        // american format (MM-DD-YYYY)
+        /^(0?[1-9]|1[1,2])[\/\. -](0?[1-9]|[12][0-9]|3[01])[\/\. -](19|20)?\d{2}$/gi.test(input) ||
+        // computer format (YYYY-MM-DD)
+        /^(19|20)\d{2}[\/\. -](0[1-9]|1[1,2])[\/\. -](0[1-9]|[12][0-9]|3[01])$/gi.test(input)
     )
 }
 
