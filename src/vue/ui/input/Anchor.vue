@@ -4,25 +4,25 @@
 
 <script setup lang="ts">
 import { computed } from "vue"
-import { isEmail, isPhone } from "@/regira_modules/utilities/string-utility"
+import { isEmail, isPhone } from "../../../utilities/string-utility"
 
 const props = defineProps<{
     href: string
 }>()
 
 const url = computed(() => {
-    let url = props.href
-    if (isEmail(url)) {
-        if (!url.startsWith("mailto:")) {
-            url = "mailto:" + url
+    let input = props.href
+    if (isEmail(input)) {
+        if (!input.startsWith("mailto:")) {
+            input = "mailto:" + input
         }
-    } else if (isPhone(url)) {
-        if (!url.startsWith("tel:")) {
-            url = "tel:" + url
+    } else if (isPhone(input)) {
+        if (!input.startsWith("tel:")) {
+            input = "tel:" + input
         }
-    } else if (!url.startsWith("http") && !["mailto:", "tel:", "ftp:"].some((prefix) => url.startsWith(prefix))) {
-        url = "http://" + url
+    } else if (!input.startsWith("http") && !["mailto:", "tel:", "ftp:"].some((prefix) => input.startsWith(prefix))) {
+        input = "http://" + input
     }
-    return url
+    return input
 })
 </script>

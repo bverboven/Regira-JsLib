@@ -59,7 +59,7 @@ export const replaceAll = (s: string, find: string, replace: string) => {
 }
 
 // generating
-export const randomize = (length = 10) => {
+export function randomize(length = 10) {
     return [...Array(length)]
         .map(() => Math.floor(Math.random() * (10 + ALPHABET_SIZE * 2))) // include uppercase
         .map((x) => (x > 10 + ALPHABET_SIZE ? (x - ALPHABET_SIZE).toString(36).toUpperCase() : x.toString(36)))
@@ -73,18 +73,18 @@ export const newPassword = (length = Math.floor(Math.random() * 24) + 8) => rand
 
 // validation
 // consider using https://github.com/validatorjs/validator.js
-export const isEmail = (email: string) => {
+export function isEmail(email: string) {
     // https://stackoverflow.com/questions/16800540/validate-email-address-in-dart#answer-16888554
     return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
 }
-export const isUrl = (url: string) => {
+export function isUrl(url: string) {
     // https://www.regextester.com/94502
     return /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/gi.test(url)
 }
-export const isPhone = (input: string) => {
+export function isPhone(input: string) {
     return /^[+]?(\d{1,3})([-./ ]?)([(-]?(\d{1,4})[)-]?(\d{1,4})?)?([-./ ]?(\d{2,4})){2,4}$/gi.test(input)
 }
-export const isDate = (input: string) => {
+export function isDate(input: string) {
     // https://www.freecodecamp.org/news/regex-for-date-formats-what-is-the-regular-expression-for-matching-dates/
     return (
         // european format (DD-MM-YYYY)
@@ -95,9 +95,15 @@ export const isDate = (input: string) => {
         /^(19|20)\d{2}[\/\. -](0[1-9]|1[1,2])[\/\. -](0[1-9]|[12][0-9]|3[01])$/gi.test(input)
     )
 }
+export function isPhysicalFolder(value: string) {
+    return /^(\\)(\\[\w.-_]+){2,}(\\?)$/gi.test(value)
+}
+export function isPhysicalPath(value: string) {
+    return /^(\\)(\\[\w.-_]+){2,}\.\w$/gi.test(value)
+}
 
 // formatters
-export const formatBelgianPhone = (phone: string) => {
+export function formatBelgianPhone(phone: string) {
     if (typeof phone !== "string") {
         return ""
     }
@@ -116,11 +122,11 @@ export const formatBelgianPhone = (phone: string) => {
     return phone
 }
 
-export const htmlEncode = (s) => {
+export function htmlEncode(s: string) {
     // https://stackoverflow.com/questions/36858774/how-to-replace-html-special-character-in-javascript#answer-36858867
     return s.replace(/[\u00A0-\u9999<>&]/gim, (i) => "&#" + i.charCodeAt(0) + ";")
 }
-export const htmlDecode = (s) => {
+export function htmlDecode(s: string) {
     return s.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
     // https://stackoverflow.com/questions/3700326/decode-amp-back-to-in-javascript#answer-42254787
     // return typeof (DOMParser) === 'function'
@@ -129,7 +135,7 @@ export const htmlDecode = (s) => {
 }
 // -> use _.deburr() instead
 // replaces special characters to their equivalent simple characters (e.g. é -> e)
-export const normalizeDiacritics = (s) => {
+export function normalizeDiacritics(s: string) {
     // https://stackoverflow.com/questions/3939266/javascript-function-to-remove-diacritics#answer-5960592
     const defaultDiacriticsRemovalMap = [
         {
@@ -368,9 +374,9 @@ export const normalizeDiacritics = (s) => {
 }
 
 // capitalizes every word
-export const capitalize = (s) => (!s ? "" : s[0].toUpperCase() + s.substr(1).replace(/\s(.)/g, (m) => m.toUpperCase()))
+export const capitalize = (s: string) => (!s ? "" : s[0].toUpperCase() + s.substr(1).replace(/\s(.)/g, (m) => m.toUpperCase()))
 // e.g. this-is-kebab-case
-export const toKebabCase = (s) =>
+export const toKebabCase = (s: string) =>
     !s
         ? ""
         : trim(
@@ -381,11 +387,11 @@ export const toKebabCase = (s) =>
               "-"
           )
 // e.g. this_is_snake_case
-export const toSnakeCase = (s) => (!s ? "" : toKebabCase(s).replace(/-+/g, "_"))
+export const toSnakeCase = (s: string) => (!s ? "" : toKebabCase(s).replace(/-+/g, "_"))
 // e.g. This-Is-Train-Case
-export const toTrainCase = (s) => (!s ? "" : capitalize(toKebabCase(s).replace(/-+/g, " ")).replace(/\s+/g, "-"))
+export const toTrainCase = (s: string) => (!s ? "" : capitalize(toKebabCase(s).replace(/-+/g, " ")).replace(/\s+/g, "-"))
 // e.g. thisIsCamelCase
-export const toCamelCase = (s) =>
+export const toCamelCase = (s: string) =>
     !s
         ? ""
         : toKebabCase(s)
@@ -394,10 +400,10 @@ export const toCamelCase = (s) =>
               .replace(/\s/g, "")
               .replace(/^(.)/, (m) => m.toLowerCase())
 // e.g. ThisIsPascalCase
-export const toPascalCase = (s) => (!s ? "" : capitalize(toCamelCase(s)))
+export const toPascalCase = (s: string) => (!s ? "" : capitalize(toCamelCase(s)))
 
 // makes a string URL-segment compliant
-export const slugify = (s) => (!s ? "" : toKebabCase(normalizeDiacritics(s)))
+export const slugify = (s: string) => (!s ? "" : toKebabCase(normalizeDiacritics(s)))
 
 // utility object
 export default {
@@ -416,6 +422,9 @@ export default {
     isEmail,
     isUrl,
     isPhone,
+    isDate,
+    isPhysicalFolder,
+    isPhysicalPath,
 
     formatBelgianPhone,
 

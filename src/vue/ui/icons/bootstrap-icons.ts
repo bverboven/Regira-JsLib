@@ -35,6 +35,7 @@ export default {
     fiche: "bi bi-list-columns-reverse",
     file: "bi bi-file-earmark",
     filter: "bi bi-funnel",
+    folder: "bi bi-folder",
     form: "bi bi-pencil-square",
     from: "bi bi-box-arrow-right",
     git: "bi bi-github",
