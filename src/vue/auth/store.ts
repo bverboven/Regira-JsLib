@@ -41,13 +41,10 @@ export function createStore(): IAuthStore {
 
     const isRequired = computed(() => enabled.value && !router.currentRoute.value?.meta?.allowAnonymous)
     const isAuthenticated = computed(() => !!authData.value.isAuthenticated)
-    const hasPermission = computed(() => (permission: string) => authData.value?.hasPermission(permission) || false)
     const displayName = computed(() => authData.value?.displayName)
-    const hasClaim = computed(() => (type: string, value?: string) => {
-        const claimValue = authData.value.get(type)
-        return value == null ? type in authData.value : (Array.isArray(claimValue) && claimValue.includes(value)) || claimValue == value
-    })
     const getClaimValue = computed(() => (type: string) => authData.value.get(type))
+    const hasClaim = computed(() => (type: string, value?: string) => authData.value?.hasClaim(type, value) ?? false)
+    const hasPermission = computed(() => (permission: string) => authData.value?.hasPermission(permission) ?? false)
 
     function setClientApp(value?: string) {
         clientApp.value = value

@@ -11,6 +11,7 @@ export interface IAuthData {
     role?: string
 
     get(claimType: string): IClaimValue | undefined
+    hasClaim(claimType: string, claimValue?: string): boolean
     hasPermission(value: string): boolean
 }
 
@@ -39,9 +40,13 @@ export class AuthData implements IAuthData {
     get(claimType: string): IClaimValue | undefined {
         return this._decodedToken[claimType]
     }
+    hasClaim(type: string, value?: string): boolean {
+        const claimValue = this.get(type)
+        console.debug("hasClaim", { type, value, claimValue })
+        return typeof claimValue !== "undefined" && (value == null || (Array.isArray(claimValue) ? claimValue.includes(value!) : claimValue == value))
+    }
     hasPermission(value: string): boolean {
-        const claimValue = this.get("permissions")
-        return Array.isArray(claimValue) ? claimValue.includes(value) : claimValue == value
+        return this.hasClaim("permission", value)
     }
 }
 
