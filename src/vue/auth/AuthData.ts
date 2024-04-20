@@ -42,7 +42,6 @@ export class AuthData implements IAuthData {
     }
     hasClaim(type: string, value?: string): boolean {
         const claimValue = this.get(type)
-        console.debug("hasClaim", { type, value, claimValue })
         return typeof claimValue !== "undefined" && (value == null || (Array.isArray(claimValue) ? claimValue.includes(value!) : claimValue == value))
     }
     hasPermission(value: string): boolean {
