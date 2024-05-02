@@ -45,7 +45,7 @@ export class AuthData implements IAuthData {
         return typeof claimValue !== "undefined" && (value == null || (Array.isArray(claimValue) ? claimValue.includes(value!) : claimValue == value))
     }
     hasPermission(value: string): boolean {
-        return this.hasClaim("permission", value)
+        return this.hasClaim("permissions", value)
     }
 }
 
