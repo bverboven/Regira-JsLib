@@ -81,7 +81,14 @@ export function isUrl(url: string) {
     // https://www.regextester.com/94502
     return /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/gi.test(url)
 }
+export function isIP(input: string) {
+    // https://stackoverflow.com/questions/5284147/validating-ipv4-addresses-with-regexp
+    return /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/gi.test(input)
+}
 export function isPhone(input: string) {
+    if (isIP(input) || isDate(input)) {
+        return false
+    }
     return /^[+]?(\d{1,3})([-./ ]?)([(-]?(\d{1,4})[)-]?(\d{1,4})?)?([-./ ]?(\d{2,4})){2,4}$/gi.test(input)
 }
 export function isDate(input: string) {
@@ -420,6 +427,7 @@ export default {
     newGuid,
 
     isEmail,
+    isIP,
     isUrl,
     isPhone,
     isDate,

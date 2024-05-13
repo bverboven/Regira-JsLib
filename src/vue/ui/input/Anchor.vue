@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue"
-import { isEmail, isPhone } from "../../../utilities/string-utility"
+import { isEmail, isIP, isPhone } from "../../../utilities/string-utility"
 
 const props = defineProps<{
     href: string
@@ -16,6 +16,8 @@ const url = computed(() => {
         if (!input.startsWith("mailto:")) {
             input = "mailto:" + input
         }
+    } else if (isIP(input)) {
+        input = "http://" + input
     } else if (isPhone(input)) {
         if (!input.startsWith("tel:")) {
             input = "tel:" + input

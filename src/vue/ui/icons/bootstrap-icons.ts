@@ -44,6 +44,7 @@ export default {
     info: "bi bi-info-circle",
     internet: "bi bi-globe",
     invoice: "bi bi-file-earmark-ruled",
+    ip: "bi bi-modem",
     key: "bi bi-key",
     language: "bi bi-translate",
     list: "bi bi-list-task",
