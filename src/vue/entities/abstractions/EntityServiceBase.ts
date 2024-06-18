@@ -102,7 +102,7 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
             queryParams.pageSize = this.defaultPageSize
         }
         // hide archived items by default
-        if (!("isArchived" in queryParams)) {
+        if (!("isArchived" in queryParams) || (queryParams as { isArchived?: boolean }).isArchived == null) {
             queryParams["isArchived"] = false
         }
 
