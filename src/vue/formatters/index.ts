@@ -64,6 +64,15 @@ export const formatShortDate = (date?: Date | string, culture?: string) => {
     return _format(date, "dd/MM")
 }
 
+export function formatNumber(value?: number, culture?: string, minDigits = 2, maxDigits = minDigits) {
+    if (value == null) {
+        return ""
+    }
+    return value?.toLocaleString(culture, {
+        minimumFractionDigits: minDigits,
+        maximumFractionDigits: maxDigits,
+    })
+}
 export function formatCurrency(value?: number, culture?: string, currency: string = "EUR") {
     if (value == null) {
         return ""
