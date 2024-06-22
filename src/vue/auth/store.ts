@@ -60,7 +60,6 @@ export function createStore(): IAuthStore {
         return authData.value.isAuthenticated
     }
     async function validateToken() {
-        console.debug("validateToken")
         const { service } = useAuth()
         authData.value = await service.validateToken()
         return authData.value.isAuthenticated

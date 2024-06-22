@@ -22,7 +22,6 @@ export function translateMessage(message: ITranslationMessage, langCode: string,
 
     // if (output == null) {
     //     // return first translated property when chosen language is not present
-    //     console.debug(`translation for ${langCode} not found`, { message })
     //     output = Object.values(message)[0] as string
     // }
 

@@ -54,7 +54,6 @@ export class PoolCache implements IPoolCache {
       itemRef.value = item;
     }
     (itemRef as ICachedRef).timestamp = +new Date();
-    //console.debug("PoolCache.set", item.constructor.name, item.$id, { item, itemRef, map })
     map.set(item.$id, itemRef);
     return itemRef;
   }
@@ -66,8 +65,8 @@ export class PoolCache implements IPoolCache {
   remove<T extends ValueItem>(item: T): boolean {
     const map = this.getEntityMap(item.constructor.name);
     const isRemoved = map.delete(item.$id);
-    const references = this.findReferences(item);
-    console.debug("references", { removed: item, references });
+    // const references = this.findReferences(item);
+    // console.debug("references", { removed: item, references });
     return isRemoved;
   }
 

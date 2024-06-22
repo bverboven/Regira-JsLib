@@ -10,7 +10,6 @@ export function onAppReady(func: Function) {
     const cmp = getCurrentInstance()
     if (cmp) {
         onMounted(() => {
-            console.debug("appReady.mounted", { appStore, isReady: appStore.isReady })
             if (appStore.isReady) {
                 func()
             }

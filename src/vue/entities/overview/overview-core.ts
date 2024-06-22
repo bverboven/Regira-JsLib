@@ -14,14 +14,12 @@ export function useOverviewCore<T extends IEntity, SO extends ISearchObject = IS
   const items = ref<Array<T> | undefined>() as Ref<Array<T>>;
   const isLoading = ref<boolean>(false);
   const feedback = useFeedback();
-  console.debug("useOverviewCore", { service, searchObjectRef, pagingInfo });
 
   async function applySave(item: T): Promise<SaveResult<T> | null> {
     isLoading.value = true;
     try {
       feedback.reset();
       const { saved, isNew } = await service.save(item);
-      console.debug("useOverview.applySave", { item, saved, isNew });
       feedback.success(`Saved ${item.$title}`);
       return { saved, isNew };
     } catch (ex: unknown) {
@@ -37,8 +35,7 @@ export function useOverviewCore<T extends IEntity, SO extends ISearchObject = IS
     isLoading.value = true;
     try {
       feedback.reset();
-      const response = await service.remove(item);
-      console.debug("useOverview.applyRemove", { item, response });
+      await service.remove(item);
     } catch (ex) {
       console.error("removing failed", { ex, item });
       const error = ex as OverviewError;
@@ -54,13 +51,11 @@ export function useOverviewCore<T extends IEntity, SO extends ISearchObject = IS
 
     if (!isNew) {
       const index = items.value.findIndex((x) => x.$id === saved.$id);
-      console.debug("useOverview.handleSave", { saved, items, index });
       if (index !== -1) {
         items.value.splice(index, 1, saved);
       }
     } else {
       items.value.push(saved);
-      console.debug("useOverview.handleSave", { saved, items, isNew });
     }
   }
   function handleRemove(item: T): void {
@@ -69,7 +64,6 @@ export function useOverviewCore<T extends IEntity, SO extends ISearchObject = IS
     }
 
     const index = items.value.findIndex((x) => x.$id === item.$id);
-    console.debug("useOverview.handleRemove", { item, items, index });
     if (index !== -1) {
       items.value.splice(index, 1);
     }

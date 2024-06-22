@@ -20,7 +20,6 @@ export function useRouteOverview({ pagingInfo, searchObject, defaultPageSize = D
     const router = useRouter()
 
     function updateOverviewRoute(resetPaging = false): void {
-        console.debug("updateOverviewRoute", { resetPaging })
         if (resetPaging && pagingInfo != null) {
             pagingInfo.value = {
                 ...pagingInfo?.value,
@@ -61,7 +60,6 @@ export function useRouteOverview({ pagingInfo, searchObject, defaultPageSize = D
         if (pagingInfo.value != null) {
             pagingInfo.value = pi
         }
-        console.debug("routeSearchHandler", { route: router.currentRoute.value, searchObject, pagingInfo })
         await handler()
     }
 

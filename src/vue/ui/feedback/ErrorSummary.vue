@@ -68,5 +68,4 @@ const props = withDefaults(
 )
 
 const showSummary = ref(false)
-console.debug("ErrorSummary", { error: props.error, errors: Object.keys(props.error || {}) })
 </script>

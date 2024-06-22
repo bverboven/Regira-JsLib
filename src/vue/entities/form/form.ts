@@ -60,7 +60,6 @@ export function useForm<T extends IEntity>({ entityService, props, emit, feedbac
   //const item = ref(props.modelValue)
   const item = ref(props.modelValue) as Ref<T>;
 
-  console.debug("useForm", item.value?.constructor?.name, { item, isPopup });
   const original = ref<T | undefined>() as Ref<T>;
 
   function handleCancel(): void {
@@ -83,7 +82,6 @@ export function useForm<T extends IEntity>({ entityService, props, emit, feedbac
     try {
       feedback.pending("Saving...");
       const { saved, isNew } = await entityService.save(item.value);
-      console.debug("FormUI.handleSubmit", { isPopup, item, saved, isNew });
       emit("save", { saved, isNew });
       feedback.success("Saved");
       item.value = entityService.toEntity(deepCopy(saved));
@@ -129,7 +127,6 @@ export function useForm<T extends IEntity>({ entityService, props, emit, feedbac
     emit("changeState", FormStates.pending);
     try {
       feedback.pending("Deleting...");
-      console.debug("FormUI.handleRemove", { item: item.value });
       await entityService.remove(item.value as T);
       feedback.success("Deleted");
       emit("remove", item.value as T);
@@ -152,7 +149,6 @@ export function useForm<T extends IEntity>({ entityService, props, emit, feedbac
     try {
       feedback.pending("Restoring...");
       const { saved, isNew } = await entityService.save(restoringItem);
-      console.debug("FormUI.handleRestore", { isPopup, item, saved });
       emit("restore", saved);
       emit("save", { saved, isNew });
       feedback.success("Restored");
@@ -172,18 +168,15 @@ export function useForm<T extends IEntity>({ entityService, props, emit, feedbac
 
   watch(
     () => props.modelValue,
-    (newVal, oldVal) => {
-      console.debug("FormUI.watchModelValue", { newVal, oldVal, original });
+    () => {
       item.value = props.modelValue;
       original.value = entityService.toEntity(deepCopy(item.value));
     }
   );
   onMounted(() => {
-    //console.debug("FormUI.mounted", { original: { ...original.value }, model: { ...item.value } })
     original.value = entityService.toEntity(deepCopy(item.value));
   });
   // watchEffect(() => {
-  //     console.debug("FormUI.watchEffect", { old: original.value, item: deepCopy(item.value), original })
   //     original.value = entityService.toEntity(deepCopy(item.value))
   // })
 

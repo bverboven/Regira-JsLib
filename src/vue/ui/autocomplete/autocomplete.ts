@@ -129,7 +129,6 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T,
     items.value = undefined;
     try {
       const searchResult = await debouncedSearch(term);
-      //console.debug("autocomplete.search", term, { props, q: q.value })
       const pageSize = props.maxResults || searchResult.length;
       items.value = searchResult.slice(0, pageSize);
       selectedIndex.value = (items.value as Array<T>)?.findIndex((x) => idSelector(x) == idSelector(selectedItem.value));
@@ -144,7 +143,6 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T,
       if (matches.length == 1) {
         setSelection(matches[0]);
       } else if (allowAutoSelect && props.autoSelect) {
-        //console.debug("autoSelect", { items: items.value, item: items.value[0], selectedItem })
         setSelection(items.value[0]);
       }
     }
@@ -154,7 +152,6 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T,
     handleSearch();
   }
   function handleChange(): void {
-    //console.debug("autocomplete.handleChange", { q: q.value })
     checkMatch();
     // emit select triggered automatically in selectedItem setter
   }
@@ -163,7 +160,6 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T,
     setSelection(item, item ? index : -1);
   }
   function setSelection(item?: T, index?: number): void {
-    //console.debug("setSelection", { props, item, index, selectedItem: selectedItem.value })
     if (item == null && index == null) {
       clearSelection();
       if (!q.value) {
@@ -217,22 +213,18 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T,
   function openResults(): void {
     updateContainerOffset();
     isOpen.value = true;
-    //console.debug("openedResults")
   }
   function closeResults(): void {
     isOpen.value = false;
-    //console.debug("closedResults")
   }
   function closeGently(e?: PointerEvent): void {
     if (!isOpen.value) {
       return;
     }
 
-    //console.debug("closeGently", { evt: e })
     // clear visible input if no selection was made
     checkMatch(true); // check match?
     if (selectedItem.value == null) {
-      //console.debug("clearQ", q.value)
       q.value = "";
     }
 
@@ -263,7 +255,6 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T,
     document.removeEventListener("scroll", debouncedUpdateContainerOffset, true);
   });
   watch(selectedItem, (newVal, oldVal) => {
-    //console.debug("autocomplete.watch", { props, newVal, oldVal, selectedItem: selectedItem.value, q: q.value })
     if (newVal != oldVal && newVal != selectedItem.value) {
       setSelection(newVal);
     }

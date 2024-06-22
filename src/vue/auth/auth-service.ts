@@ -25,11 +25,7 @@ export const emptyAuthData = (): IAuthData => new AuthData()
 export class AuthService implements IAuthService {
     options: IAuthOptions
 
-    constructor(
-        private axios: AxiosInstance,
-        private tokenManager: ITokenManager,
-        options?: IAuthOptions
-    ) {
+    constructor(private axios: AxiosInstance, private tokenManager: ITokenManager, options?: IAuthOptions) {
         this.options = options || {}
     }
 
@@ -45,9 +41,7 @@ export class AuthService implements IAuthService {
     }
     async login(username: string, password: string): Promise<IAuthData> {
         const url = this.options?.loginUrl || "auth"
-        console.debug("authService.login", { url, options: this.options })
         const response = await this.axios.post(url, { username, password })
-        console.debug("login", { response })
         return this.authenticate(response.data)
     }
     async refresh(queryParams?: Record<string, any>): Promise<IAuthData> {
@@ -79,18 +73,15 @@ export class AuthService implements IAuthService {
     }
     async changePassword(input: IChangePasswordInput) {
         const url = `auth/password`
-        const response = await this.axios.post(url, input)
-        console.debug("changePwd", { response })
+        await this.axios.post(url, input)
     }
     async forgotPassword(input: IForgotPasswordInput) {
         const url = `auth/password/recover`
-        const response = await this.axios.post(url, input)
-        console.debug("forgotPwd", { response })
+        await this.axios.post(url, input)
     }
     async resetPassword(input: IResetPasswordInput) {
         const url = `auth/password/reset`
-        const response = await this.axios.post(url, input)
-        console.debug("resetPwd", { response })
+        await this.axios.post(url, input)
     }
 }
 

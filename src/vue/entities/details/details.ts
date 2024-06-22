@@ -61,7 +61,6 @@ export function useDetails<T extends IEntity>(entityService: IEntityService<T>, 
             item.value = await entityService.newEntity({})
             return
         }
-        console.debug("details", { itemId: routeId.value, route: router.currentRoute.value, item })
         isLoading.value = true
         try {
             item.value = await entityService.details(routeId.value)
@@ -76,7 +75,6 @@ export function useDetails<T extends IEntity>(entityService: IEntityService<T>, 
     watch(router.currentRoute, async (newRoute, oldRoute) => {
         // only when staying on the same page
         if (newRoute.name === oldRoute.name && oldRoute.params.id != "new" && newRoute.params.id !== oldRoute.params.id) {
-            //console.debug("watchedRoute", { newRoute, oldRoute, item, routeId })
             await setItem()
         }
     })

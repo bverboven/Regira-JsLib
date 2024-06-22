@@ -9,7 +9,6 @@ export interface AxiosWithFilesInstance extends AxiosInstance {
 let _myAxios: AxiosWithFilesInstance
 
 export function initAxios(config: { api: string; includeCredentials: boolean }): AxiosWithFilesInstance {
-    console.debug("initAxios", { config })
     const { api: baseURL, includeCredentials: withCredentials } = config
     const myAxios = axios.create({
         baseURL,
@@ -31,10 +30,8 @@ export function initAxios(config: { api: string; includeCredentials: boolean }):
     myAxios.interceptors.response.use(
         (response) => response,
         (error) => {
-            console.debug("axiosError", { error, response: error.response })
             if (error.request.responseType === "blob" && error.response.data instanceof Blob && error.response.data.type && error.response.data.type.toLowerCase().indexOf("json") != -1) {
-                return new Promise((resolve, reject) => {
-                    console.debug("blobError", { error, response: error.response })
+                return new Promise((_, reject) => {
                     let reader = new FileReader()
                     reader.onload = () => {
                         error.response.data = JSON.parse(reader.result as string)
@@ -108,8 +105,6 @@ type UploadOptions = Record<string, any> & {
 export async function upload(url: string, files: Array<Blob>, options?: UploadOptions): Promise<AxiosResponse> {
     const { method = "POST", headers, data = {}, filesParameterName = "file" } = options || {}
     const formData = toFormData(files, data, { filesParameterName })
-
-    console.debug("upload", { url, method, formData, files, data })
 
     const response = await _myAxios({
         method: method,

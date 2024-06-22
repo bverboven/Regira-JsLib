@@ -113,7 +113,6 @@ defineExpose({
     search: handleSearch,
     reset,
     resetQ() {
-        console.debug("resetQ")
         if (!isFocus.value) {
             q.value = ""
         }

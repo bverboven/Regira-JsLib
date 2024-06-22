@@ -24,11 +24,9 @@ export type FilterOut = {
 
 export function useFilter<SO extends ISearchObject = DefaultSearchObject>({ searchObject, emit, Constructor }: FilterIn<SO>): FilterOut {
     const handleUpdate = () => {
-        console.debug("handleUpdate", { searchObject })
         emit("update:modelValue", { ...searchObject.value })
     }
     const handleFilter = () => {
-        console.debug("handleFilter", { searchObject })
         emit("filter", searchObject.value)
     }
 

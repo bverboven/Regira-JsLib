@@ -18,7 +18,7 @@ export function useOwnedCollection<T extends IEntity & { id: number }>({ props, 
       id: 0,
     } as T;
   };
-  const newItem = ref<T>(createEmptyItem());
+  const newItem = ref<T>();
 
   async function resetNewItem() {
     newItem.value = createEmptyItem();
@@ -30,7 +30,6 @@ export function useOwnedCollection<T extends IEntity & { id: number }>({ props, 
     emit("sort", e);
   };
   function handleSave({ saved, isNew }: SaveResult<T>) {
-    console.debug("handleSave", { saved, isNew });
     if (isNew) {
       const minId = Math.min(min(items.value, (x) => x.id) || 0, 0) - 1;
       saved.id = minId;

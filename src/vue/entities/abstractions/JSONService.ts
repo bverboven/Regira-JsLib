@@ -24,7 +24,6 @@ export abstract class JSONService<T extends IEntity> extends EntityServiceBase<T
   async fetchJSONItems(): Promise<Array<T>> {
     if (this.cachedItems == null) {
       this.cachedItems = await super.list();
-      console.debug("fetchedItems", { items: this.cachedItems });
     }
     return this.cachedItems;
   }
@@ -63,11 +62,9 @@ export abstract class JSONService<T extends IEntity> extends EntityServiceBase<T
       const index = items.findIndex((x) => x.$id == processedItem.$id);
       items.splice(index, 1, processedItem);
     }
-    console.debug("JSONService.save", { item, isNew, processedItem, cache: this.cachedItems });
     return { saved: this.toEntity(processedItem), isNew };
   }
   override async remove(item: T): Promise<void> {
-    console.debug("remove", { item });
     const index = this.cachedItems.findIndex((x) => x.$id == item.$id);
     if (index !== -1) {
       this.cachedItems.splice(index, 1);

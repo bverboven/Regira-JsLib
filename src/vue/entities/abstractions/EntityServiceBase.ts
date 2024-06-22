@@ -21,7 +21,6 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
     }
 
     public async details(id: string | number): Promise<T | null> {
-        console.debug("details", { config: this.config, id })
         const response = await this.axios.get<DetailsResult<T>>(`${this.config.detailsUrl}/${id}`)
         if (response?.status == 200) {
             const {
@@ -60,7 +59,6 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
 
     async save(item: T): Promise<SaveResult<T>> {
         const isNew = item.$id == null || item.$id === "new"
-        console.debug("save", { config: this.config, item, isNew })
         const saved = isNew ? await this.insert(item) : await this.update(item)
         return { saved: this.processItem(saved)!, isNew }
     }

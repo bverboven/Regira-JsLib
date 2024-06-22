@@ -26,7 +26,6 @@ export function useListView<T extends IEntity, SO extends ISearchObject = ISearc
     async function listHandler(): Promise<void> {
         isLoading.value = true
         try {
-            console.debug("listHandler", { searchObject, pagingInfo, items })
             feedback.reset()
             items.value = await service.list({ ...(searchObject.value || {}), ...(pagingInfo.value || {}) })
             itemsCount.value = items.value.length

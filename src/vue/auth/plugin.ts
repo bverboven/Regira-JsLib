@@ -32,8 +32,6 @@ export default {
 
         const store = (authStore as any) ?? useAuthStore()
 
-        console.debug("authPlugin", { app, auth, router, store })
-
         if (enabled) {
             app.config.globalProperties.$auth = {
                 ...auth,
@@ -44,7 +42,6 @@ export default {
                     return !!this.authData?.isAuthenticated
                 },
                 get isRequired() {
-                    console.debug("auth.isRequired", store.authRequired)
                     return store.authRequired
                 },
             }

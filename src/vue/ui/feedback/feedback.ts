@@ -57,7 +57,6 @@ export function useFeedback({ autoHideDelay = 1500 }: FeedbackIn = {}): Feedback
         autoHideDelay && fadeOut()
     }
     function fail(msg: string, ex: FeedbackError) {
-        console.debug("fail", { msg, ex })
         status.value = FeedbackStatus.failed
         message.value = msg
         if (typeof ex === "string") {

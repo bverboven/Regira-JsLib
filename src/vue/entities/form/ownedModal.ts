@@ -21,7 +21,6 @@ export function useOwnedModal<T extends IEntity & { id: number }>(Entity: { new 
   function handleOpen() {
     const modelValue = props.modelValue || {};
     const itemDefaults = deepCopy(unref(props.itemDefaults || {}));
-    console.debug("handleOpen", { item, modelValue, itemDefaults });
 
     item.value = Object.assign(new Entity(), {
       ...modelValue,

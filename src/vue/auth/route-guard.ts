@@ -3,7 +3,6 @@ import type { Router } from "vue-router"
 
 export default ({ router, store }: { router: Router; store: Store & { isAuthenticated: boolean; hasPermission(value: string): boolean } }) => {
     router.beforeEach((to, from, next) => {
-        console.debug("routeGuard", { to, from, next, store })
         // allowAnonmyous
         if (to.meta && to.meta.allowAnonymous) {
             return next()

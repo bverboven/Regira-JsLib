@@ -7,7 +7,6 @@ const preloaderTypes: Array<string> = []
 const promises: Array<Promise<any>> = []
 
 function preload(types: Array<EntityBase & { name: string }>) {
-    console.debug("preloading", { preloaderTypes, promises })
     // clear first
     promises.length = 0
     preloaderTypes.length = 0

@@ -94,17 +94,6 @@ export default function usePaging({ pagingInfo, count, maxPages, emit }: PagingI
     emit("change", modelValue);
   }
 
-  // console.debug("usePaging", {
-  //     page,
-  //     count,
-  //     defaultPageSize,
-  //     totalPages,
-  //     totalVisiblePages,
-  //     firstPage,
-  //     lastPage,
-  //     pages,
-  // })
-
   return {
     pagedRoute,
     page,

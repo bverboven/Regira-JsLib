@@ -32,7 +32,7 @@ interface FormModalIn<T extends IEntity> {
 interface FormModalOut<T extends IEntity> {
   item: Ref<T>;
   isOpen: Ref<boolean>;
-  feedback: FeedbackOut;
+  feedback?: FeedbackOut;
   close(): void;
   open(): void;
   handleSave({ saved, isNew }: SaveResult<T>): void;
@@ -58,13 +58,11 @@ export function useModal<T extends IEntity>({
     item.value = newItem;
   }
   function close() {
-    //console.debug("close", { item })
     emit("close", item.value);
     isOpen.value = false;
   }
   async function open() {
     let itemValue = model.value;
-    console.debug("open", { isOpen: isOpen.value, id: itemValue?.$id, model, item, itemDefaults });
     try {
       const defaultValues = typeof itemDefaults !== "function" ? deepCopy(unref(itemDefaults) || {}) : {};
       if (itemValue == null) {
@@ -97,7 +95,6 @@ export function useModal<T extends IEntity>({
     }
   }
   function handleSave({ saved, isNew }: SaveResult<T>): void {
-    console.debug("modal.handleSave", { saved, isNew });
     emit("save", { saved, isNew });
     emit("update:modelValue", saved);
     if (closeOnSave) {
@@ -105,7 +102,6 @@ export function useModal<T extends IEntity>({
     }
   }
   function handleRemove() {
-    console.debug("modal.handleRemove", { closeOnDelete: closeOnDelete });
     emit("remove", item.value!);
     if (closeOnDelete) {
       close();

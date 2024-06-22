@@ -26,7 +26,6 @@ export function useSearchView<T extends IEntity, SO extends ISearchObject = ISea
     async function searchHandler(resetPaging = false): Promise<void> {
         isLoading.value = true
         try {
-            console.debug("searchHandler", { searchObjectRef, pagingInfo: pagingInfo.value, items })
             feedback.reset()
             const so = { ...(searchObjectRef.value || {}), ...(pagingInfo.value || {}) }
             if (resetPaging) {
