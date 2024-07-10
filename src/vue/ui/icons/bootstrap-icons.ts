@@ -17,6 +17,7 @@ export default {
     code: "bi bi-c-square",
     collapse: "bi bi-arrows-collapse",
     collection: "bi bi-collection",
+    columns: "bi bi-layout-three-columns",
     connect: "bi bi-link",
     contact: "bi bi-person-lines-fill",
     copy: "bi bi-clipboard",
