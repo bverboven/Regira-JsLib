@@ -8,8 +8,10 @@ export interface IScreen {
     get isMedium(): boolean
     get isLarge(): boolean
     get isExtraLarge(): boolean
+    get isExtraExtraLarge(): boolean
     get layout(): string
     updateSize(newSize: IScreenSize): void
+    isSize(size: string): boolean
 }
 type ScreenOut = {
     size: Ref<number[]>
@@ -25,6 +27,7 @@ export const SCREEN_SIZES: Record<string, number> = {
     md: 768,
     lg: 992,
     xl: 1200,
+    xxl: 1400,
 }
 
 export function useScreen(): ScreenOut {
@@ -48,8 +51,14 @@ export function useScreen(): ScreenOut {
         get isExtraLarge() {
             return this.size[0] >= SCREEN_SIZES.xl
         },
+        get isExtraExtraLarge() {
+            return this.size[0] >= SCREEN_SIZES.xxl
+        },
         get layout() {
-            return this.isExtraLarge ? "xl" : this.isLarge ? "lg" : this.isMedium ? "md" : this.isSmall ? "sm" : "xs"
+            return this.isExtraExtraLarge ? "xxl" : this.isExtraLarge ? "xl" : this.isLarge ? "lg" : this.isMedium ? "md" : this.isSmall ? "sm" : "xs"
+        },
+        isSize(sizeToCheck: string) {
+            return this.size[0] >= SCREEN_SIZES[sizeToCheck]
         },
         updateSize: (newSize = getWindowSize()) => (size.value = newSize),
     }
