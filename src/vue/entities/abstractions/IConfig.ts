@@ -4,6 +4,7 @@ export enum NavTypes {
 }
 
 export interface IConfig extends Record<string, any> {
+    name: string
     key: string
 
     routePrefix: string
