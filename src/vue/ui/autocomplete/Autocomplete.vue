@@ -4,7 +4,6 @@
         type="text"
         v-bind="$attrs"
         v-model="q"
-        v-click-outside="closeGently"
         @input="handleInput"
         @focus="handleFocus"
         @dblclick="handleDblClick"
@@ -15,7 +14,7 @@
         @keydown.enter.prevent="handleSelect(selectedItem, selectedIndex)"
         ref="inputEl"
     />
-    <div class="autocomplete-items bg-white border" :class="resultClass" :style="resultStyle">
+    <div class="autocomplete-items bg-white border" :class="resultClass" :style="resultStyle" v-click-outside="handleClickOutside">
         <div class="list-group" :class="itemsClass">
             <div class="loading list-group-item" v-show="isLoading">Loading...</div>
             <div
@@ -69,12 +68,16 @@ const props = withDefaults(
     }
 )
 
+defineOptions({
+    inheritAttrs: false,
+})
+
 const {
     q,
     selectedItem,
     selectedIndex,
     items,
-    //isOpen,
+    isOpen,
     isFocus,
     inputEl,
     resultStyle,
@@ -98,11 +101,18 @@ function handleFocus() {
 }
 function handleBlur() {
     isFocus.value = false
-    closeGently()
+    // don't close when blurring (can't use result's scrollbars anymore)
+    //closeGently()
 }
 function handleDblClick() {
     if (props.enableDblClick) {
         handleSearch("")
+    }
+}
+function handleClickOutside(e: PointerEvent) {
+    // prevent closing results when focussing inputEl
+    if (e.target != inputEl.value) {
+        closeGently()
     }
 }
 

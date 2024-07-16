@@ -218,7 +218,7 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T,
     function closeResults(): void {
         isOpen.value = false
     }
-    function closeGently(e?: PointerEvent): void {
+    function closeGently(): void {
         if (!isOpen.value) {
             return
         }
