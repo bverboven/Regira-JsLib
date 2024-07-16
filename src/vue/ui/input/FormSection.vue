@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, getCurrentInstance } from "vue"
+import { ref, computed, watch, getCurrentInstance } from "vue"
 const emit = defineEmits<{
     (e: "expand"): void
     (e: "collapse"): void
@@ -57,4 +57,12 @@ function toggleCollapsed() {
     collapsed.value = !collapsed.value
     collapsed.value ? emit("collapse") : emit("expand")
 }
+
+watch(
+    () => props.collapsed,
+    () => {
+        collapsed.value = props.collapsed
+        collapsed.value ? emit("collapse") : emit("expand")
+    }
+)
 </script>
