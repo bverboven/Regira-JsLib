@@ -31,13 +31,13 @@ export function importDashboard(input: IImportDashboardInput): Array<INavCore> {
         return input.configs.find((x) => x.key == key)
     }
 
-    const navGroups = input.groups!.map((x) => createNavGroup(x))
     const navEntities = input.entities!.flatMap(([parentId, items]) =>
         items
             .map((x) => findEntityConfig(x)!)
             .filter((config) => input.hasAccess(config))
             .map((config) => createNavItem(config, parentId))
     )
+    const navGroups = input.groups!.filter((g) => navEntities.some((e) => e.parentId == g.id)).map((x) => createNavGroup(x))
     return navGroups.concat(navEntities)
 }
 type IImportNavbarInput = {
