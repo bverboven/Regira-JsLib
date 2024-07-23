@@ -82,6 +82,8 @@ export default {
     select: "bi bi-cursor",
     selected: "bi bi-cursor-fill",
     settings: "bi bi-tools",
+    sidebarLeft: "bi bi-layout-sidebar",
+    sidebarRight: "bi bi-layout-sidebar-reverse",
     singleline: "bi bi-chat-square-dots",
     statistics: "bi bi-graph-up",
     submit: "bi bi-check-circle",

@@ -3,23 +3,28 @@ import useAppStore from "./store"
 
 export function onAppReady(func: Function) {
     const appStore = useAppStore()
-    watch(
-        () => appStore.isReady,
-        () => func()
-    )
     const cmp = getCurrentInstance()
-    if (cmp) {
-        onMounted(() => {
-            if (appStore.isReady) {
-                func()
-            }
-        })
+    if (appStore.isReady) {
+        func()
+    } else {
+        watch(
+            () => appStore.isReady,
+            () => func(),
+            { once: true }
+        )
+        if (cmp) {
+            onMounted(() => {
+                if (appStore.isReady) {
+                    func()
+                }
+            })
+        }
     }
 }
 export function whenAppReady(): Promise<void> {
+    const appStore = useAppStore()
     return new Promise<void>((resolve) => {
         let isExecuted = false
-        const appStore = useAppStore()
         return appStore.isReady
             ? resolve()
             : onAppReady(() => {
