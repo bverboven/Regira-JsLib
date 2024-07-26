@@ -110,9 +110,9 @@ export function useForm<T extends IEntity>({ entityService, props, emit, feedbac
             if (status == 400) {
                 feedback.fail("Saving failed", error.response?.data?.errors)
             } else if (status == 404) {
-                feedback.fail("Item not found", error.message)
+                feedback.fail("Item not found", error.response?.data?.message || error.message)
             } else {
-                feedback.fail("Server error", error.response?.data || error.message)
+                feedback.fail("Server error", error.response?.data?.message || error.message)
             }
             emit("changeState", FormStates.error)
             throw ex
