@@ -1,9 +1,16 @@
 <template>
-  <img :src="img" />
+    <img :src="img" ref="imgEl" />
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
+import { ref, inject } from "vue"
 
-const img = inject<string>("loadingImg");
+const img = inject<string>("loadingImg")
+const imgEl = ref<InstanceType<typeof HTMLImageElement> | null>(null)
+
+defineExpose({
+    imgEl,
+    dimensions: () => [imgEl.value?.width, imgEl.value?.height],
+    height: () => imgEl.value?.naturalHeight,
+})
 </script>
