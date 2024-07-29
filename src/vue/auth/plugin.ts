@@ -1,16 +1,15 @@
 import { watch, type App } from "vue"
-import type { Store } from "pinia"
 import type { AxiosInstance } from "axios"
 import { addBearerHeader, autoLogoutOnFailedRequest } from "./auth-axios"
-import { useAuthStore } from "./store"
+import { useAuthStore, type IAuthStore } from "./store"
 import routeGuard from "./route-guard"
-import type ITokenManager from "./token-manager"
+import type { ITokenManager } from "./token-manager"
 import { createAuth, type IAuthOptions } from "./auth"
 import type { IAuthData } from "./AuthData"
 
-interface Input extends IAuthOptions {
-    tokenManager: ITokenManager
-    authStore?: Store
+type Input<TStore extends IAuthStore, TTokenManager extends ITokenManager> = IAuthOptions & {
+    tokenManager: TTokenManager
+    authStore?: TStore
     axios: AxiosInstance
     enableRouteGuard?: boolean
     enabled?: boolean
@@ -18,7 +17,7 @@ interface Input extends IAuthOptions {
 }
 
 export default {
-    async install(app: App, options: Input) {
+    async install<TStore extends IAuthStore = IAuthStore, TTokenManager extends ITokenManager = ITokenManager>(app: App, options: Input<TStore, TTokenManager>) {
         const { clientApp, loginUrl, tokenManager, authStore, axios, enableRouteGuard = true, enabled = true, onAuthenticationChange = () => {} } = options
         const { $router: router } = app.config.globalProperties
 
@@ -30,13 +29,13 @@ export default {
             loginUrl,
         })
 
-        const store = (authStore as any) ?? useAuthStore()
+        const store = authStore ?? useAuthStore()
 
         if (enabled) {
             app.config.globalProperties.$auth = {
                 ...auth,
                 get authData() {
-                    return store.authData as IAuthData
+                    return store.authData
                 },
                 get isAuthenticated() {
                     return !!this.authData?.isAuthenticated
@@ -52,14 +51,6 @@ export default {
         } else {
             app.config.globalProperties.$auth = { enabled: false }
         }
-
-        // app.mixin({
-        //     computed: {
-        //         isAuthenticated: () => auth.isAuthenticated,
-        //         requiresAuthentication: () => auth.requiresAuthentication,
-        //         isAuthEnabled: () => auth.isEnabled,
-        //     },
-        // })
 
         if (enabled) {
             addBearerHeader(axios, tokenManager)

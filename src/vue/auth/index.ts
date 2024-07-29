@@ -3,7 +3,7 @@ export { default as routeGuard } from "./route-guard"
 export { type ITokenManager, CookieTokenManager, MemoryTokenManager, LocalStorageTokenManager } from "./token-manager"
 
 export { useAuth } from "./auth"
-export { useAuthStore, createStore, type IAuthStore } from "./store"
+export { useAuthStore, createStore, type IDefineAuthStore, type IAuthStore } from "./store"
 export { default as plugin } from "./plugin"
 export { useLoginForm, type IEmits as ILoginEmits, type IProps as ILoginProps, type LoginInput } from "./useLoginForm"
 export { useForgotPasswordForm, type IEmits as IForgotPasswordEmits, type IProps as IForgotPasswordProps } from "./useForgotPasswordForm"

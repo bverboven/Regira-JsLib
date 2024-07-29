@@ -1,26 +1,46 @@
 import { ref, computed, type Ref, type ComputedRef } from "vue"
 import { useRouter } from "vue-router"
-import { defineStore } from "pinia"
+import { defineStore, type Store } from "pinia"
 import { emptyAuthData } from "./auth-service"
 import type { IAuthData } from "./AuthData"
 import { useAuth } from "./auth"
 import type { LoginInput } from "./useLoginForm"
 
-export type AuthRefs = {
+const storeName: string = "Auth"
+export interface IDefineAuthStore {
+    // state
     enabled: Ref<boolean>
     clientApp?: Ref<string | undefined>
     authData: Ref<IAuthData>
     authRequired: Ref<boolean>
-}
-export type AuthComputed = {
+    // getters
     isAuthenticated: ComputedRef<boolean>
     isRequired: ComputedRef<boolean>
     hasPermission: ComputedRef<(permission: string) => boolean>
     displayName: ComputedRef<string | undefined>
     hasClaim: ComputedRef<(type: string, value?: string) => boolean>
     getClaimValue: ComputedRef<(type: string) => string | Array<string> | undefined>
+    // actions
+    setClientApp(clientApp?: string): void
+    login({ username, password }: LoginInput): Promise<boolean>
+    validateToken(): Promise<boolean>
+    refresh(o: Record<string, any>): Promise<boolean>
+    logout(): void
 }
-export type AuthActions = {
+export interface IAuthStore extends Store {
+    // state
+    enabled: boolean
+    clientApp?: string | undefined
+    authData: IAuthData
+    authRequired: boolean
+    // getters
+    isAuthenticated: boolean
+    isRequired: boolean
+    hasPermission: (permission: string) => boolean
+    displayName: string | undefined
+    hasClaim: (type: string, value?: string) => boolean
+    getClaimValue: (type: string) => string | Array<string> | undefined
+    // actions
     setClientApp(clientApp?: string): void
     login({ username, password }: LoginInput): Promise<boolean>
     validateToken(): Promise<boolean>
@@ -28,10 +48,7 @@ export type AuthActions = {
     logout(): void
 }
 
-const storeName: string = "Auth"
-export type IAuthStore = AuthRefs & AuthComputed & AuthActions
-
-export function createStore(): IAuthStore {
+export function createStore(): IDefineAuthStore {
     const enabled = ref(true)
     const clientApp = ref<string>()
     const authData = ref(emptyAuthData())
@@ -92,6 +109,6 @@ export function createStore(): IAuthStore {
 }
 createStore.storeName = storeName
 
-export const useAuthStore = defineStore<string, IAuthStore>(storeName, () => createStore())
+export const useAuthStore = defineStore(storeName, createStore)
 
 export default useAuthStore
