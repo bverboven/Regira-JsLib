@@ -79,7 +79,7 @@ export function isEmail(email: string) {
 }
 export function isUrl(url: string) {
     // https://www.regextester.com/94502
-    return /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/gi.test(url)
+    return /^(?:http(s)?:\/\/)?[\w.-]+((?:\.[\w.-]+)+([\w\-._~:/?#[\]@!$&'()*+,;=. ]|(%20))+)$/gi.test(url)
 }
 export function isIP(input: string) {
     // https://stackoverflow.com/questions/5284147/validating-ipv4-addresses-with-regexp
