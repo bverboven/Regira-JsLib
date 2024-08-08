@@ -2,25 +2,25 @@ const ALPHABET_SIZE = 26
 const WHITESPACE_CHARS = " \t\v\f\uFEFF\n\r\u2028\u2029"
 
 // basic
-export const equals = (s1: string, s2: string, ignoreCase: boolean) => {
+export const equals = (s1: string, s2: string, ignoreCase: boolean = false) => {
     if (ignoreCase) {
         return s1.toLowerCase() === s2.toLowerCase()
     }
     return s1 === s2
 }
-export const contains = (s: string, searchString: string, ignoreCase: boolean) => {
+export const contains = (s: string, searchString: string, ignoreCase: boolean = false) => {
     if (ignoreCase) {
         return s.toLowerCase().indexOf(searchString.toLowerCase()) !== -1
     }
     return s.indexOf(searchString) !== -1
 }
-export const startsWith = (s: string, searchString: string, ignoreCase: boolean) => {
+export const startsWith = (s: string, searchString: string, ignoreCase: boolean = false) => {
     if (ignoreCase) {
         return s.toLowerCase().indexOf(searchString.toLowerCase()) === 0
     }
     return s.indexOf(searchString) === 0
 }
-export const endsWith = (s: string, searchString: string, ignoreCase: boolean) => {
+export const endsWith = (s: string, searchString: string, ignoreCase: boolean = false) => {
     if (ignoreCase) {
         return s.toLowerCase().indexOf(searchString.toLowerCase(), s.length - searchString.length) !== -1
     }

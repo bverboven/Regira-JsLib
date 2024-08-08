@@ -73,6 +73,12 @@ export function formatNumber(value?: number, culture?: string, minDigits = 2, ma
         maximumFractionDigits: maxDigits,
     })
 }
+export function formatNumberCompact(value?: number, culture?: string) {
+    if (value == null) {
+        return ""
+    }
+    return value.toLocaleString(culture, { notation: "compact" })
+}
 export function formatCurrency(value?: number, culture?: string, currency: string = "EUR") {
     if (value == null) {
         return ""
@@ -94,7 +100,7 @@ export function formatPercentage(value?: number, culture?: string) {
 }
 
 export const formatBankaccount = (input: string) => {
-    if (input == null || !(input.length === 16 && startsWith(input, "BE"))) {
+    if (input == null || !(input.length === 16 && startsWith(input, "BE", true))) {
         return ""
     }
 
