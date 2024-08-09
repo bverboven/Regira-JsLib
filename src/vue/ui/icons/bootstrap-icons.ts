@@ -7,6 +7,8 @@ export default {
     birthday: "bi bi-balloon",
     cancel: "bi bi-x-octagon",
     chat: "bi bi-chat",
+    chatLeft: "bi bi-chat-left-text",
+    chatRight: "bi bi-chat-right-text",
     check: "bi bi-check",
     checked: "bi bi-check2-square",
     clear: "bi bi-eraser",
