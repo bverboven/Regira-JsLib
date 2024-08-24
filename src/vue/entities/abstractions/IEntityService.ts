@@ -9,7 +9,7 @@ export type SavedResult<T> = { item: T; isNew: boolean; duration?: number }
 export type SaveResult<T> = { saved: T; isNew: boolean; affected?: number; duration?: number }
 export type DeleteResult<T> = { item: T; affected?: number; duration?: number }
 
-export interface IEntityService<T extends IEntity> {
+export interface IEntityService<T extends IEntity = IEntity> {
     details(id: number | string): Promise<T | null>
     list(so?: object): Promise<Array<T>>
     search(so?: object): Promise<SearchResult<T>>

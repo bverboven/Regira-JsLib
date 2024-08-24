@@ -1,6 +1,7 @@
 export * from "./abstractions"
 export * from "./config"
 export * from "./components"
+export * from "./describers"
 export * from "./details"
 export * from "./filter"
 export * from "./form"
