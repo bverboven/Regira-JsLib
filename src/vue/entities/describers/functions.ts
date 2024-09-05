@@ -12,7 +12,6 @@ const defaultNs = Symbol()
 
 export function useEntityDescribers(ns: Symbol = defaultNs) {
     const desc = entityDescribers.has(ns) ? entityDescribers.get(ns)! : entityDescribers.set(ns, new Map<string, EntityDescriber>()).get(ns)!
-    console.debug("Desc", { desc })
 
     function addEntity<T extends IEntity = IEntity>(config: IConfig, store: () => IPoolHandler<T>, components: Record<string, any>) {
         desc.set(config.key, { config, store, components })
