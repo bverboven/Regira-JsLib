@@ -55,6 +55,7 @@ export const browse = ({ multiple, accept } = {}) => {
             resolve(files)
         }
         input.addEventListener("change", changeListener)
+        input.addEventListener("cancel", resolve)
         document.body.appendChild(input)
         input.click()
     })
@@ -203,7 +204,7 @@ export const saveAs = (blob: Blob & { name?: string }, filename?: string) => {
             i = /constructor/i.test(e.HTMLElement) || e.safari,
             f = /CriOS\/[\d]+/.test(navigator.userAgent),
             u = function (t) {
-                ;(e.setImmediate || e.setTimeout)(function () {
+                ; (e.setImmediate || e.setTimeout)(function () {
                     throw t
                 }, 0)
             },
@@ -307,7 +308,7 @@ export const saveAs = (blob: Blob & { name?: string }, filename?: string) => {
                 return navigator.msSaveOrOpenBlob(e, t)
             }
         }
-        w.abort = function () {}
+        w.abort = function () { }
         w.readyState = w.INIT = 0
         w.WRITING = 1
         w.DONE = 2
