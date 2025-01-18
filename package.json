@@ -31,14 +31,14 @@
         "vue-router": "^4.5.0"
     },
     "devDependencies": {
-        "@types/lodash": "^4.17.13",
-        "@types/node": "^22.10.2",
+        "@types/lodash": "^4.17.14",
+        "@types/node": "^22.10.7",
         "@vitejs/plugin-vue": "^5.2.1",
-        "jsdom": "^25.0.1",
+        "jsdom": "^26.0.0",
         "regenerator-runtime": "^0.14.1",
-        "typescript": "^5.7.2",
-        "vite": "^6.0.3",
-        "vitest": "^2.1.8",
-        "vue-tsc": "^2.1.10"
+        "typescript": "^5.7.3",
+        "vite": "^6.0.7",
+        "vitest": "^3.0.2",
+        "vue-tsc": "^2.2.0"
     }
 }
