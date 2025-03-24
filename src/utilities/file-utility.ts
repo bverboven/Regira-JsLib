@@ -55,7 +55,7 @@ export const browse = ({ multiple, accept } = {}) => {
             resolve(files)
         }
         input.addEventListener("change", changeListener)
-        input.addEventListener("cancel", resolve)
+        input.addEventListener("cancel", () => resolve([]))
         document.body.appendChild(input)
         input.click()
     })

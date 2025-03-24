@@ -71,6 +71,7 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
     async update(item: T) {
         const url = `${this.config.saveUrl}/${item.$id}`
         const prepared = this.prepareItem(item)
+        console.debug("update", { item, prepared })
         const response = (await this.axios.put<SavedResult<T>>(url, prepared)) as any
         if (response instanceof AxiosError) {
             throw response
@@ -124,13 +125,13 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
         if ("created" in item) {
             const itemWithCreated = entity as T & { created: string }
             if (itemWithCreated.created != null) {
-                ;(entity as T & { created: Date }).created = new Date(Date.parse(itemWithCreated.created))
+                ; (entity as T & { created: Date }).created = new Date(Date.parse(itemWithCreated.created))
             }
         }
         if ("lastModified" in item) {
             const itemWithLastModified = entity as T & { lastModified: string }
             if (itemWithLastModified.lastModified != null) {
-                ;(entity as T & { lastModified: Date }).lastModified = new Date(Date.parse(itemWithLastModified.lastModified))
+                ; (entity as T & { lastModified: Date }).lastModified = new Date(Date.parse(itemWithLastModified.lastModified))
             }
         }
         return entity
@@ -144,7 +145,7 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
         })
         return item
     }
-    protected createInstance<T>(type: { new (): T }): T {
+    protected createInstance<T>(type: { new(): T }): T {
         return new type()
     }
 
