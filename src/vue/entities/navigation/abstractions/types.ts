@@ -3,7 +3,7 @@ export interface INavCore {
     parentId?: string
     title: string
     shortTitle?: string
-    icon: string
+    icon?: string
 }
 export interface IRoutingNavItem {
     routeName: string
