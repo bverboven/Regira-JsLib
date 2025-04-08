@@ -28,10 +28,10 @@ export function whenAppReady(): Promise<void> {
         return appStore.isReady
             ? resolve()
             : onAppReady(() => {
-                  if (!isExecuted) {
-                      resolve()
-                      isExecuted = true
-                  }
-              })
+                if (!isExecuted) {
+                    resolve()
+                    isExecuted = true
+                }
+            })
     })
 }

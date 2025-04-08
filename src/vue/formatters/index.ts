@@ -48,7 +48,7 @@ export const formatDate = (date?: Date | string, culture?: string) => {
         date = new Date(date)
     }
 
-    return date.toLocaleDateString(culture)
+    return date.toLocaleDateString(culture)//?.replace(/-/g, '/')
 }
 export const formatShortDate = (date?: Date | string, culture?: string) => {
     if (date == null) {
