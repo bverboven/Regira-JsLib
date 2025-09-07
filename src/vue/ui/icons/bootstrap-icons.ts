@@ -92,6 +92,7 @@ export default {
     statistics: "bi bi-graph-up",
     submit: "bi bi-check-circle",
     tag: "bi bi-tag",
+    tenant: "bi bi-person-rolodex",
     times: "bi bi-x-lg",
     timespan: "bi bi-hourglass",
     title: "bi bi-fonts",
