@@ -1,6 +1,6 @@
 import type { AxiosInstance } from "axios"
 import { createQueryString } from "../http/query"
-import type ITokenManager from "./token-manager"
+import type { ITokenManager } from "./token-manager"
 import { AuthData, type IAuthData } from "./AuthData"
 import type { IAuthOptions } from "./auth"
 
