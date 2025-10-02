@@ -35,7 +35,6 @@ export function initAxios(config: { api: string; includeCredentials: boolean }):
                     let reader = new FileReader()
                     reader.onload = () => {
                         error.response.data = JSON.parse(reader.result as string)
-                        //resolve(Promise.reject(error))
                         reject(error)
                     }
 
