@@ -8,7 +8,7 @@ export interface AxiosWithFilesInstance extends AxiosInstance {
 
 let _myAxios: AxiosWithFilesInstance
 
-export function initAxios(config: { api: string; includeCredentials: boolean }): AxiosWithFilesInstance {
+export function initAxios(config: { api: string; includeCredentials?: boolean }): AxiosWithFilesInstance {
     const { api: baseURL, includeCredentials: withCredentials } = config
     const myAxios = axios.create({
         baseURL,
