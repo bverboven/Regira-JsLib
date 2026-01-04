@@ -74,6 +74,7 @@ export default {
     noUser: "bi bi-person-x",
     pay: "bi bi-cash-coin",
     pdf: "bi bi-file-earmark-pdf",
+    peppol: "bi bi-send",
     people: "bi bi-people-fill",
     phone: "bi bi-telephone",
     popOut: "bi bi-box-arrow-up-right",

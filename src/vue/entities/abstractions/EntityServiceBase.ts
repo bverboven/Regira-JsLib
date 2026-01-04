@@ -76,14 +76,18 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
         if (response instanceof AxiosError) {
             throw response
         }
-        const { item: saved } = await response.data // await this.axios.put<SavedResult<T>>(url, prepared).then((r) => r.data)
+        const { item: saved } = await response.data
         return this.processItem(saved)
     }
 
     async insert(item: T) {
         const url = `${this.config.saveUrl}`
         const prepared = this.prepareItem(item)
-        const { item: saved } = await this.axios.post<SavedResult<T>>(url, prepared).then((r) => r.data)
+        const response = await this.axios.post<SavedResult<T>>(url, prepared)
+        if (response instanceof AxiosError) {
+            throw response
+        }
+        const { item: saved } = response.data;
         if ("id" in saved) {
             // quickfix to set id in original item
             Object.defineProperty(item, "id", { value: saved.id, writable: true, configurable: true, enumerable: true })

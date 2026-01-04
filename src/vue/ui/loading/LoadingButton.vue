@@ -1,6 +1,10 @@
 <template>
     <button type="button" class="btn" :disabled="disabled || isLoading">
-        <LoadingImg v-if="isLoading" style="width: 1rem" />
+        <template v-if="isLoading">
+            <slot name="loading">
+                <LoadingImg style="width: 1rem" />
+            </slot>
+        </template>
         <template v-else>
             <slot></slot>
         </template>
@@ -9,5 +13,8 @@
 
 <script setup lang="ts">
 import LoadingImg from "./Loading.vue"
-defineProps<{ isLoading: boolean; disabled?: boolean }>()
+defineProps<{
+    isLoading: boolean;
+    disabled?: boolean
+}>()
 </script>
