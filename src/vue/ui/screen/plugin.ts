@@ -7,7 +7,7 @@ export default {
         if (sizes) {
             for (const key in sizes) {
                 if (key in SCREEN_SIZES) {
-                    SCREEN_SIZES[key] = sizes[key]
+                    SCREEN_SIZES[key]! = sizes[key]!
                 }
             }
         }

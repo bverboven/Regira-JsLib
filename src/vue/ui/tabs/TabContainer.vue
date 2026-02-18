@@ -16,7 +16,7 @@ import { Tab, type ITab } from "./Tab"
 import type { IEmits } from "./tabs"
 import TabNavigation from "./TabNavigation.vue"
 
-interface Emits extends IEmits {}
+interface Emits extends IEmits { }
 
 const emit = defineEmits<Emits>()
 const props = withDefaults(
@@ -33,7 +33,7 @@ const props = withDefaults(
 const router = useRouter()
 const items = computed<Array<ITab>>(() => props.tabs.filter((x) => x != null).map((x) => (x instanceof Tab ? x : new Tab(x as string))))
 
-const defaultTab = computed(() => (items.value.find((tab) => tab.isDefault) || items.value[0]).key!)
+const defaultTab = computed(() => (items.value.find((tab) => tab.isDefault) || items.value[0]!).key)
 const _activeTab = ref<string>(props.active!)
 
 const activeTab = computed<string>({

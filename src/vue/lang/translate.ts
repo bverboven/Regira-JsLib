@@ -18,7 +18,9 @@ export function translate(key: string, values: ITranslationMessages, langCode: s
 }
 export function translateMessage(message: ITranslationMessage, langCode: string, formatArgs?: IFormatInput): string {
     // use fallback language when culture (e.g. en-US) is not present in translation messages
-    let output = typeof message == "string" ? message : message[langCode] ?? message[langCode.substring(0, 2)]
+    let output = typeof message == "string"
+        ? message
+        : message[langCode] ?? message[langCode.substring(0, 2)]!
 
     // if (output == null) {
     //     // return first translated property when chosen language is not present

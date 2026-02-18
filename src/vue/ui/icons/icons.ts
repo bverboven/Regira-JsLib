@@ -12,7 +12,7 @@ export const iconMap = new Map<string, string>()
 export function load(icons: IconSet) {
     const entries = Array.isArray(icons) ? icons : Object.entries(icons)
     entries.forEach(([key, icon]) => {
-        iconMap.set(key, icon)
+        iconMap.set(key!, icon!)
     })
 }
 export function clear() {

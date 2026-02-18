@@ -1,11 +1,14 @@
 <template>
-  <router-link class="page-link" :to="to" :title="to" :title1="'page ' + page" activeClass="active-page">
+  <RouterLink class="page-link" :to="to" :title="'page ' + page" activeClass="active-page">
     <slot>{{ page }}</slot>
-  </router-link>
+  </RouterLink>
 </template>
 
 <script setup lang="ts">
-  import type { RouteLocationRaw } from "vue-router";
+import type { RouteLocationRaw } from "vue-router";
 
-  defineProps<{ to: RouteLocationRaw; page: number }>();
+defineProps<{
+  to: RouteLocationRaw;
+  page: number
+}>();
 </script>

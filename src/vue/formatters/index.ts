@@ -33,7 +33,7 @@ function _formatDateTime(date?: Date, mask?: string) {
         n: date.getMilliseconds(),
     }
 
-    return mask.replace(/d{1,2}|M{1,2}|yy(?:yy)?|h{1,2}|m{1,2}|n{1,4}/g, (matched) => map[matched]?.toString())
+    return mask.replace(/d{1,2}|M{1,2}|yy(?:yy)?|h{1,2}|m{1,2}|n{1,4}/g, (matched) => map[matched]?.toString() ?? "")
 }
 
 export const formatDateTime = (date?: Date, mask: string = "dd-MM-yyyy") => (date ? _formatDateTime(date, mask) : "")
