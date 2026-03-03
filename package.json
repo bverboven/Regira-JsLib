@@ -23,22 +23,22 @@
         "test": "vitest"
     },
     "dependencies": {
-        "axios": "^1.13.5",
+        "axios": "^1.13.6",
         "date-fns": "^4.1.0",
         "lodash": "^4.17.23",
         "pinia": "^3.0.4",
-        "vue": "^3.5.28",
+        "vue": "^3.5.29",
         "vue-router": "^5.0.3"
     },
     "devDependencies": {
-        "@types/lodash": "^4.17.23",
-        "@types/node": "^25.3.0",
+        "@types/lodash": "^4.17.24",
+        "@types/node": "^25.3.3",
         "@vitejs/plugin-vue": "^6.0.4",
         "jsdom": "^28.1.0",
         "regenerator-runtime": "^0.14.1",
         "typescript": "^5.9.3",
         "vite": "^7.3.1",
         "vitest": "^4.0.18",
-        "vue-tsc": "^3.2.4"
+        "vue-tsc": "^3.2.5"
     }
 }
