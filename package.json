@@ -6,19 +6,163 @@
     "files": [
         "dist"
     ],
-    "main": "./dist/regira_modules.umd.cjs",
-    "module": "./dist/regira_modules.js",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/regira_modules.js",
-            "require": "./dist/regira_modules.umd.cjs"
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        },
+        "./entities": {
+            "types": "./dist/entities/index.d.ts",
+            "import": "./dist/entities/index.js"
+        },
+        "./events": {
+            "types": "./dist/events/index.d.ts",
+            "import": "./dist/events/index.js"
+        },
+        "./extensions": {
+            "types": "./dist/extensions/index.d.ts",
+            "import": "./dist/extensions/index.js"
+        },
+        "./firebase": {
+            "types": "./dist/firebase/index.d.ts",
+            "import": "./dist/firebase/index.js"
+        },
+        "./identity": {
+            "types": "./dist/identity/index.d.ts",
+            "import": "./dist/identity/index.js"
+        },
+        "./io": {
+            "types": "./dist/io/index.d.ts",
+            "import": "./dist/io/index.js"
+        },
+        "./treelist": {
+            "types": "./dist/treelist/index.d.ts",
+            "import": "./dist/treelist/index.js"
+        },
+        "./utilities": {
+            "types": "./dist/utilities/index.d.ts",
+            "import": "./dist/utilities/index.js"
+        },
+        "./vue": {
+            "types": "./dist/vue/index.d.ts",
+            "import": "./dist/vue/index.js"
+        },
+        "./vue/app": {
+            "types": "./dist/vue/app/index.d.ts",
+            "import": "./dist/vue/app/index.js"
+        },
+        "./vue/auth": {
+            "types": "./dist/vue/auth/index.d.ts",
+            "import": "./dist/vue/auth/index.js"
+        },
+        "./vue/debug": {
+            "types": "./dist/vue/debug/index.d.ts",
+            "import": "./dist/vue/debug/index.js"
+        },
+        "./vue/directives": {
+            "types": "./dist/vue/directives/index.d.ts",
+            "import": "./dist/vue/directives/index.js"
+        },
+        "./vue/entities": {
+            "types": "./dist/vue/entities/index.d.ts",
+            "import": "./dist/vue/entities/index.js"
+        },
+        "./vue/formatters": {
+            "types": "./dist/vue/formatters/index.d.ts",
+            "import": "./dist/vue/formatters/index.js"
+        },
+        "./vue/http": {
+            "types": "./dist/vue/http/index.d.ts",
+            "import": "./dist/vue/http/index.js"
+        },
+        "./vue/ioc": {
+            "types": "./dist/vue/ioc/index.d.ts",
+            "import": "./dist/vue/ioc/index.js"
+        },
+        "./vue/lang": {
+            "types": "./dist/vue/lang/index.d.ts",
+            "import": "./dist/vue/lang/index.js"
+        },
+        "./vue/online": {
+            "types": "./dist/vue/online/index.d.ts",
+            "import": "./dist/vue/online/index.js"
+        },
+        "./vue/ui": {
+            "types": "./dist/vue/ui/index.d.ts",
+            "import": "./dist/vue/ui/index.js"
         }
     },
-    "types": "./dist/index.d.ts",
+    "typesVersions": {
+        "*": {
+            "entities": [
+                "./dist/entities/index.d.ts"
+            ],
+            "events": [
+                "./dist/events/index.d.ts"
+            ],
+            "extensions": [
+                "./dist/extensions/index.d.ts"
+            ],
+            "firebase": [
+                "./dist/firebase/index.d.ts"
+            ],
+            "identity": [
+                "./dist/identity/index.d.ts"
+            ],
+            "io": [
+                "./dist/io/index.d.ts"
+            ],
+            "treelist": [
+                "./dist/treelist/index.d.ts"
+            ],
+            "utilities": [
+                "./dist/utilities/index.d.ts"
+            ],
+            "vue": [
+                "./dist/vue/index.d.ts"
+            ],
+            "vue/app": [
+                "./dist/vue/app/index.d.ts"
+            ],
+            "vue/auth": [
+                "./dist/vue/auth/index.d.ts"
+            ],
+            "vue/debug": [
+                "./dist/vue/debug/index.d.ts"
+            ],
+            "vue/directives": [
+                "./dist/vue/directives/index.d.ts"
+            ],
+            "vue/entities": [
+                "./dist/vue/entities/index.d.ts"
+            ],
+            "vue/formatters": [
+                "./dist/vue/formatters/index.d.ts"
+            ],
+            "vue/http": [
+                "./dist/vue/http/index.d.ts"
+            ],
+            "vue/ioc": [
+                "./dist/vue/ioc/index.d.ts"
+            ],
+            "vue/lang": [
+                "./dist/vue/lang/index.d.ts"
+            ],
+            "vue/online": [
+                "./dist/vue/online/index.d.ts"
+            ],
+            "vue/ui": [
+                "./dist/vue/ui/index.d.ts"
+            ]
+        }
+    },
     "scripts": {
         "dev": "vite",
-        "build": "vite build && vue-tsc --emitDeclarationOnly",
-        "types": "vue-tsc ",
+        "build": "node scripts/build.mjs",
+        "prepare": "node scripts/build.mjs",
+        "types": "vue-tsc",
         "preview": "vite preview",
         "test": "vitest"
     },
@@ -36,6 +180,7 @@
         "@vitejs/plugin-vue": "^6.0.4",
         "jsdom": "^28.1.0",
         "regenerator-runtime": "^0.14.1",
+        "sass-embedded": "^1.97.3",
         "typescript": "^5.9.3",
         "vite": "^7.3.1",
         "vitest": "^4.0.18",
