@@ -1,0 +1,15 @@
+export declare const formatDateTime: (date?: Date, mask?: string) => string;
+export declare const dateInputString: (date?: Date) => string;
+export declare const formatTime: (date?: Date) => string;
+export declare const formatDate: (date?: Date | string, culture?: string) => string;
+export declare const formatShortDate: (date?: Date | string, culture?: string) => string;
+export declare function formatNumber(value?: number, culture?: string, minDigits?: number, maxDigits?: number): string;
+export declare function formatNumberCompact(value?: number, culture?: string): string;
+export declare function formatCurrency(value?: number, culture?: string, currency?: string): string;
+export declare function formatCurrencyCompact(value?: number, culture?: string, currency?: string): string;
+export declare function formatPercentage(value?: number, culture?: string): string;
+export declare const formatBankaccount: (input: string) => string;
+export declare const getInitials: (input: string) => string;
+export declare const formatTextPreserveNewLines: (input: string) => string;
+export declare const formatStructuredReference: (input: string) => string;
+export declare function shortenString(str: string | undefined, maxLength: number): string | undefined;

@@ -5,6 +5,15 @@ npx npm-check-updates
 npx npm-check-updates -u
 ```
 
+# git import
+
+*package.json*
+```
+  "dependencies": {
+    "regira_modules": "github:bverboven/Regira-JsLib"
+  }
+```
+
 # symlinks
 
 ```
