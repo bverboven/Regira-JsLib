@@ -18,6 +18,7 @@ try {
 
 // Step 3: Copy SCSS source files that are imported directly by consumers
 const scssFiles = [
+    ["src/vue/ui/autocomplete/style.scss", "dist/vue/ui/autocomplete/style.scss"],
     ["src/vue/ui/modal/style.scss", "dist/vue/ui/modal/style.scss"],
 ]
 for (const [src, dest] of scssFiles) {
