@@ -1,5 +1,4 @@
 import { type Ref, type StyleValue } from "vue";
-import "./style.scss";
 export declare const autocompleteEmits: string[];
 export declare const autocompleteProps: {
     idValue: (StringConstructor | NumberConstructor)[];
