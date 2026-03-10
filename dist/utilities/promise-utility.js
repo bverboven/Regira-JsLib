@@ -1,4 +1,4 @@
-const a = (s, e = 250) => {
+const i = (s, e = 250) => {
   let t, r = [];
   return async function() {
     const o = [...arguments];
@@ -11,7 +11,7 @@ const a = (s, e = 250) => {
       }, e);
     });
   };
-}, i = async (s) => {
+}, a = async (s) => {
   let e = !1;
   const t = await s.reduce(async (r, o) => {
     const n = await r, u = await Promise.resolve(o()).catch((c) => (e = !0, c));
@@ -19,12 +19,13 @@ const a = (s, e = 250) => {
   }, []);
   return e ? Promise.reject(t) : t;
 }, l = (s = 1e3) => new Promise((e) => setTimeout(e, s)), m = {
-  debounceToPromise: a,
-  enqueue: i,
+  debounceToPromise: i,
+  enqueue: a,
   delay: l
 };
 export {
-  a as d,
-  i as e,
-  m as p
+  i as debounceToPromise,
+  m as default,
+  l as delay,
+  a as enqueue
 };

@@ -1,39 +1,39 @@
 import m from "axios";
-import { f as s } from "../_chunks/file-utility-D-9-ErCu.js";
-import { i as f } from "../_chunks/string-utility-BI1ViWED.js";
-import { i as n } from "../_chunks/image-utility-DEIs_ZzD.js";
+import o from "../utilities/file-utility.js";
+import { isUrl as y } from "../utilities/string-utility.js";
+import { i as n } from "../_chunks/image-utility-CKIJKpXA.js";
 class i {
   async getBlob(e, t, r) {
     let a;
     if (e instanceof File)
-      return s.fileToBlob(e, t, r);
+      return o.fileToBlob(e, t, r);
     if (e instanceof Blob)
       return a = e, t && a.name !== t && (a.name = t), a;
     if (typeof e == "string")
-      return f(e) ? s.urlToBlob(e, t, r) : s.base64ToBlob(e, t, r);
+      return y(e) ? o.urlToBlob(e, t, r) : o.base64ToBlob(e, t, r);
     throw Error("Cannot convert input to type Blob");
   }
   async getBase64Url(e) {
     const t = await this.getBlob(e);
-    return s.getBase64Url(t);
+    return o.getBase64Url(t);
   }
   async createUrl(e) {
     const t = await this.getBlob(e);
-    return s.blobToBase64(t);
+    return o.blobToBase64(t);
   }
   async browse(e = {}) {
     return new Promise(function(t) {
       const r = document.createElement("INPUT");
       r.setAttribute("type", "file"), (e.multiple == null || e.multiple) && r.setAttribute("multiple", "true"), e.accept && r.setAttribute("accept", Array.isArray(e.accept) ? e.accept.join(",") : e.accept), r.value = "", r.setAttribute("style", "display: none;");
       function a() {
-        const o = [...this.files];
-        r.removeEventListener("change", a), document.body.removeChild(r), t(o);
+        const s = [...this.files];
+        r.removeEventListener("change", a), document.body.removeChild(r), t(s);
       }
       r.addEventListener("change", a), document.body.appendChild(r), r.click();
     });
   }
   async readJson(e) {
-    const t = await s.readAllText(e);
+    const t = await o.readAllText(e);
     try {
       return JSON.parse(t);
     } catch (r) {
@@ -46,26 +46,26 @@ class i {
   }
   async writeJson(e, t) {
     const r = JSON.stringify(e, null, 2);
-    return s.writeAllText(r, t, "application/json");
+    return o.writeAllText(r, t, "application/json");
   }
   async send(e, t, r = {}, a = {}) {
-    const o = s.toFormData(t || [], r || {}, a || {}), { method: c = "POST" } = a, g = {
+    const s = o.toFormData(t || [], r || {}, a || {}), { method: c = "POST" } = a, g = {
       "Content-Type": "multipart/form-data",
       ...a.headers || {}
     };
     return m({
       method: c,
       url: e,
-      data: o,
+      data: s,
       headers: g
     });
   }
   async saveAs(e, t, r = null) {
     const a = await this.getBlob(e, r || e.name, t || e.type);
-    return s.saveAs(a, a.name || "file");
+    return o.saveAs(a, a.name || "file");
   }
 }
-class y extends i {
+class b extends i {
   async getImage(e) {
     if (e instanceof Image)
       return e;
@@ -95,8 +95,8 @@ class y extends i {
     return this.flipFlop(e, !1, !0);
   }
   async flipFlop(e, t, r, a) {
-    const o = await this.getImage(e);
-    return n.flipFlop(o, t, r, a);
+    const s = await this.getImage(e);
+    return n.flipFlop(s, t, r, a);
   }
   async convertType(e, t) {
     const r = await this.getImage(e);
@@ -113,10 +113,10 @@ class y extends i {
 }
 const p = {
   FileHelper: i,
-  ImageHelper: y
+  ImageHelper: b
 };
 export {
   i as FileHelper,
-  y as ImageHelper,
+  b as ImageHelper,
   p as default
 };

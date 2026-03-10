@@ -92,6 +92,59 @@
         "./vue/ui": {
             "types": "./dist/vue/ui/index.d.ts",
             "import": "./dist/vue/ui/index.js"
+        },
+        "./vue/ui/feedback": {
+            "types": "./dist/vue/ui/feedback/index.d.ts",
+            "import": "./dist/vue/ui/feedback/index.js"
+        },
+        "./vue/ui/icons": {
+            "types": "./dist/vue/ui/icons/index.d.ts",
+            "import": "./dist/vue/ui/icons/index.js"
+        },
+        "./vue/ui/modal": {
+            "types": "./dist/vue/ui/modal/index.d.ts",
+            "import": "./dist/vue/ui/modal/index.js"
+        },
+        "./vue/ui/modal/style.scss": "./dist/vue/ui/modal/style.scss",
+        "./vue/entities/details": {
+            "types": "./dist/vue/entities/details/index.d.ts",
+            "import": "./dist/vue/entities/details/index.js"
+        },
+        "./vue/entities/form": {
+            "types": "./dist/vue/entities/form/index.d.ts",
+            "import": "./dist/vue/entities/form/index.js"
+        },
+        "./vue/entities/abstractions/IEntity": {
+            "types": "./dist/vue/entities/abstractions/IEntity.d.ts",
+            "import": "./dist/vue/entities/abstractions/IEntity.js"
+        },
+        "./vue/vue-helper": {
+            "types": "./dist/vue/vue-helper.d.ts",
+            "import": "./dist/vue/vue-helper.js"
+        },
+        "./vue/http/axios": {
+            "types": "./dist/vue/http/axios.d.ts",
+            "import": "./dist/vue/http/axios.js"
+        },
+        "./extensions/date-extensions": {
+            "types": "./dist/extensions/date-extensions.d.ts",
+            "import": "./dist/extensions/date-extensions.js"
+        },
+        "./utilities/array-utility": {
+            "types": "./dist/utilities/array-utility.d.ts",
+            "import": "./dist/utilities/array-utility.js"
+        },
+        "./utilities/file-utility": {
+            "types": "./dist/utilities/file-utility.d.ts",
+            "import": "./dist/utilities/file-utility.js"
+        },
+        "./utilities/promise-utility": {
+            "types": "./dist/utilities/promise-utility.d.ts",
+            "import": "./dist/utilities/promise-utility.js"
+        },
+        "./utilities/string-utility": {
+            "types": "./dist/utilities/string-utility.d.ts",
+            "import": "./dist/utilities/string-utility.js"
         }
     },
     "typesVersions": {
@@ -155,6 +208,45 @@
             ],
             "vue/ui": [
                 "./dist/vue/ui/index.d.ts"
+            ],
+            "vue/ui/feedback": [
+                "./dist/vue/ui/feedback/index.d.ts"
+            ],
+            "vue/ui/icons": [
+                "./dist/vue/ui/icons/index.d.ts"
+            ],
+            "vue/ui/modal": [
+                "./dist/vue/ui/modal/index.d.ts"
+            ],
+            "vue/entities/details": [
+                "./dist/vue/entities/details/index.d.ts"
+            ],
+            "vue/entities/form": [
+                "./dist/vue/entities/form/index.d.ts"
+            ],
+            "vue/entities/abstractions/IEntity": [
+                "./dist/vue/entities/abstractions/IEntity.d.ts"
+            ],
+            "vue/vue-helper": [
+                "./dist/vue/vue-helper.d.ts"
+            ],
+            "vue/http/axios": [
+                "./dist/vue/http/axios.d.ts"
+            ],
+            "extensions/date-extensions": [
+                "./dist/extensions/date-extensions.d.ts"
+            ],
+            "utilities/array-utility": [
+                "./dist/utilities/array-utility.d.ts"
+            ],
+            "utilities/file-utility": [
+                "./dist/utilities/file-utility.d.ts"
+            ],
+            "utilities/promise-utility": [
+                "./dist/utilities/promise-utility.d.ts"
+            ],
+            "utilities/string-utility": [
+                "./dist/utilities/string-utility.d.ts"
             ]
         }
     },

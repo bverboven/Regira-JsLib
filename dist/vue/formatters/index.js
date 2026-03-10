@@ -1,4 +1,4 @@
-import { a as u } from "../../_chunks/string-utility-BI1ViWED.js";
+import { startsWith as u } from "../../utilities/string-utility.js";
 import { format as i, isDate as f, isValid as s } from "date-fns";
 function m(r, t) {
   if (!r || (typeof r == "string" && (r = new Date(r)), !f(r) || !s(r)))

@@ -1,6 +1,6 @@
 import { E as u } from "../_chunks/event-handler-DDyWpzD1.js";
 import r from "axios";
-import { b as d } from "../_chunks/string-utility-BI1ViWED.js";
+import { trimRight as d } from "../utilities/string-utility.js";
 import { t as o } from "../_chunks/http-utility-DhbzrxJm.js";
 class h {
   constructor(t, { enableCount: s = !0, defaults: e = { searchObject: {} } } = {}) {

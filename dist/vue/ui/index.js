@@ -1,193 +1,22 @@
-import { defineComponent as v, openBlock as n, createElementBlock as r, renderSlot as p, createTextVNode as ue, toDisplayString as w, ref as g, resolveComponent as D, createElementVNode as h, createVNode as C, createCommentVNode as x, Fragment as V, renderList as R, createBlock as j, Teleport as be, unref as b, withCtx as pe, computed as y, normalizeClass as L, onMounted as ve, onUnmounted as we, watch as ie, resolveDirective as xe, withDirectives as Z, mergeProps as Ce, withKeys as oe, withModifiers as A, isRef as Se, vModelText as Ie, normalizeStyle as X, vShow as ge, mergeDefaults as Le, watchEffect as Ve, getCurrentInstance as Be, inject as ze } from "vue";
-import { u as Ee } from "../../_chunks/vue-helper-BRpk5zez.js";
-import { d as fe } from "../../_chunks/promise-utility-CiVTwK8o.js";
-import { g as Fe } from "../../_chunks/html-utility-ZF83RbzI.js";
-import { _ as he, M as De, F as se, u as Te, P as Pe, a as qe } from "../../_chunks/Paging.vue_vue_type_script_setup_true_lang-Ci1eRLLv.js";
-import { B as Sa, b as Ia, p as La } from "../../_chunks/Paging.vue_vue_type_script_setup_true_lang-Ci1eRLLv.js";
-import { c as Me, d as Re, e as Ae } from "../../_chunks/string-utility-BI1ViWED.js";
-import { dateInputString as Ne } from "../formatters/index.js";
-import { isValid as me } from "date-fns";
-import { c as Oe } from "../../_chunks/clipboard-utility-B-2qZeP-.js";
-import { debounce as je } from "lodash";
-import { useRouter as Ge } from "vue-router";
-const Ue = { class: "bg-light text-info" }, Xe = /* @__PURE__ */ v({
-  __name: "Pending",
-  props: {
-    msg: { default: "Loading..." }
-  },
-  setup(e) {
-    return (a, l) => (n(), r("div", Ue, [
-      p(a.$slots, "message", {}, () => [
-        ue(w(e.msg), 1)
-      ])
-    ]));
-  }
-}), He = { class: "bg-success bg-opacity-75 text-light" }, We = /* @__PURE__ */ v({
-  __name: "Success",
-  props: {
-    msg: { default: "Success!" }
-  },
-  setup(e) {
-    return (a, l) => (n(), r("div", He, [
-      p(a.$slots, "message", {}, () => [
-        ue(w(e.msg), 1)
-      ])
-    ]));
-  }
-}), oa = {
-  install(e, { DefaultModal: a } = { DefaultModal: he }) {
-    e.component("MyModal", a);
-  }
-}, Ze = { class: "bg-danger bg-opacity-75 text-light" }, Ke = { class: "row gy-0 gx-1" }, Qe = { class: "col-auto" }, Je = ["diabled"], Ye = { class: "col-auto pt-1" }, et = {
-  key: 0,
-  class: "col-auto"
-}, tt = ["diabled"], at = {
-  key: 0,
-  class: "mt-2"
-}, lt = {
-  key: 0,
-  class: "mt-2"
-}, ot = { key: 1 }, st = {
-  key: 0,
-  class: "mt-2"
-}, nt = {
-  key: 0,
-  class: "mt-2"
-}, it = { key: 1 }, rt = /* @__PURE__ */ v({
-  __name: "ErrorSummary",
-  props: {
-    msg: { default: "Unfortunately, an error has occurred." },
-    error: { default: () => ({}) },
-    enablePopup: { type: Boolean }
-  },
-  setup(e) {
-    const a = g(!1);
-    return (l, t) => {
-      const o = D("Icon"), s = D("MyModal");
-      return n(), r("div", Ze, [
-        p(l.$slots, "message", {}, () => [
-          h("div", Ke, [
-            h("div", Qe, [
-              h("button", {
-                type: "button",
-                class: "btn btn-default p-0 m-0 text-light",
-                diabled: !e.error,
-                onClick: t[0] || (t[0] = (c) => a.value = !a.value)
-              }, [
-                C(o, { name: "warning" })
-              ], 8, Je)
-            ]),
-            h("div", Ye, w(e.msg), 1),
-            e.enablePopup && e.error ? (n(), r("div", et, [
-              h("button", {
-                type: "button",
-                class: "btn btn-link p-0 m-0 text-light",
-                diabled: !e.error,
-                onClick: t[1] || (t[1] = (c) => a.value = !a.value)
-              }, [
-                C(o, { name: "info" })
-              ], 8, tt)
-            ])) : x("", !0)
-          ])
-        ]),
-        p(l.$slots, "summary", {}, () => [
-          e.error ? (n(), r(V, { key: 0 }, [
-            typeof e.error == "string" ? (n(), r("div", at, w(e.error), 1)) : (n(!0), r(V, { key: 1 }, R(e.error, (c, i) => (n(), r("ul", {
-              class: "list-unstyled mt-2",
-              key: i
-            }, [
-              h("li", null, [
-                h("b", null, w(i), 1),
-                typeof c == "string" ? (n(), r("div", lt, w(c), 1)) : (n(), r("ul", ot, [
-                  (n(!0), r(V, null, R(c, (f) => (n(), r("li", { key: f }, w(f), 1))), 128))
-                ]))
-              ])
-            ]))), 128))
-          ], 64)) : x("", !0)
-        ]),
-        (n(), j(be, { to: "#modals" }, [
-          a.value ? (n(), j(s, {
-            key: 0,
-            title: e.msg,
-            "show-footer": !1,
-            type: b(De).danger,
-            onClose: t[2] || (t[2] = (c) => a.value = !1),
-            onCancel: t[3] || (t[3] = (c) => a.value = !1),
-            onSubmit: t[4] || (t[4] = (c) => a.value = !1)
-          }, {
-            default: pe(() => [
-              typeof e.error == "string" ? (n(), r("div", st, w(e.error), 1)) : (n(!0), r(V, { key: 1 }, R(e.error, (c, i) => (n(), r("ul", {
-                class: "list-unstyled mt-2",
-                key: i
-              }, [
-                h("li", null, [
-                  h("b", null, w(i), 1),
-                  typeof c == "string" ? (n(), r("div", nt, w(c), 1)) : (n(), r("ul", it, [
-                    (n(!0), r(V, null, R(c, (f) => (n(), r("li", { key: f }, w(f), 1))), 128))
-                  ]))
-                ])
-              ]))), 128))
-            ]),
-            _: 1
-          }, 8, ["title", "type"])) : x("", !0)
-        ]))
-      ]);
-    };
-  }
-}), ut = {
-  key: 0,
-  class: "mb-1 position-relative border h-100"
-}, sa = /* @__PURE__ */ v({
-  __name: "Feedback",
-  props: {
-    hideCloseButton: { type: Boolean, default: !1 },
-    feedback: {},
-    enableErrorPopup: { type: Boolean, default: !1 }
-  },
-  emits: ["close"],
-  setup(e, { emit: a }) {
-    const l = a, t = e, { status: o, message: s, error: c, reset: i } = t.feedback, f = y(() => o.value === se.pending), k = y(() => o.value === se.success), u = y(() => o.value === se.failed), S = (_) => {
-      _.stopPropagation(), l("close", { status: o.value, error: c.value }), i();
-    };
-    return (_, H) => {
-      const G = D("IconButton");
-      return f.value || k.value || u.value ? (n(), r("div", ut, [
-        e.hideCloseButton ? x("", !0) : p(_.$slots, "close-button", { key: 0 }, () => [
-          C(G, {
-            icon: "close",
-            class: L(["btn btn-sm position-absolute end-0 p-1", { "text-light": u.value }]),
-            onClick: S
-          }, null, 8, ["class"])
-        ]),
-        f.value ? p(_.$slots, "pending", { key: 1 }, () => [
-          C(Xe, {
-            msg: b(s),
-            class: "px-2 py-1 border h-100"
-          }, null, 8, ["msg"])
-        ]) : x("", !0),
-        k.value ? p(_.$slots, "success", { key: 2 }, () => [
-          C(We, {
-            msg: b(s),
-            class: "px-2 py-1 border h-100"
-          }, null, 8, ["msg"])
-        ]) : x("", !0),
-        u.value ? p(_.$slots, "error", { key: 3 }, () => [
-          C(rt, {
-            msg: b(s),
-            error: b(c),
-            "enable-popup": e.enableErrorPopup,
-            class: "px-2 border h-100"
-          }, null, 8, ["msg", "error", "enable-popup"])
-        ]) : x("", !0)
-      ])) : x("", !0);
-    };
-  }
-}), na = {
-  install: (e, a) => {
-    const l = Te(a);
-    e.config.globalProperties.$feedback = l, e.provide("feedback", l);
-  }
-}, ct = ["update:modelValue", "update:idValue", "select", "qInput"], ia = {
+import { ref as f, computed as h, onMounted as ce, onUnmounted as ge, watch as ne, defineComponent as y, resolveDirective as he, openBlock as r, createElementBlock as m, Fragment as R, withDirectives as G, createElementVNode as k, mergeProps as ye, withKeys as le, unref as v, withModifiers as T, isRef as _e, vModelText as be, normalizeStyle as q, normalizeClass as S, vShow as de, renderList as se, renderSlot as _, mergeDefaults as $e, toDisplayString as H, watchEffect as ke, createTextVNode as we, getCurrentInstance as Ce, resolveComponent as M, createVNode as B, createCommentVNode as z, createBlock as W, Teleport as Se, withCtx as Ie, inject as xe } from "vue";
+import { useEventListener as Ve } from "../vue-helper.js";
+import { debounceToPromise as ue } from "../../utilities/promise-utility.js";
+import { g as Le } from "../../_chunks/html-utility-ZF83RbzI.js";
+import { P as Ee, _ as Be } from "../../_chunks/Paging.vue_vue_type_script_setup_true_lang-DT5LiBU_.js";
+import { B as Wt, a as jt, p as Zt } from "../../_chunks/Paging.vue_vue_type_script_setup_true_lang-DT5LiBU_.js";
+import { isEmail as Fe, isIP as De, isPhone as Te } from "../../utilities/string-utility.js";
+import { dateInputString as ze } from "../formatters/index.js";
+import { isValid as re } from "date-fns";
+import { c as Re } from "../../_chunks/clipboard-utility-B-2qZeP-.js";
+import { _ as Ae } from "../../_chunks/DefaultModal.vue_vue_type_script_setup_true_lang-CBGcVDV7.js";
+import { M as Qt } from "../../_chunks/DefaultModal.vue_vue_type_script_setup_true_lang-CBGcVDV7.js";
+import { a as Xt, p as Yt } from "../../_chunks/plugin-Gvzd53hc.js";
+import { p as tl } from "../../_chunks/plugin-D2fYWG2x.js";
+import { F as nl, u as al } from "../../_chunks/feedback-BaiYl2jA.js";
+import { _ as ol, a as il, b as ul, p as rl, l as cl } from "../../_chunks/plugin-4MCbDuj2.js";
+import { debounce as Ne } from "lodash";
+import { useRouter as Pe } from "vue-router";
+const Me = ["update:modelValue", "update:idValue", "select", "qInput"], Vt = {
   idValue: [String, Number],
   modelValue: { required: !1 },
   data: { type: Array, default: () => [] },
@@ -203,136 +32,136 @@ const Ue = { class: "bg-light text-info" }, Xe = /* @__PURE__ */ v({
   itemClass: { type: String, default: "" },
   maxResults: { type: Number, default: 10 },
   debounceTime: { type: Number, defaults: 250 }
-}, dt = {
+}, Oe = {
   data: () => [],
   maxResults: 10,
   debounceTime: 250,
   autoSelect: !1
 };
-function ft(e, { emit: a }) {
-  const l = g(""), t = g(-1), o = g(e.data), s = g(!1), c = g(!1), i = g(!1), f = y({
-    get: () => e.modelValue,
-    set: (d) => {
-      e.modelValue !== d && (a("update:modelValue", d), a("update:idValue", N(d)), a("select", d));
+function Ge(t, { emit: s }) {
+  const l = f(""), e = f(-1), n = f(t.data), a = f(!1), p = f(!1), o = f(!1), d = h({
+    get: () => t.modelValue,
+    set: (u) => {
+      t.modelValue !== u && (s("update:modelValue", u), s("update:idValue", A(u)), s("select", u));
     }
-  }), k = y(() => N(f.value)), u = g(), S = g({ top: 0, left: 0 }), _ = g({ top: 0, left: 0 }), H = g({ top: 0, left: 0 }), G = y(() => {
-    const { width: d, height: m } = u.value?.getBoundingClientRect() || { width: 0, height: 0 };
+  }), g = h(() => A(d.value)), i = f(), w = f({ top: 0, left: 0 }), C = f({ top: 0, left: 0 }), j = f({ top: 0, left: 0 }), Z = h(() => {
+    const { width: u, height: c } = i.value?.getBoundingClientRect() || { width: 0, height: 0 };
     return {
-      visibility: s.value ? "visible" : "hidden",
-      top: `${m}px`,
-      left: `${u.value?.offsetLeft || 0}px`,
-      width: `${d}px`
+      visibility: a.value ? "visible" : "hidden",
+      top: `${c}px`,
+      left: `${i.value?.offsetLeft || 0}px`,
+      width: `${u}px`
     };
-  }), N = e.idSelector || ((d) => d), O = e.resultItemFormatter || ((d, m) => (d || "").toString()), T = e.displayItemFormatter || O;
-  async function W(d = "") {
-    return e.data?.filter((m) => O(m, l.value).toLowerCase().startsWith(d.toLowerCase()));
+  }), A = t.idSelector || ((u) => u), N = t.resultItemFormatter || ((u, c) => (u || "").toString()), L = t.displayItemFormatter || N;
+  async function O(u = "") {
+    return t.data?.filter((c) => N(c, l.value).toLowerCase().startsWith(u.toLowerCase()));
   }
-  async function U(d = l.value) {
-    $(), i.value = !0, o.value = void 0;
+  async function P(u = l.value) {
+    b(), o.value = !0, n.value = void 0;
     try {
-      const m = await _e(d), P = e.maxResults || m.length;
-      o.value = m.slice(0, P), t.value = o.value?.findIndex(($e) => N($e) == N(f.value));
+      const c = await fe(u), E = t.maxResults || c.length;
+      n.value = c.slice(0, E), e.value = n.value?.findIndex((ve) => A(ve) == A(d.value));
     } finally {
-      i.value = !1;
+      o.value = !1;
     }
   }
-  function q(d = !1) {
-    if (f.value == null && o.value) {
-      const m = o.value?.filter((P) => (T(P)?.toString() || "").toLowerCase() === l.value?.toLowerCase());
-      m.length == 1 ? M(m[0]) : d && e.autoSelect && M(o.value[0]);
+  function F(u = !1) {
+    if (d.value == null && n.value) {
+      const c = n.value?.filter((E) => (L(E)?.toString() || "").toLowerCase() === l.value?.toLowerCase());
+      c.length == 1 ? D(c[0]) : u && t.autoSelect && D(n.value[0]);
     }
+  }
+  function K() {
+    I(), P();
   }
   function Q() {
-    B(), U();
+    F();
   }
-  function J() {
-    q();
+  function J(u, c) {
+    x(), D(u, u ? c : -1);
   }
-  function Y(d, m) {
-    E(), M(d, d ? m : -1);
-  }
-  function M(d, m) {
-    if (d == null && m == null) {
-      B(), l.value || E();
+  function D(u, c) {
+    if (u == null && c == null) {
+      I(), l.value || x();
       return;
     }
-    d && (m == null || m < 0) ? m = (o.value || []).indexOf(d) : !d && m >= 0 && (d = o.value[m]), d != null && (t.value = m, f.value = d, l.value = T(f.value));
+    u && (c == null || c < 0) ? c = (n.value || []).indexOf(u) : !u && c >= 0 && (u = n.value[c]), u != null && (e.value = c, d.value = u, l.value = L(d.value));
   }
-  function ee(d) {
-    const m = t.value + d, P = o.value[m];
-    m >= 0 && m < o.value.length && M(P, m);
-  }
-  function B() {
-    t.value = -1, f.value = void 0;
+  function X(u) {
+    const c = e.value + u, E = n.value[c];
+    c >= 0 && c < n.value.length && D(E, c);
   }
   function I() {
-    l.value = "", B(), E();
-  }
-  function te(d) {
-    let m = 0, P = 0;
-    do
-      m += d?.offsetTop || 0, P += d?.offsetLeft || 0, d = d?.offsetParent;
-    while (d);
-    return {
-      top: m,
-      left: P
-    };
+    e.value = -1, d.value = void 0;
   }
   function $() {
-    ae(), s.value = !0;
+    l.value = "", I(), x();
   }
-  function E() {
-    s.value = !1;
+  function Y(u) {
+    let c = 0, E = 0;
+    do
+      c += u?.offsetTop || 0, E += u?.offsetLeft || 0, u = u?.offsetParent;
+    while (u);
+    return {
+      top: c,
+      left: E
+    };
   }
-  function de() {
-    s.value && (q(!0), f.value == null && (l.value = ""), setTimeout(E, 250));
+  function b() {
+    ee(), a.value = !0;
   }
-  function ye(d) {
-    throw d;
+  function x() {
+    a.value = !1;
   }
-  const ke = e.search || e.data && W || ye(new Error("prop search or data is required")), _e = fe(ke, e.debounceTime), ae = () => {
-    S.value = te(u.value), H.value = u.value ? Fe(u.value) : { top: 0, left: 0 };
-  }, le = fe(ae, 50);
-  return Ee(window, "resize", le), ve(() => {
-    l.value = T(f.value), ae(), document.addEventListener("scroll", le, !0);
-  }), we(() => {
-    document.removeEventListener("scroll", le, !0);
-  }), ie(f, (d, m) => {
-    d != m && d != f.value && M(d), d && (l.value = T(f.value));
-  }), ie(l, () => a("qInput", l.value || "")), {
+  function ie() {
+    a.value && (F(!0), d.value == null && (l.value = ""), setTimeout(x, 250));
+  }
+  function me(u) {
+    throw u;
+  }
+  const pe = t.search || t.data && O || me(new Error("prop search or data is required")), fe = ue(pe, t.debounceTime), ee = () => {
+    w.value = Y(i.value), j.value = i.value ? Le(i.value) : { top: 0, left: 0 };
+  }, te = ue(ee, 50);
+  return Ve(window, "resize", te), ce(() => {
+    l.value = L(d.value), ee(), document.addEventListener("scroll", te, !0);
+  }), ge(() => {
+    document.removeEventListener("scroll", te, !0);
+  }), ne(d, (u, c) => {
+    u != c && u != d.value && D(u), u && (l.value = L(d.value));
+  }), ne(l, () => s("qInput", l.value || "")), {
     q: l,
-    selectedItem: f,
-    selectedIndex: t,
-    selectedId: k,
-    items: o,
-    isOpen: s,
-    isFocus: c,
-    isLoading: i,
-    inputEl: u,
-    resultOffset: _,
-    resultStyle: G,
-    displayItemFormatter: T,
-    resultItemFormatter: O,
-    handleInput: Q,
-    handleChange: J,
-    handleSelect: Y,
-    handleSearch: U,
-    openResults: $,
-    closeResults: E,
-    closeGently: de,
-    moveSelection: ee,
-    checkMatch: q,
-    clearSelection: B,
-    reset: I
+    selectedItem: d,
+    selectedIndex: e,
+    selectedId: g,
+    items: n,
+    isOpen: a,
+    isFocus: p,
+    isLoading: o,
+    inputEl: i,
+    resultOffset: C,
+    resultStyle: Z,
+    displayItemFormatter: L,
+    resultItemFormatter: N,
+    handleInput: K,
+    handleChange: Q,
+    handleSelect: J,
+    handleSearch: P,
+    openResults: b,
+    closeResults: x,
+    closeGently: ie,
+    moveSelection: X,
+    checkMatch: F,
+    clearSelection: I,
+    reset: $
   };
 }
-const mt = { class: "loading list-group-item" }, bt = ["onClick"], pt = ["innerHTML"], vt = {
+const qe = { class: "loading list-group-item" }, Ue = ["onClick"], He = ["innerHTML"], We = {
   inheritAttrs: !1
-}, ra = /* @__PURE__ */ v({
-  ...vt,
+}, Lt = /* @__PURE__ */ y({
+  ...We,
   inheritAttrs: !1,
   __name: "Autocomplete",
-  props: /* @__PURE__ */ Le({
+  props: /* @__PURE__ */ $e({
     idValue: {},
     modelValue: {},
     data: {},
@@ -349,199 +178,199 @@ const mt = { class: "loading list-group-item" }, bt = ["onClick"], pt = ["innerH
     displayItemFormatter: { type: Function },
     resultItemFormatter: { type: Function }
   }, {
-    ...dt
+    ...Oe
   }),
-  emits: ct,
-  setup(e, { expose: a, emit: l }) {
-    const t = l, o = e, {
-      q: s,
-      selectedItem: c,
-      selectedIndex: i,
-      items: f,
-      isOpen: k,
-      isFocus: u,
-      inputEl: S,
-      resultStyle: _,
-      isLoading: H,
-      resultItemFormatter: G,
-      closeGently: N,
-      moveSelection: O,
-      handleInput: T,
-      handleChange: W,
-      handleSelect: U,
-      handleSearch: q,
-      reset: Q
-    } = ft(o, { emit: t });
+  emits: Me,
+  setup(t, { expose: s, emit: l }) {
+    const e = l, n = t, {
+      q: a,
+      selectedItem: p,
+      selectedIndex: o,
+      items: d,
+      isOpen: g,
+      isFocus: i,
+      inputEl: w,
+      resultStyle: C,
+      isLoading: j,
+      resultItemFormatter: Z,
+      closeGently: A,
+      moveSelection: N,
+      handleInput: L,
+      handleChange: O,
+      handleSelect: P,
+      handleSearch: F,
+      reset: K
+    } = Ge(n, { emit: e });
+    function Q() {
+      i.value = !0, ((n.idSelector && n.idSelector(p.value) || "new") == "new" || p.value == null) && F();
+    }
     function J() {
-      u.value = !0, ((o.idSelector && o.idSelector(c.value) || "new") == "new" || c.value == null) && q();
+      i.value = !1;
     }
-    function Y() {
-      u.value = !1;
+    function D() {
+      n.enableDblClick && F("");
     }
-    function M() {
-      o.enableDblClick && q("");
+    function X(I) {
+      I.target != w.value && A();
     }
-    function ee(B) {
-      B.target != S.value && N();
-    }
-    return a({
-      inputEl: S,
-      q: s,
-      selectedItem: c,
-      search: q,
-      reset: Q,
+    return s({
+      inputEl: w,
+      q: a,
+      selectedItem: p,
+      search: F,
+      reset: K,
       resetQ() {
-        u.value || (s.value = "");
+        i.value || (a.value = "");
       }
-    }), (B, I) => {
-      const te = xe("click-outside");
-      return n(), r(V, null, [
-        Z(h("input", Ce({
+    }), (I, $) => {
+      const Y = he("click-outside");
+      return r(), m(R, null, [
+        G(k("input", ye({
           autocomplete: "__away",
           type: "text"
-        }, B.$attrs, {
-          "onUpdate:modelValue": I[0] || (I[0] = ($) => Se(s) ? s.value = $ : null),
-          onInput: I[1] || (I[1] = //@ts-ignore
-          (...$) => b(T) && b(T)(...$)),
-          onFocus: J,
-          onDblclick: M,
-          onBlur: Y,
-          onChange: I[2] || (I[2] = //@ts-ignore
-          (...$) => b(W) && b(W)(...$)),
+        }, I.$attrs, {
+          "onUpdate:modelValue": $[0] || ($[0] = (b) => _e(a) ? a.value = b : null),
+          onInput: $[1] || ($[1] = //@ts-ignore
+          (...b) => v(L) && v(L)(...b)),
+          onFocus: Q,
+          onDblclick: D,
+          onBlur: J,
+          onChange: $[2] || ($[2] = //@ts-ignore
+          (...b) => v(O) && v(O)(...b)),
           onKeydown: [
-            I[3] || (I[3] = oe(($) => b(O)(1), ["down"])),
-            I[4] || (I[4] = oe(($) => b(O)(-1), ["up"])),
-            I[5] || (I[5] = oe(A(($) => b(U)(b(c), b(i)), ["prevent"]), ["enter"]))
+            $[3] || ($[3] = le((b) => v(N)(1), ["down"])),
+            $[4] || ($[4] = le((b) => v(N)(-1), ["up"])),
+            $[5] || ($[5] = le(T((b) => v(P)(v(p), v(o)), ["prevent"]), ["enter"]))
           ],
           ref_key: "inputEl",
-          ref: S
+          ref: w
         }), null, 16), [
-          [Ie, b(s)]
+          [be, v(a)]
         ]),
-        Z((n(), r("div", {
-          class: L(["autocomplete-items bg-white border", e.resultClass]),
-          style: X(b(_))
+        G((r(), m("div", {
+          class: S(["autocomplete-items bg-white border", t.resultClass]),
+          style: q(v(C))
         }, [
-          h("div", {
-            class: L(["list-group", e.itemsClass])
+          k("div", {
+            class: S(["list-group", t.itemsClass])
           }, [
-            Z(h("div", mt, "Loading...", 512), [
-              [ge, b(H)]
+            G(k("div", qe, "Loading...", 512), [
+              [de, v(j)]
             ]),
-            (n(!0), r(V, null, R(b(f), ($, E) => (n(), r("div", {
-              key: E,
-              onClick: (de) => b(U)($, E),
-              class: L(["autocomplete-item list-group-item list-group-item-action", [e.itemClass, { "bg-light": E == b(i) }]])
+            (r(!0), m(R, null, se(v(d), (b, x) => (r(), m("div", {
+              key: x,
+              onClick: (ie) => v(P)(b, x),
+              class: S(["autocomplete-item list-group-item list-group-item-action", [t.itemClass, { "bg-light": x == v(o) }]])
             }, [
-              p(B.$slots, "default", {
-                item: $,
-                q: b(s)
+              _(I.$slots, "default", {
+                item: b,
+                q: v(a)
               }, () => [
-                h("div", {
-                  innerHTML: b(G)($, b(s))
-                }, null, 8, pt)
+                k("div", {
+                  innerHTML: v(Z)(b, v(a))
+                }, null, 8, He)
               ])
-            ], 10, bt))), 128))
+            ], 10, Ue))), 128))
           ], 2)
         ], 6)), [
-          [te, ee]
+          [Y, X]
         ])
       ], 64);
     };
   }
-}), gt = ["href"], ua = /* @__PURE__ */ v({
+}), je = ["href"], Et = /* @__PURE__ */ y({
   __name: "Anchor",
   props: {
     href: {}
   },
-  setup(e) {
-    const a = e, l = y(() => {
-      let t = a.href;
-      return Me(t) ? t.startsWith("mailto:") || (t = "mailto:" + t) : Re(t) ? t = "http://" + t : Ae(t) ? t.startsWith("tel:") || (t = "tel:" + t) : !t.startsWith("http") && !["mailto:", "tel:", "ftp:"].some((o) => t.startsWith(o)) && (t = "http://" + t), t;
+  setup(t) {
+    const s = t, l = h(() => {
+      let e = s.href;
+      return Fe(e) ? e.startsWith("mailto:") || (e = "mailto:" + e) : De(e) ? e = "http://" + e : Te(e) ? e.startsWith("tel:") || (e = "tel:" + e) : !e.startsWith("http") && !["mailto:", "tel:", "ftp:"].some((n) => e.startsWith(n)) && (e = "http://" + e), e;
     });
-    return (t, o) => (n(), r("a", { href: l.value }, [
-      p(t.$slots, "default")
-    ], 8, gt));
+    return (e, n) => (r(), m("a", { href: l.value }, [
+      _(e.$slots, "default")
+    ], 8, je));
   }
-}), ht = ["value", "lang"], ca = /* @__PURE__ */ v({
+}), Ze = ["value", "lang"], Bt = /* @__PURE__ */ y({
   __name: "DateInput",
   props: {
     modelValue: {},
     culture: {}
   },
   emits: ["update:modelValue"],
-  setup(e, { emit: a }) {
-    const l = a, t = e, o = y(() => me(new Date(t.modelValue || ""))), s = y(() => o.value ? Ne(new Date(t.modelValue)) : t.modelValue), c = (i) => {
-      const f = new Date(i.target.value);
-      (!i.target.value || me(f)) && l("update:modelValue", f || i.target.value);
+  setup(t, { emit: s }) {
+    const l = s, e = t, n = h(() => re(new Date(e.modelValue || ""))), a = h(() => n.value ? ze(new Date(e.modelValue)) : e.modelValue), p = (o) => {
+      const d = new Date(o.target.value);
+      (!o.target.value || re(d)) && l("update:modelValue", d || o.target.value);
     };
-    return (i, f) => (n(), r("input", {
+    return (o, d) => (r(), m("input", {
       type: "date",
-      value: s.value,
-      onChange: c,
-      lang: e.culture,
-      class: L({ "is-invalid": s.value && !o.value })
-    }, null, 42, ht));
+      value: a.value,
+      onChange: p,
+      lang: t.culture,
+      class: S({ "is-invalid": a.value && !n.value })
+    }, null, 42, Ze));
   }
-}), da = /* @__PURE__ */ v({
+}), Ft = /* @__PURE__ */ y({
   __name: "FormLabel",
   props: {
     label: {},
     autoHide: { type: Boolean, default: !1 }
   },
-  setup(e) {
-    return (a, l) => (n(), r("small", {
-      class: L(["form-text text-muted", e.autoHide ? "d-none d-md-inline" : "d-inline"])
-    }, w(e.label), 3));
+  setup(t) {
+    return (s, l) => (r(), m("small", {
+      class: S(["form-text text-muted", t.autoHide ? "d-none d-md-inline" : "d-inline"])
+    }, H(t.label), 3));
   }
-}), yt = ["checked"], kt = {
+}), Ke = ["checked"], Qe = {
   name: "NullableCheckBox"
-}, fa = /* @__PURE__ */ v({
-  ...kt,
+}, Dt = /* @__PURE__ */ y({
+  ...Qe,
   props: {
     modelValue: { type: [Boolean, String, Number] }
   },
   emits: ["update:modelValue", "change"],
-  setup(e, { emit: a }) {
-    const l = a, t = e, o = g(null), c = g(((u) => {
-      if (u != null)
-        return typeof u == "string" ? u === "true" ? !0 : u === "false" ? !1 : void 0 : new Boolean(u).valueOf();
-    })(t.modelValue)), i = y({
+  setup(t, { emit: s }) {
+    const l = s, e = t, n = f(null), p = f(((i) => {
+      if (i != null)
+        return typeof i == "string" ? i === "true" ? !0 : i === "false" ? !1 : void 0 : new Boolean(i).valueOf();
+    })(e.modelValue)), o = h({
       get() {
-        return c.value;
+        return p.value;
       },
-      set(u) {
-        c.value = u, l("update:modelValue", u), l("change", { target: o.value });
+      set(i) {
+        p.value = i, l("update:modelValue", i), l("change", { target: n.value });
       }
-    }), f = y(() => ({ opacity: i.value == null ? 0.5 : 1 }));
-    function k() {
-      i.value = i.value == null ? !0 : i.value ? !1 : void 0;
+    }), d = h(() => ({ opacity: o.value == null ? 0.5 : 1 }));
+    function g() {
+      o.value = o.value == null ? !0 : o.value ? !1 : void 0;
     }
-    return Ve(() => o.value && (o.value.indeterminate = i.value === void 0)), (u, S) => (n(), r("input", {
+    return ke(() => n.value && (n.value.indeterminate = o.value === void 0)), (i, w) => (r(), m("input", {
       type: "checkbox",
       ref_key: "input",
-      ref: o,
-      onClick: k,
+      ref: n,
+      onClick: g,
       "true-value": !0,
-      checked: i.value,
-      style: X(f.value)
-    }, null, 12, yt));
+      checked: o.value,
+      style: q(d.value)
+    }, null, 12, Ke));
   }
-}), ma = /* @__PURE__ */ v({
+}), Tt = /* @__PURE__ */ y({
   __name: "NullableLabel",
   props: {
     label: {}
   },
-  setup(e) {
-    return (a, l) => (n(), r("span", {
-      class: L({ "italic-muted": !e.label })
+  setup(t) {
+    return (s, l) => (r(), m("span", {
+      class: S({ "italic-muted": !t.label })
     }, [
-      e.label ? (n(), r(V, { key: 0 }, [
-        ue(w(e.label), 1)
-      ], 64)) : p(a.$slots, "default", { key: 1 })
+      t.label ? (r(), m(R, { key: 0 }, [
+        we(H(t.label), 1)
+      ], 64)) : _(s.$slots, "default", { key: 1 })
     ], 2));
   }
-}), _t = { class: "form-section" }, $t = { class: "form-section-title" }, wt = { class: "row" }, xt = { class: "p-2 mb-2" }, Ct = { class: "col-auto" }, ba = /* @__PURE__ */ v({
+}), Je = { class: "form-section" }, Xe = { class: "form-section-title" }, Ye = { class: "row" }, et = { class: "p-2 mb-2" }, tt = { class: "col-auto" }, zt = /* @__PURE__ */ y({
   __name: "FormSection",
   props: {
     title: {},
@@ -551,182 +380,182 @@ const mt = { class: "loading list-group-item" }, bt = ["onClick"], pt = ["innerH
     summaryClass: {}
   },
   emits: ["expand", "collapse"],
-  setup(e, { emit: a }) {
-    const l = a, t = e, o = Be(), s = g(t.collapsed), c = g(t.readonly || t.showSummary), i = y({
-      get: () => o?.slots.summary && (t.readonly || c.value),
-      set: (k) => c.value = !!k
+  setup(t, { emit: s }) {
+    const l = s, e = t, n = Ce(), a = f(e.collapsed), p = f(e.readonly || e.showSummary), o = h({
+      get: () => n?.slots.summary && (e.readonly || p.value),
+      set: (g) => p.value = !!g
     });
-    function f() {
-      s.value = !s.value, s.value ? l("collapse") : l("expand");
+    function d() {
+      a.value = !a.value, a.value ? l("collapse") : l("expand");
     }
-    return ie(
-      () => t.collapsed,
+    return ne(
+      () => e.collapsed,
       () => {
-        s.value = t.collapsed, s.value ? l("collapse") : l("expand");
+        a.value = e.collapsed, a.value ? l("collapse") : l("expand");
       }
-    ), (k, u) => {
-      const S = D("Icon");
-      return n(), r("div", _t, [
-        h("div", $t, [
-          p(k.$slots, "header", {
-            collapsed: s.value,
-            showSummary: i.value
+    ), (g, i) => {
+      const w = M("Icon");
+      return r(), m("div", Je, [
+        k("div", Xe, [
+          _(g.$slots, "header", {
+            collapsed: a.value,
+            showSummary: o.value
           }, () => [
-            h("div", wt, [
-              h("div", {
+            k("div", Ye, [
+              k("div", {
                 class: "col",
-                onClick: u[0] || (u[0] = (_) => i.value = !i.value)
+                onClick: i[0] || (i[0] = (C) => o.value = !o.value)
               }, [
-                p(k.$slots, "title", { showSummary: i.value }, () => [
-                  h("h3", xt, w(e.title), 1)
+                _(g.$slots, "title", { showSummary: o.value }, () => [
+                  k("h3", et, H(t.title), 1)
                 ])
               ]),
-              h("div", Ct, [
-                !e.readonly && k.$slots.summary ? (n(), r("button", {
+              k("div", tt, [
+                !t.readonly && g.$slots.summary ? (r(), m("button", {
                   key: 0,
                   type: "button",
                   class: "btn btn-default my-2 px-2 py-1 opacity-50",
-                  onClick: u[1] || (u[1] = A((_) => i.value = !i.value, ["stop"]))
+                  onClick: i[1] || (i[1] = T((C) => o.value = !o.value, ["stop"]))
                 }, [
-                  C(S, {
-                    name: i.value ? "look" : "edit"
+                  B(w, {
+                    name: o.value ? "look" : "edit"
                   }, null, 8, ["name"])
-                ])) : x("", !0),
-                h("button", {
+                ])) : z("", !0),
+                k("button", {
                   type: "button",
                   class: "btn btn-default my-2 px-2 py-1 opacity-50",
-                  onClick: A(f, ["stop"])
+                  onClick: T(d, ["stop"])
                 }, [
-                  C(S, {
-                    name: s.value ? "maximize" : "minimize"
+                  B(w, {
+                    name: a.value ? "maximize" : "minimize"
                   }, null, 8, ["name"])
                 ])
               ])
             ])
           ])
         ]),
-        Z(h("div", {
-          class: L(["form-section-body", i.value && e.summaryClass])
+        G(k("div", {
+          class: S(["form-section-body", o.value && t.summaryClass])
         }, [
-          !k.$slots.summary || !i.value ? p(k.$slots, "default", {
+          !g.$slots.summary || !o.value ? _(g.$slots, "default", {
             key: 0,
-            collapsed: s.value
-          }) : x("", !0),
-          k.$slots.summary && i.value ? p(k.$slots, "summary", {
+            collapsed: a.value
+          }) : z("", !0),
+          g.$slots.summary && o.value ? _(g.$slots, "summary", {
             key: 1,
-            collapsed: s.value
-          }) : x("", !0),
-          p(k.$slots, "always")
+            collapsed: a.value
+          }) : z("", !0),
+          _(g.$slots, "always")
         ], 2), [
-          [ge, !s.value]
+          [de, !a.value]
         ])
       ]);
     };
   }
-}), pa = /* @__PURE__ */ v({
+}), Rt = /* @__PURE__ */ y({
   __name: "FileDropZone",
   emits: ["drop-files"],
-  setup(e, { expose: a, emit: l }) {
-    const t = l, o = g();
-    async function s(c) {
-      t("drop-files", [...c.dataTransfer.files]);
+  setup(t, { expose: s, emit: l }) {
+    const e = l, n = f();
+    async function a(p) {
+      e("drop-files", [...p.dataTransfer.files]);
     }
-    return a({
-      isDropping: o
-    }), (c, i) => (n(), r("div", {
-      onDrop: A(s, ["prevent"]),
-      onDragover: i[0] || (i[0] = A((f) => o.value = !0, ["prevent"])),
-      onDragleave: i[1] || (i[1] = A((f) => o.value = !1, ["prevent"]))
+    return s({
+      isDropping: n
+    }), (p, o) => (r(), m("div", {
+      onDrop: T(a, ["prevent"]),
+      onDragover: o[0] || (o[0] = T((d) => n.value = !0, ["prevent"])),
+      onDragleave: o[1] || (o[1] = T((d) => n.value = !1, ["prevent"]))
     }, [
-      p(c.$slots, "default", { isDropping: o.value })
+      _(p.$slots, "default", { isDropping: n.value })
     ], 32));
   }
-}), va = /* @__PURE__ */ v({
+}), At = /* @__PURE__ */ y({
   __name: "CopyToClipboardButton",
   props: {
     value: {},
     timeout: { default: 2500 }
   },
-  setup(e, { expose: a }) {
-    const l = e, t = g();
-    function o() {
-      Oe(l.value ?? ""), t.value = !0, setTimeout(() => t.value = void 0, l.timeout);
+  setup(t, { expose: s }) {
+    const l = t, e = f();
+    function n() {
+      Re(l.value ?? ""), e.value = !0, setTimeout(() => e.value = void 0, l.timeout);
     }
-    return a({
-      success: t
-    }), (s, c) => {
-      const i = D("IconButton");
-      return n(), j(i, {
-        icon: t.value ? "check" : "copy",
-        disabled: t.value,
-        onClick: o
+    return s({
+      success: e
+    }), (a, p) => {
+      const o = M("IconButton");
+      return r(), W(o, {
+        icon: e.value ? "check" : "copy",
+        disabled: e.value,
+        onClick: n
       }, null, 8, ["icon", "disabled"]);
     };
   }
-}), St = ["src"], It = /* @__PURE__ */ v({
+}), lt = ["src"], nt = /* @__PURE__ */ y({
   __name: "GMap",
   props: {
     modelValue: {},
     zoom: {}
   },
-  setup(e) {
-    const a = e, l = y(() => (Array.isArray(a.modelValue) ? a.modelValue : [a.modelValue]).filter((o) => o).join(" ")), t = y(() => `https://maps.google.com/maps?q=${encodeURIComponent(l.value)}&t=&z=${a.zoom || 10}&ie=UTF8&iwloc=&output=embed`);
-    return (o, s) => (n(), r("iframe", {
-      src: t.value,
+  setup(t) {
+    const s = t, l = h(() => (Array.isArray(s.modelValue) ? s.modelValue : [s.modelValue]).filter((n) => n).join(" ")), e = h(() => `https://maps.google.com/maps?q=${encodeURIComponent(l.value)}&t=&z=${s.zoom || 10}&ie=UTF8&iwloc=&output=embed`);
+    return (n, a) => (r(), m("iframe", {
+      src: e.value,
       frameborder: "0",
       scrolling: "no",
       marginheight: "0",
       marginwidth: "0",
       allowfullscreen: ""
-    }, null, 8, St));
+    }, null, 8, lt));
   }
-}), Lt = ["href"], ga = /* @__PURE__ */ v({
+}), at = ["href"], Nt = /* @__PURE__ */ y({
   __name: "GmapLink",
   props: {
     modelValue: {}
   },
-  setup(e) {
-    const a = e, l = y(() => (Array.isArray(a.modelValue) ? a.modelValue : [a.modelValue]).filter((t) => t).join(" "));
-    return (t, o) => {
-      const s = D("Icon");
-      return n(), r("a", {
+  setup(t) {
+    const s = t, l = h(() => (Array.isArray(s.modelValue) ? s.modelValue : [s.modelValue]).filter((e) => e).join(" "));
+    return (e, n) => {
+      const a = M("Icon");
+      return r(), m("a", {
         href: `https://www.google.com/maps/?q=${l.value}`
       }, [
-        C(s, { name: "map" }),
-        p(t.$slots, "default")
-      ], 8, Lt);
+        B(a, { name: "map" }),
+        _(e.$slots, "default")
+      ], 8, at);
     };
   }
-}), Vt = /* @__PURE__ */ v({
+}), st = /* @__PURE__ */ y({
   __name: "ModalButton",
   props: {
     modelValue: {},
     zoom: {}
   },
-  setup(e) {
-    const a = e, l = y(() => (Array.isArray(a.modelValue) ? a.modelValue : [a.modelValue]).filter((o) => o).join(" ")), t = g(!1);
-    return (o, s) => {
-      const c = D("Icon");
-      return n(), r("button", {
+  setup(t) {
+    const s = t, l = h(() => (Array.isArray(s.modelValue) ? s.modelValue : [s.modelValue]).filter((n) => n).join(" ")), e = f(!1);
+    return (n, a) => {
+      const p = M("Icon");
+      return r(), m("button", {
         type: "button",
-        onClick: s[1] || (s[1] = (i) => t.value = !0)
+        onClick: a[1] || (a[1] = (o) => e.value = !0)
       }, [
-        p(o.$slots, "default", {}, () => [
-          C(c, { name: "map" })
+        _(n.$slots, "default", {}, () => [
+          B(p, { name: "map" })
         ], !0),
-        (n(), j(be, { to: "#modals" }, [
-          C(b(he), {
-            "is-visible": t.value,
+        (r(), W(Se, { to: "#modals" }, [
+          B(v(Ae), {
+            "is-visible": e.value,
             title: l.value,
             "show-footer": !1,
             "full-width": !0,
-            onClose: s[0] || (s[0] = (i) => t.value = !1)
+            onClose: a[0] || (a[0] = (o) => e.value = !1)
           }, {
-            default: pe(() => [
-              C(It, {
+            default: Ie(() => [
+              B(nt, {
                 id: "gmap_canvas",
-                modelValue: e.modelValue,
-                zoom: e.zoom,
+                modelValue: t.modelValue,
+                zoom: t.zoom,
                 class: "w-100"
               }, null, 8, ["modelValue", "zoom"])
             ]),
@@ -736,332 +565,90 @@ const mt = { class: "loading list-group-item" }, bt = ["onClick"], pt = ["innerH
       ]);
     };
   }
-}), Bt = (e, a) => {
-  const l = e.__vccOpts || e;
-  for (const [t, o] of a)
-    l[t] = o;
+}), ot = (t, s) => {
+  const l = t.__vccOpts || t;
+  for (const [e, n] of s)
+    l[e] = n;
   return l;
-}, ha = /* @__PURE__ */ Bt(Vt, [["__scopeId", "data-v-185b1d6b"]]), z = /* @__PURE__ */ new Map();
-function ne(e) {
-  (Array.isArray(e) ? e : Object.entries(e)).forEach(([l, t]) => {
-    z.set(l, t);
-  });
-}
-function zt() {
-  z.clear();
-}
-const Et = /* @__PURE__ */ v({
-  __name: "BsIcon",
-  props: {
-    name: {},
-    size: { default: "md" }
-  },
-  setup(e) {
-    const a = e;
-    z.has(a.name) || console.warn(`Icon ${a.name} not found`, { icons: z.values() });
-    const l = y(() => z.get(a.name)), t = { sm: 0.75, md: 1, lg: 2, xl: 3 }, o = y(() => ({ "font-size": `${t[a.size]}rem` }));
-    return (s, c) => (n(), r("i", {
-      class: L(l.value),
-      style: X(o.value)
-    }, null, 6));
-  }
-}), Ft = /* @__PURE__ */ v({
-  __name: "FaIcon",
-  props: {
-    name: {},
-    size: { default: "md" }
-  },
-  setup(e) {
-    const a = e;
-    z.has(a.name) || console.warn(`Icon ${a.name} not found`, { icons: z.values() });
-    const l = { sm: "fa-sm", md: "fa-md", lg: "fa-lg", xl: "fa-3x" }, t = y(() => [z.get(a.name), l[a.size]]);
-    return (o, s) => (n(), r("i", {
-      class: L(t.value)
-    }, null, 2));
-  }
-}), Dt = ["type"], Tt = /* @__PURE__ */ v({
-  __name: "IconButton",
-  props: {
-    icon: {},
-    size: {},
-    type: { default: "button" }
-  },
-  setup(e) {
-    return (a, l) => {
-      const t = D("Icon");
-      return n(), r("button", {
-        type: e.type,
-        class: "btn"
-      }, [
-        C(t, {
-          name: e.icon,
-          size: e.size
-        }, null, 8, ["name", "size"]),
-        p(a.$slots, "default")
-      ], 8, Dt);
-    };
-  }
-}), Pt = {
-  address: "bi bi-journal-richtext",
-  admin: "bi bi-person-gear",
-  alert: "bi bi-exclamation-circle",
-  attachment: "bi bi-paperclip",
-  bank: "bi bi-piggy-bank",
-  birthday: "bi bi-balloon",
-  cancel: "bi bi-x-octagon",
-  chat: "bi bi-chat",
-  chatLeft: "bi bi-chat-left-text",
-  chatRight: "bi bi-chat-right-text",
-  check: "bi bi-check",
-  checked: "bi bi-check2-square",
-  clear: "bi bi-eraser",
-  client: "bi bi-person-rolodex",
-  clone: "bi bi-clipboard-plus",
-  close: "bi bi-x-circle",
-  closeSq: "bi bi-x-square",
-  code: "bi bi-c-square",
-  collapse: "bi bi-arrows-collapse",
-  collection: "bi bi-collection",
-  columns: "bi bi-layout-three-columns",
-  connect: "bi bi-link",
-  contact: "bi bi-person-lines-fill",
-  copy: "bi bi-clipboard",
-  country: "bi bi-globe",
-  csv: "bi bi-filetype-csv",
-  date: "bi bi-calendar",
-  delete: "bi bi-trash",
-  details: "bi bi-eye-fill",
-  docTable: "bi bi-file-ruled",
-  docx: "bi bi-file-earmark-word",
-  down: "bi bi-caret-down-square",
-  download: "bi bi-file-earmark-arrow-down",
-  edit: "bi bi-pencil-fill",
-  email: "bi bi-at",
-  error: "bi bi-exclamation-circle",
-  euro: "bi bi-currency-euro",
-  exit: "bi bi-box-arrow-right",
-  expand: "bi bi-arrows-expand",
-  export: "bi bi-file-earmark-arrow-up",
-  fiche: "bi bi-list-columns-reverse",
-  file: "bi bi-file-earmark",
-  filter: "bi bi-funnel",
-  folder: "bi bi-folder",
-  form: "bi bi-pencil-square",
-  from: "bi bi-box-arrow-right",
-  git: "bi bi-github",
-  globe: "bi bi-globe-europe-africa",
-  home: "bi bi-house-door",
-  import: "bi bi-file-earmark-arrow-down",
-  info: "bi bi-info-circle",
-  internet: "bi bi-globe",
-  invoice: "bi bi-file-earmark-ruled",
-  ip: "bi bi-modem",
-  key: "bi bi-key",
-  language: "bi bi-translate",
-  list: "bi bi-list-task",
-  locked: "bi bi-lock-fill",
-  look: "bi bi-eye",
-  mail: "bi bi-envelope-at",
-  manage: "bi bi-gear-fill",
-  map: "bi bi-geo-alt",
-  markdown: "bi bi-markdown",
-  maximize: "bi bi-plus-square",
-  message: "bi bi-chat-left-dots",
-  minimize: "bi bi-dash-square",
-  minus: "bi bi-dash",
-  mobilePhone: "bi bi-phone",
-  move: "bi bi-arrows-move",
-  multiline: "bi bi-chat-square-text",
-  new: "bi bi-plus",
-  notes: "bi bi-journal-text",
-  noUser: "bi bi-person-x",
-  pay: "bi bi-cash-coin",
-  pdf: "bi bi-file-earmark-pdf",
-  peppol: "bi bi-send",
-  people: "bi bi-people-fill",
-  phone: "bi bi-telephone",
-  popOut: "bi bi-box-arrow-up-right",
-  question: "bi bi-question",
-  receipt: "bi bi-receipt",
-  restore: "bi bi-wrench-adjustable-circle",
-  save: "bi bi-save-fill",
-  search: "bi bi-search",
-  security: "bi bi-shield-check",
-  select: "bi bi-cursor",
-  selected: "bi bi-cursor-fill",
-  settings: "bi bi-tools",
-  sidebarLeft: "bi bi-layout-sidebar",
-  sidebarRight: "bi bi-layout-sidebar-reverse",
-  singleline: "bi bi-chat-square-dots",
-  statistics: "bi bi-graph-up",
-  submit: "bi bi-check-circle",
-  tag: "bi bi-tag",
-  tenant: "bi bi-person-rolodex",
-  times: "bi bi-x-lg",
-  timespan: "bi bi-hourglass",
-  title: "bi bi-fonts",
-  to: "bi bi-box-arrow-in-right",
-  today: "bi bi-calendar-check",
-  transport: "bi bi-truck",
-  tree: "bi bi-diagram-3",
-  unchecked: "bi bi-square",
-  unlocked: "bi bi-unlock-fill",
-  up: "bi bi-caret-up-square",
-  upload: "bi bi-file-earmark-arrow-up",
-  user: "bi bi-person-circle",
-  vCard: "bi bi-person-vcard-fill",
-  warning: "bi bi-exclamation-triangle",
-  website: "bi bi-browser-chrome",
-  xml: "bi bi-filetype-xml",
-  xlsx: "bi bi-file-earmark-excel",
-  zip: "bi bi-file-earmark-zip"
-}, qt = {
-  address: "fa-regular fa-address-card",
-  alert: "fa-solid fa-circle-exclamation",
-  attachment: "XXX",
-  birthday: "fa-solid fa-cake-candles",
-  cancel: "fa-solid fa-ban",
-  chat: "fa-regular fa-comments",
-  check: "fa-regular fa-square-check",
-  checked: "fa-solid fa-check",
-  clear: "XXX",
-  client: "fa-solid fa-shop",
-  close: "fa-regular fa-circle-xmark",
-  closeSq: "fa-regular fa-rectangle-xmark",
-  connect: "fa-solid fa-link",
-  contact: "fa-regular fa-id-badge",
-  copy: "fa-solid fa-copy",
-  country: "fa-solid fa-earth-americas",
-  delete: "fa-solid fa-trash-can",
-  details: "fa-regular fa-eye",
-  docTable: "fa-solid fa-table-list",
-  down: "fa-regular fa-square-caret-down",
-  download: "fa-solid fa-file-arrow-down",
-  edit: "fa-regular fa-pen-to-square",
-  email: "fa-solid fa-at",
-  file: "fa-regular fa-file",
-  filter: "fa-solid fa-filter",
-  globe: "fa-solid fa-earth-europe",
-  home: "fa-solid fa-house",
-  info: "XXX",
-  internet: "fa-brands fa-internet-explorer",
-  invoice: "fa-solid fa-file-invoice",
-  key: "fa-solid fa-key",
-  locked: "fa-solid fa-lock",
-  look: "fa-regular fa-eye",
-  manage: "fa-solid fa-screwdriver-wrench",
-  map: "fa-solid fa-location-dot",
-  markdown: "fa-brands fa-markdown",
-  mobilePhone: "fa-solid fa-mobile-screen-button",
-  move: "fa-solid fa-up-down-left-right",
-  new: "fa-solid fa-plus",
-  pay: "fa-solid fa-money-check-dollar",
-  phone: "fa-solid fa-phone",
-  popOut: "fa-solid fa-arrow-up-right-from-square",
-  receipt: "fa-solid fa-receipt",
-  save: "fa-regular fa-floppy-disk",
-  search: "fa-solid fa-magnifying-glass",
-  select: "fa-solid fa-arrow-pointer",
-  selected: "fa-solid fa-arrow-pointer",
-  submit: "fa-regular fa-circle-check",
-  transport: "fa-solid fa-truck",
-  tree: "fa-solid fa-sitemap",
-  unchecked: "fa-regular fa-square",
-  unlocked: "fa-solid fa-lock-open",
-  up: "fa-regular fa-square-caret-up",
-  upload: "fa-solid fa-file-arrow-up",
-  user: "fa-regular fa-user",
-  warning: "fa-solid fa-triangle-exclamation",
-  website: "fa-brands fa-internet-explorer"
-}, ya = {
-  install(e, { icons: a = {}, clearFirst: l = !1, source: t = "bs" } = {}) {
-    ne(t == "bs" ? Pt : qt), e.provide("icons.config", { source: t, icons: z }), l && zt(), a != null && ne(a), e.config.globalProperties.$icons = {
-      add: (s, c) => ne({ [s]: c }),
-      source: t,
-      map: z
-    };
-    const o = t == "bs" ? Et : Ft;
-    e.component("Icon", o), e.component("IconButton", Tt);
-  }
-}, Mt = ["src"], ce = /* @__PURE__ */ v({
+}, Pt = /* @__PURE__ */ ot(st, [["__scopeId", "data-v-185b1d6b"]]), it = ["src"], oe = /* @__PURE__ */ y({
   __name: "Loading",
-  setup(e, { expose: a }) {
-    const l = ze("loadingImg"), t = g(null);
-    return a({
-      imgEl: t,
-      dimensions: () => [t.value?.width, t.value?.height],
-      height: () => t.value?.naturalHeight
-    }), (o, s) => (n(), r("img", {
-      src: b(l),
+  setup(t, { expose: s }) {
+    const l = xe("loadingImg"), e = f(null);
+    return s({
+      imgEl: e,
+      dimensions: () => [e.value?.width, e.value?.height],
+      height: () => e.value?.naturalHeight
+    }), (n, a) => (r(), m("img", {
+      src: v(l),
       ref_key: "imgEl",
-      ref: t
-    }, null, 8, Mt));
+      ref: e
+    }, null, 8, it));
   }
-}), Rt = ["disabled"], At = /* @__PURE__ */ v({
+}), ut = ["disabled"], rt = /* @__PURE__ */ y({
   __name: "LoadingButton",
   props: {
     isLoading: { type: Boolean },
     disabled: { type: Boolean }
   },
-  setup(e) {
-    return (a, l) => (n(), r("button", {
+  setup(t) {
+    return (s, l) => (r(), m("button", {
       type: "button",
       class: "btn",
-      disabled: e.disabled || e.isLoading
+      disabled: t.disabled || t.isLoading
     }, [
-      e.isLoading ? p(a.$slots, "loading", { key: 0 }, () => [
-        C(ce, { style: { width: "1rem" } })
-      ]) : p(a.$slots, "default", { key: 1 })
-    ], 8, Rt));
+      t.isLoading ? _(s.$slots, "loading", { key: 0 }, () => [
+        B(oe, { style: { width: "1rem" } })
+      ]) : _(s.$slots, "default", { key: 1 })
+    ], 8, ut));
   }
-}), Nt = /* @__PURE__ */ v({
+}), ct = /* @__PURE__ */ y({
   __name: "LoadingContainer",
   props: {
     isLoading: { type: Boolean }
   },
-  setup(e, { expose: a }) {
-    const l = g(null), t = g(null);
-    function o() {
-      return t.value?.imgEl?.width;
+  setup(t, { expose: s }) {
+    const l = f(null), e = f(null);
+    function n() {
+      return e.value?.imgEl?.width;
     }
-    return a({
+    return s({
       containerEl: l,
-      loadingImgEl: t.value?.imgEl
-    }), (s, c) => (n(), r("div", {
+      loadingImgEl: e.value?.imgEl
+    }), (a, p) => (r(), m("div", {
       class: "position-relative",
-      style: X({ height: e.isLoading ? `${o()}px` : void 0 }),
+      style: q({ height: t.isLoading ? `${n()}px` : void 0 }),
       ref_key: "containerEl",
       ref: l
     }, [
-      p(s.$slots, "loading", {}, () => [
-        e.isLoading ? (n(), j(ce, {
+      _(a.$slots, "loading", {}, () => [
+        t.isLoading ? (r(), W(oe, {
           key: 0,
           class: "position-absolute top-0 start-50 translate-middle-x",
           style: { width: "20rem", "max-width": "100%" },
           ref_key: "loadingEl",
-          ref: t
-        }, null, 512)) : x("", !0)
+          ref: e
+        }, null, 512)) : z("", !0)
       ]),
-      h("div", {
-        style: X({ opacity: e.isLoading ? "0.4" : "" })
+      k("div", {
+        style: q({ opacity: t.isLoading ? "0.4" : "" })
       }, [
-        p(s.$slots, "default")
+        _(a.$slots, "default")
       ], 4)
     ], 4));
   }
-}), ka = {
-  install(e, a) {
-    e.component("Loading", ce), e.component("LoadingButton", At), e.component("LoadingContainer", Nt), e.provide("loadingImg", a.img);
+}), Mt = {
+  install(t, s) {
+    t.component("Loading", oe), t.component("LoadingButton", rt), t.component("LoadingContainer", ct), t.provide("loadingImg", s.img);
   }
-}, _a = {
-  install(e, { defaultPageSize: a = 10 } = {}) {
-    Pe.PAGESIZE = a, e.component("Paging", qe);
+}, Ot = {
+  install(t, { defaultPageSize: s = 10 } = {}) {
+    Ee.PAGESIZE = s, t.component("Paging", Be);
   }
 };
-function re() {
+function ae() {
   return [window.innerWidth, window.innerHeight];
 }
-const F = {
+const V = {
   xs: 0,
   sm: 576,
   md: 768,
@@ -1069,108 +656,108 @@ const F = {
   xl: 1200,
   xxl: 1400
 };
-function Ot() {
-  const e = g(re());
+function dt() {
+  const t = f(ae());
   return {
-    size: e,
+    size: t,
     screen: {
       get size() {
-        return e.value;
+        return t.value;
       },
       get isExtraSmall() {
-        return this.size[0] >= F.xs;
+        return this.size[0] >= V.xs;
       },
       get isSmall() {
-        return this.size[0] >= F.sm;
+        return this.size[0] >= V.sm;
       },
       get isMedium() {
-        return this.size[0] >= F.md;
+        return this.size[0] >= V.md;
       },
       get isLarge() {
-        return this.size[0] >= F.lg;
+        return this.size[0] >= V.lg;
       },
       get isExtraLarge() {
-        return this.size[0] >= F.xl;
+        return this.size[0] >= V.xl;
       },
       get isExtraExtraLarge() {
-        return this.size[0] >= F.xxl;
+        return this.size[0] >= V.xxl;
       },
       get layout() {
         return this.isExtraExtraLarge ? "xxl" : this.isExtraLarge ? "xl" : this.isLarge ? "lg" : this.isMedium ? "md" : this.isSmall ? "sm" : "xs";
       },
       isSize(l) {
-        return this.size[0] >= F[l];
+        return this.size[0] >= V[l];
       },
-      updateSize: (l = re()) => e.value = l
+      updateSize: (l = ae()) => t.value = l
     }
   };
 }
-const $a = {
-  install: (e, { sizes: a } = {}) => {
-    if (a)
-      for (const o in a)
-        o in F && (F[o] = a[o]);
-    const { screen: l } = Ot(), t = je(() => l.updateSize(re()), 250);
-    window.addEventListener("resize", t), window.addEventListener("orientationchange", t), e.config.globalProperties.$screen = l, e.provide("screen", l);
+const Gt = {
+  install: (t, { sizes: s } = {}) => {
+    if (s)
+      for (const n in s)
+        n in V && (V[n] = s[n]);
+    const { screen: l } = dt(), e = Ne(() => l.updateSize(ae()), 250);
+    window.addEventListener("resize", e), window.addEventListener("orientationchange", e), t.config.globalProperties.$screen = l, t.provide("screen", l);
   }
 };
-class K {
+class U {
   key;
   icon;
   title;
   isDefault;
   isDisabled;
   isVisible;
-  constructor(a, l = a, t = !1, o = !1, s = !0) {
-    this.title = a, this.key = l, this.isDefault = t, this.isDisabled = o, this.isVisible = s;
+  constructor(s, l = s, e = !1, n = !1, a = !0) {
+    this.title = s, this.key = l, this.isDefault = e, this.isDisabled = n, this.isVisible = a;
   }
-  static create(a, l) {
-    return Object.assign(new K(a), l || {});
+  static create(s, l) {
+    return Object.assign(new U(s), l || {});
   }
 }
-const jt = ["href", "onClick"], Gt = /* @__PURE__ */ v({
+const mt = ["href", "onClick"], pt = /* @__PURE__ */ y({
   __name: "TabNavigation",
   props: {
     tabs: {},
     activeTab: {}
   },
   emits: ["select"],
-  setup(e) {
-    const a = y(() => (l) => typeof l.isVisible == "function" ? l.isVisible() : l.isVisible);
-    return (l, t) => {
-      const o = D("Icon");
-      return n(), r("ul", {
-        class: L(["nav", { "nav-pills": !l.$screen.isLarge, "nav-tabs": l.$screen.isLarge }])
+  setup(t) {
+    const s = h(() => (l) => typeof l.isVisible == "function" ? l.isVisible() : l.isVisible);
+    return (l, e) => {
+      const n = M("Icon");
+      return r(), m("ul", {
+        class: S(["nav", { "nav-pills": !l.$screen.isLarge, "nav-tabs": l.$screen.isLarge }])
       }, [
-        (n(!0), r(V, null, R(e.tabs, (s) => (n(), r(V, {
-          key: s.key
+        (r(!0), m(R, null, se(t.tabs, (a) => (r(), m(R, {
+          key: a.key
         }, [
-          a.value(s) ? (n(), r("li", {
+          s.value(a) ? (r(), m("li", {
             key: 0,
-            class: L(["nav-item", { disabled: s.isDisabled }])
+            class: S(["nav-item", { disabled: a.isDisabled }])
           }, [
-            h("a", {
-              href: `#${s.key}`,
-              class: L(["py-1 px-2", "nav-link", { active: e.activeTab == s.key, disabled: s.isDisabled }]),
-              onClick: A((c) => l.$emit("select", s.key), ["prevent"])
+            k("a", {
+              href: `#${a.key}`,
+              class: S(["py-1 px-2", "nav-link", { active: t.activeTab == a.key, disabled: a.isDisabled }]),
+              onClick: T((p) => l.$emit("select", a.key), ["prevent"])
             }, [
-              s.icon ? (n(), j(o, {
+              a.icon ? (r(), W(n, {
                 key: 0,
-                name: s.icon
-              }, null, 8, ["name"])) : x("", !0),
-              h("span", {
-                class: L({ "d-none d-lg-inline ms-1": s.icon })
-              }, w(s.title), 3)
-            ], 10, jt)
-          ], 2)) : x("", !0)
+                name: a.icon
+              }, null, 8, ["name"])) : z("", !0),
+              k("span", {
+                class: S({ "d-none d-lg-inline ms-1": a.icon })
+              }, H(a.title), 3)
+            ], 10, mt)
+          ], 2)) : z("", !0)
         ], 64))), 128))
       ], 2);
     };
   }
-}), Ut = { class: "tab-container" }, Xt = {
+}), ft = { class: "tab-container" }, vt = {
   key: 0,
   class: "tab-content pt-2"
-}, wa = /* @__PURE__ */ v({
+}, qt = /* @__PURE__ */ y({
   __name: "TabContainer",
   props: {
     tabs: {},
@@ -1178,80 +765,80 @@ const jt = ["href", "onClick"], Gt = /* @__PURE__ */ v({
     active: {}
   },
   emits: ["select"],
-  setup(e, { emit: a }) {
-    const l = a, t = e, o = Ge(), s = y(() => t.tabs.filter((u) => u != null).map((u) => u instanceof K ? u : new K(u))), c = y(() => (s.value.find((u) => u.isDefault) || s.value[0]).key), i = g(t.active), f = y({
-      get: () => (t.useRouteNav ? o.currentRoute.value.hash?.substring(1) : i.value) || c.value,
-      set: (u) => {
-        const S = i.value != null;
-        if (i.value = u, t.useRouteNav) {
-          const _ = { ...o.currentRoute.value, hash: "#" + u };
-          S ? o.push(_) : o.replace(_);
+  setup(t, { emit: s }) {
+    const l = s, e = t, n = Pe(), a = h(() => e.tabs.filter((i) => i != null).map((i) => i instanceof U ? i : new U(i))), p = h(() => (a.value.find((i) => i.isDefault) || a.value[0]).key), o = f(e.active), d = h({
+      get: () => (e.useRouteNav ? n.currentRoute.value.hash?.substring(1) : o.value) || p.value,
+      set: (i) => {
+        const w = o.value != null;
+        if (o.value = i, e.useRouteNav) {
+          const C = { ...n.currentRoute.value, hash: "#" + i };
+          w ? n.push(C) : n.replace(C);
         }
-        l("select", u);
+        l("select", i);
       }
     });
-    function k(u) {
-      i.value !== u && (f.value = u);
+    function g(i) {
+      o.value !== i && (d.value = i);
     }
-    return ve(() => {
-      if (i.value == null && t.useRouteNav) {
-        let u = (t.useRouteNav ? o.currentRoute.value.hash?.substring(1) : null) || c.value;
-        k(u);
+    return ce(() => {
+      if (o.value == null && e.useRouteNav) {
+        let i = (e.useRouteNav ? n.currentRoute.value.hash?.substring(1) : null) || p.value;
+        g(i);
       }
-    }), (u, S) => (n(), r("div", Ut, [
-      C(Gt, {
-        tabs: s.value,
-        activeTab: f.value,
-        onSelect: k
+    }), (i, w) => (r(), m("div", ft, [
+      B(pt, {
+        tabs: a.value,
+        activeTab: d.value,
+        onSelect: g
       }, null, 8, ["tabs", "activeTab"]),
-      (n(!0), r(V, null, R(s.value, (_) => (n(), r(V, {
-        key: _.key
+      (r(!0), m(R, null, se(a.value, (C) => (r(), m(R, {
+        key: C.key
       }, [
-        f.value == _.key ? (n(), r("div", Xt, [
-          p(u.$slots, _.key)
-        ])) : x("", !0)
+        d.value == C.key ? (r(), m("div", vt, [
+          _(i.$slots, C.key)
+        ])) : z("", !0)
       ], 64))), 128))
     ]));
   }
 });
 export {
-  ua as Anchor,
-  ra as Autocomplete,
-  Et as BsIcon,
-  Sa as ButtonType,
-  Ia as ConfirmButton,
-  va as CopyToClipboardButton,
-  ca as DateInput,
-  he as DefaultModal,
-  Ft as FaIcon,
-  sa as Feedback,
-  se as FeedbackStatus,
-  pa as FileDropZone,
-  da as FormLabel,
-  ba as FormSection,
-  It as GMap,
-  ha as GMapButton,
-  ga as GMapLink,
-  Tt as IconButton,
-  ce as Loading,
-  Nt as LoadingContainer,
-  De as ModalType,
-  fa as NullableCheckBox,
-  ma as NullableLabel,
-  qe as Paging,
-  K as Tab,
-  wa as TabContainer,
-  ct as autocompleteEmits,
-  ia as autocompleteProps,
-  na as feedbackPlugin,
-  ya as iconPlugin,
-  ne as loadIcons,
-  ka as loadingPlugin,
-  oa as modalPlugin,
-  La as pagingDefaults,
-  _a as pagingPlugin,
-  $a as screenPlugin,
-  ft as useAutocomplete,
-  Te as useFeedback,
-  Ot as useScreen
+  Et as Anchor,
+  Lt as Autocomplete,
+  ol as BsIcon,
+  Wt as ButtonType,
+  jt as ConfirmButton,
+  At as CopyToClipboardButton,
+  Bt as DateInput,
+  Ae as DefaultModal,
+  il as FaIcon,
+  Xt as Feedback,
+  nl as FeedbackStatus,
+  Rt as FileDropZone,
+  Ft as FormLabel,
+  zt as FormSection,
+  nt as GMap,
+  Pt as GMapButton,
+  Nt as GMapLink,
+  ul as IconButton,
+  oe as Loading,
+  ct as LoadingContainer,
+  Qt as ModalType,
+  Dt as NullableCheckBox,
+  Tt as NullableLabel,
+  Be as Paging,
+  U as Tab,
+  qt as TabContainer,
+  Me as autocompleteEmits,
+  Vt as autocompleteProps,
+  Yt as feedbackPlugin,
+  rl as iconPlugin,
+  cl as loadIcons,
+  Mt as loadingPlugin,
+  tl as modalPlugin,
+  Zt as pagingDefaults,
+  Ot as pagingPlugin,
+  Gt as screenPlugin,
+  Ge as useAutocomplete,
+  al as useFeedback,
+  dt as useScreen
 };

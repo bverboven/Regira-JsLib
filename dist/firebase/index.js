@@ -1,5 +1,5 @@
 import g from "axios";
-import { b as p } from "../_chunks/string-utility-BI1ViWED.js";
+import { trimRight as p } from "../utilities/string-utility.js";
 class m extends Error {
   constructor(t, r) {
     super(`${t} (${r})`), this.code = r;
