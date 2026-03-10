@@ -40,6 +40,7 @@ export default {
 </script>
 
 <script setup lang="ts">
+import "./style.scss"
 import { useAutocomplete, autocompleteEmits, propsDefaults } from "./autocomplete"
 
 const emit = defineEmits(autocompleteEmits)

@@ -3,7 +3,6 @@ import { useEventListener } from "../../vue-helper"
 import { debounceToPromise } from "../../../utilities/promise-utility"
 import { getAbsScrollPosition } from "../../../utilities/html-utility"
 
-import "./style.scss"
 
 export const autocompleteEmits = ["update:modelValue", "update:idValue", "select", "qInput"]
 export const autocompleteProps = {
