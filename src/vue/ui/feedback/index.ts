@@ -4,3 +4,9 @@ export { default as Success } from "./Success.vue"
 export { default as ErrorSummary } from "./ErrorSummary.vue"
 export { default as plugin } from "./plugin"
 export { useFeedback, useFeedback as default, FeedbackStatus, type FeedbackError, type FeedbackIn, type FeedbackOut } from "./feedback"
+
+declare module "@vue/runtime-core" {
+    interface ComponentCustomProperties {
+        $feedback: import("./feedback").FeedbackOut
+    }
+}
