@@ -1,2 +1,2 @@
-export declare function copyTextToClipboard(text: string): Promise<void> | Promise<boolean>;
+export declare function copyTextToClipboard(text: string): Promise<boolean> | Promise<void>;
 export default copyTextToClipboard;

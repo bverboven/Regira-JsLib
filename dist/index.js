@@ -1,29 +1,27 @@
-import i from "./entities/index.js";
-import t from "./events/index.js";
+import i from "./events/index.js";
 import r from "./extensions/index.js";
-import o from "./firebase/index.js";
-import e from "./identity/index.js";
-import m from "./io/index.js";
-import { TreeList as s } from "./treelist/index.js";
-import f from "./utilities/index.js";
-const b = {
-  entities: i,
-  events: t,
+import t from "./firebase/index.js";
+import o from "./identity/index.js";
+import e from "./io/index.js";
+import { TreeList as m } from "./treelist/index.js";
+import s from "./utilities/index.js";
+const T = {
+  //  entities,
+  events: i,
   extensions: r,
-  firebase: o,
-  identity: e,
-  io: m,
-  Treelist: s,
-  utilities: f
+  firebase: t,
+  identity: o,
+  io: e,
+  Treelist: m,
+  utilities: s
 };
 export {
-  s as Treelist,
-  b as default,
-  i as entities,
-  t as events,
+  m as Treelist,
+  T as default,
+  i as events,
   r as extensions,
-  o as firebase,
-  e as identity,
-  m as io,
-  f as utilities
+  t as firebase,
+  o as identity,
+  e as io,
+  s as utilities
 };

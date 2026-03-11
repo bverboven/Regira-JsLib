@@ -1,39 +1,59 @@
 import { filterObject } from "./object-utility";
 import { naturalCompare, getRandom } from "./number-utility";
 
-const selfSelector = (x) => x;
-const compareAsc = (a, b, f) => (f(a) < f(b) ? -1 : f(a) > f(b) ? 1 : 0);
-const compareDesc = (a, b, f) => (f(a) > f(b) ? -1 : f(a) < f(b) ? 1 : 0);
+type Comparable = number | string | bigint | boolean;
 
-export const isArray = (items) => Array.isArray(items);
-export const isIterable = (items) => items != null && typeof items[Symbol.iterator] === "function";
-export const toArray = (items) => (!items ? [] : isArray(items) ? items : isIterable(items) ? [...items] : Object.values(items));
-export const newArray = (length) => [...Array(length)];
+const selfSelector = <T>(x: T): T => x;
+const compareAsc = <T>(a: T, b: T, f: (x: T) => unknown): number => {
+  const fa = f(a) as Comparable, fb = f(b) as Comparable;
+  return fa < fb ? -1 : fa > fb ? 1 : 0;
+};
+const compareDesc = <T>(a: T, b: T, f: (x: T) => unknown): number => {
+  const fa = f(a) as Comparable, fb = f(b) as Comparable;
+  return fa > fb ? -1 : fa < fb ? 1 : 0;
+};
 
-export const orderBy = (items, selector = selfSelector) => {
+export const isArray = (items: unknown): items is unknown[] => Array.isArray(items);
+export const isIterable = (items: unknown): boolean =>
+  items != null && typeof (items as { [Symbol.iterator]?: unknown })[Symbol.iterator] === "function";
+export const toArray = <T>(items: T[] | Iterable<T> | Record<string, T> | null | undefined): T[] => {
+  if (!items) return [];
+  if (isArray(items)) return items as T[];
+  if (isIterable(items)) return [...(items as Iterable<T>)];
+  return Object.values(items as Record<string, T>);
+};
+export const newArray = (length: number): undefined[] => [...Array(length)];
+
+export const orderBy = <T>(items: Iterable<T>, selector: (x: T) => unknown = selfSelector): T[] => {
   const arr = [...items];
   arr.sort((a, b) => compareAsc(a, b, selector));
   return arr;
 };
-export const orderByDesc = (items, selector = selfSelector) => {
+export const orderByDesc = <T>(items: Iterable<T>, selector: (x: T) => unknown = selfSelector): T[] => {
   const arr = [...items];
   arr.sort((a, b) => compareDesc(a, b, selector));
   return arr;
 };
-export const naturalSort = (items, selector = selfSelector) => {
+export const naturalSort = <T>(items: Iterable<T>, selector: (x: T) => unknown = selfSelector): T[] => {
   const arr = [...items];
   arr.sort((a, b) => naturalCompare(a, b, selector));
   return arr;
 };
-export const shuffle = (items) => {
+export const shuffle = <T>(items: Iterable<T>): T[] => {
   const source = [...items]; // copy array
   return [...Array(source.length)].map(() => {
     const index = getRandom(source.length - 1);
     return source.splice(index, 1)[0];
   });
 };
-export const innerJoin = (items1, items2, selector1 = selfSelector, selector2 = selfSelector, resultSelector = selector1) => {
-  const result = [];
+export const innerJoin = <T, U = T, R = T>(
+  items1: Iterable<T>,
+  items2: Iterable<U>,
+  selector1: (x: T) => unknown = selfSelector,
+  selector2: (x: U) => unknown = selfSelector,
+  resultSelector: (x: T, y: U) => R = (x: T) => x as unknown as R
+) => {
+  const result: R[] = [];
   const arr1 = toArray(items1);
   const arr2 = toArray(items2);
   arr1.forEach((x) => {
@@ -44,7 +64,10 @@ export const innerJoin = (items1, items2, selector1 = selfSelector, selector2 = 
   });
   return result;
 };
-export const groupBy = (items, keySelector) => {
+export const groupBy = <T, K = unknown>(
+  items: Iterable<T>,
+  keySelector: (x: T, i?: number, arr?: T[]) => K
+): [K, T[]][] => {
   // return [
   //   ...toMap(items, keySelector, (v, i, map) => {
   //     const key = keySelector(v);
@@ -55,37 +78,44 @@ export const groupBy = (items, keySelector) => {
   //     return currentValue.concat(v);
   //   }),
   // ];
-  const keys = distinct(items.map(keySelector));
-  return keys.map((key) => [key, items.filter((y, j, arr2) => key === keySelector(y, j, arr2))]);
+  const arr = toArray(items);
+  const keys = distinct(arr.map(keySelector));
+  return keys.map((key): [K, T[]] => [key, arr.filter((y, j, a) => key === keySelector(y, j, a))]);
 };
-export const groupJoin = (
-  parentItems,
-  childItems,
-  parentKeySelector = selfSelector,
-  childSelector = selfSelector,
-  resultSelector = (parent, children) => [parent, children]
+export const groupJoin = <T, U, R = [T, U[]]>(
+  parentItems: Iterable<T>,
+  childItems: Iterable<U>,
+  parentKeySelector: (x: T, i?: number, arr?: T[]) => unknown = selfSelector,
+  childSelector: (x: U, i?: number, arr?: U[]) => unknown = selfSelector,
+  resultSelector: (parent: T, children: U[]) => R = (parent: T, children: U[]) =>
+    [parent, children] as unknown as R
 ) => {
   const childArr = toArray(childItems);
   return toArray(parentItems)
-    .map((x, i, parents) => [x, childArr.filter((y, j, children) => parentKeySelector(x, i, parents) === childSelector(y, j, children))])
+    .map((x, i, parents): [T, U[]] => [x, childArr.filter((y, j, children) => parentKeySelector(x, i, parents) === childSelector(y, j, children))])
     .map(([groupedKey, groupedValues]) => resultSelector(groupedKey, groupedValues));
 };
-export const except = (items1, items2, selector1 = selfSelector, selector2 = selfSelector) => {
+export const except = <T, U = T>(
+  items1: Iterable<T>,
+  items2: Iterable<U>,
+  selector1: (x: T) => unknown = selfSelector,
+  selector2: (x: U) => unknown = selfSelector
+): T[] => {
   const arr2 = toArray(items2);
   return toArray(items1).filter((x) => !arr2.some((y) => selector1(x) === selector2(y)));
 };
-export const count = (items, predicate) => {
+export const count = <T>(items: Iterable<T>, predicate?: (x: T) => boolean): number => {
   const arr = toArray(items);
   return predicate ? arr.filter(predicate).length : arr.length;
 };
-export const first = (items, predicate) => {
+export const first = <T>(items: Iterable<T>, predicate?: (x: T) => boolean): T | undefined => {
   const arr = toArray(items);
   if (!predicate) {
     return arr[0];
   }
   return arr.find(predicate);
 };
-export const last = (items, predicate) => {
+export const last = <T>(items: Iterable<T>, predicate?: (x: T) => boolean): T | undefined => {
   const arr = toArray(items);
   if (!predicate) {
     return arr.length ? arr[arr.length - 1] : undefined;
@@ -97,71 +127,84 @@ export const last = (items, predicate) => {
   }
   return undefined;
 };
-export const distinctBy = (items, selector) => {
+export const distinctBy = <T>(items: Iterable<T>, selector: (x: T) => unknown): T[] => {
   const arr = toArray(items);
-  return arr.reduce((r, v) => (r.some((x) => selector(x) === selector(v)) ? r : r.concat([v])), []);
+  return arr.reduce<T[]>((r, v) => (r.some((x) => selector(x) === selector(v)) ? r : r.concat([v])), []);
 };
-export const distinct = (items) => {
-  return [...new Set(items)];
+export const distinct = <T>(items: Iterable<T>): T[] => {
+  return [...new Set(toArray(items))];
   //return distinctBy(items, selfSelector);
 };
-export const union = (arr1, arr2) => {
+export const union = <T>(arr1: Iterable<T>, arr2: Iterable<T>): T[] => {
   return distinct(toArray(arr1).concat(toArray(arr2)));
 };
-export const take = (items, n) => {
+export const take = <T>(items: Iterable<T>, n: number): T[] => {
   return toArray(items).slice(0, n);
 };
-export const skip = (items, n) => {
+export const skip = <T>(items: Iterable<T>, n: number): T[] => {
   return toArray(items).slice(n);
 };
-export const page = (items, pageSize, pageIndex = 0) => {
+export const page = <T>(items: Iterable<T>, pageSize: number, pageIndex: number = 0): T[] => {
   const skip = pageSize * pageIndex;
   return toArray(items).slice(skip, skip + pageSize);
 };
-export const countPages = (items, pageSize) => {
+export const countPages = (items: Iterable<unknown>, pageSize: number): number => {
   const totalSize = toArray(items).length;
   return Math.ceil(totalSize / pageSize);
 };
 
-export const min = (items, selector = selfSelector) => {
+export const min = <T>(items: Iterable<T>, selector: (x: T) => unknown = selfSelector) => {
   //return Math.min(...items.map(selector)); -> only numeric
   const arr = toArray(items);
   if (!arr.length) {
     return undefined;
   }
-  return arr.reduce((r, x) => {
-    const v = selector(x);
-    return r == null || v < r ? v : r;
+  return arr.reduce<Comparable | null>((r, x) => {
+    const v = selector(x) as Comparable;
+    if (r == null) return v;
+    return v < r ? v : r;
   }, null);
 };
-export const max = (items, selector = selfSelector) => {
+export const max = <T>(items: Iterable<T>, selector: (x: T) => unknown = selfSelector) => {
   //return Math.max(...items.map(selector)); -> only numeric
   const arr = toArray(items);
   if (!arr.length) {
     return undefined;
   }
-  return arr.reduce((r, x) => {
-    const v = selector(x);
-    return r == null || v > r ? v : r;
+  return arr.reduce<Comparable | null>((r, x) => {
+    const v = selector(x) as Comparable;
+    if (r == null) return v;
+    return v > r ? v : r;
   }, null);
 };
-export const sum = (items, selector = selfSelector) => {
-  return toArray(items).reduce((r, x) => r + selector(x), 0);
+export const sum = <T>(items: Iterable<T>, selector?: (x: T) => number): number => {
+  const sel = selector ?? (selfSelector as unknown as (x: T) => number);
+  return toArray(items).reduce((r, x) => r + sel(x), 0);
 };
-export const average = (items, selector) => {
-  return sum(items, selector) / items.length;
+export const average = <T>(items: Iterable<T>, selector?: (x: T) => number): number => {
+  const arr = toArray(items);
+  return sum(arr, selector) / arr.length;
 };
-export const toMap = (items, keySelector, valueSelector = selfSelector) => {
+export const toMap = <T, K, V = T>(
+  items: Iterable<T>,
+  keySelector: (x: T) => K,
+  valueSelector?: (item: T, i?: number, map?: Map<K, V>) => V
+): Map<K, V> => {
+  const sel = valueSelector ?? (selfSelector as unknown as (item: T, i?: number, map?: Map<K, V>) => V);
   const arr = toArray(items);
   return arr.reduce((map, item, i) => {
     const key = keySelector(item);
-    const value = valueSelector(item, i, map);
+    const value = sel(item, i, map);
     return map.set(key, value);
-  }, new Map());
+  }, new Map<K, V>());
   // const entries = groupBy(items, keySelector).map(x => [x[0], x[1].map(valueSelector)]);
   // return new Map(entries);
 };
-export const sameContent = (items1, items2, includeOrder = true) => {
+export const sameContent = <T>(
+  items1: Iterable<T> | null | undefined,
+  items2: Iterable<T> | null | undefined,
+  includeOrder: boolean = true
+): boolean => {
   if (items1 === items2) {
     return true;
   }
@@ -185,17 +228,17 @@ export const sameContent = (items1, items2, includeOrder = true) => {
   return innerJoin(arr1, arr2).length === arr1.length;
 };
 
-export const query = (items, filter) => {
+export const query = <T>(items: Iterable<T>, filter: Partial<T>): T[] => {
   const arr = toArray(items);
   return arr.filter((x) => filterObject(x, filter));
 };
-export const getEnumerator = (arr) => {
+export const getEnumerator = <T>(arr: T[]) => {
   let index = 0;
   return {
     get selectedIndex() {
       return index;
     },
-    set selectedIndex(value) {
+    set selectedIndex(value: number) {
       if (value >= 0 && value < arr.length) {
         index = value;
       }
@@ -203,7 +246,7 @@ export const getEnumerator = (arr) => {
     get length() {
       return arr.length;
     },
-    get current() {
+    get current(): T | null {
       if (index >= 0 && index < arr.length) {
         return arr[index];
       }
@@ -231,14 +274,14 @@ export const getEnumerator = (arr) => {
 };
 
 // no pure functions
-export const move = (arr, item, pos) => {
+export const move = <T>(arr: T[], item: T, pos: number): void => {
   const index = arr.indexOf(item);
   if (index !== -1) {
     arr.splice(index, 1);
     arr.splice(pos, 0, item);
   }
 };
-export const reFill = (arr, values) => {
+export const reFill = <T>(arr: T[], values: T[]): void => {
   arr.splice(0, arr.length, ...values);
 };
 

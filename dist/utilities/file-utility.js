@@ -1,200 +1,193 @@
-import { t as N, f as j, b as M, s as C, l as S } from "../_chunks/array-utility-3.0.1.js";
-function P(e, n, r) {
-  const t = new ArrayBuffer(e.length), s = new Uint8Array(t);
-  for (let a = 0; a < e.length; a++)
-    s[a] = e.charCodeAt(a);
-  const o = new Blob([t], { type: r });
-  return o.name = n, o;
-}
-function W(e, n, r = 512) {
-  const t = [];
-  for (let o = 0; o < e.length; o += r) {
-    const a = e.slice(o, o + r), m = new Array(a.length);
-    for (let p = 0; p < a.length; p++)
-      m[p] = a.charCodeAt(p);
-    const v = new Uint8Array(m);
-    t.push(v);
-  }
-  return new Blob(t, { type: n });
-}
-const nt = ({ multiple: e, accept: n } = {}) => new Promise(function(r) {
-  const t = document.createElement("INPUT");
-  t.setAttribute("type", "file"), (e == null || e) && t.setAttribute("multiple", "true"), n != null && t.setAttribute("accept", Array.isArray(n) ? n.join(",") : n), t.value = "", t.setAttribute("style", "display: none;");
-  function s() {
-    const o = [...this.files];
-    t.removeEventListener("change", s), document.body.removeChild(t), r(o);
-  }
-  t.addEventListener("change", s), t.addEventListener("cancel", () => r([])), document.body.appendChild(t), t.click();
-}), G = (e) => e != null && e instanceof Blob, H = (e) => URL.createObjectURL(e), Y = (e) => URL.revokeObjectURL(e), E = (e) => {
-  if (!e || !e.includes("/"))
-    return e;
-  if (e.endsWith("/"))
-    throw new Error("filename cannot end with a '/'");
-  return S(e.split("/").filter((n) => n));
-}, Z = (e) => {
-  const n = e.split("."), r = C(n, 1), t = S(r);
-  return t ? "." + t : "";
-}, _ = (e) => {
-  if (!e)
-    return null;
-  const n = E(e);
-  if (!n.includes("."))
-    return n;
-  const r = n.split(".");
-  return M(r, r.length - 1 || 1).join(".");
-}, K = (e, n, { filesParameterName: r = "files" } = {}) => {
-  const t = N(e).reduce((o, a) => (o.append(r, a, a.name), o), new FormData());
-  var s = j(n);
-  return Object.entries(s).reduce((o, a) => (o.append(a[0], a[1]), o), t);
-}, q = async (e, n, r) => new Promise((t) => {
-  const s = new FileReader();
-  s.onload = () => t(P(s.result, n || e.name, r || e.type)), s.readAsBinaryString(e);
-}), z = (e, n, r) => {
-  const t = e.substr(0, 100).includes(","), s = t ? e.substr(e.indexOf(",") + 1) : e;
-  !r && t && (r = e.substr(0, e.indexOf(",")).split(":")[1].split(";")[0]);
-  const o = atob(s), a = W(o, r);
+import { t as I, f as D, a as C, s as j, l as T } from "../_chunks/array-utility-3.0.1.js";
+function M(t, n, o) {
+  const e = new ArrayBuffer(t.length), i = new Uint8Array(e);
+  for (let s = 0; s < t.length; s++)
+    i[s] = t.charCodeAt(s);
+  const a = new Blob([e], { type: o });
   return a.name = n, a;
-}, J = async (e, n) => {
-  const r = await fetch(e), t = r.headers.get("content-disposition");
-  if (t && t.indexOf("attachment") !== -1) {
-    var s = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/, o = s.exec(t);
-    o != null && o[1] && (n = o[1].replace(/['"]/g, ""));
+}
+function P(t, n, o = 512) {
+  const e = [];
+  for (let a = 0; a < t.length; a += o) {
+    const s = t.slice(a, a + o), w = new Array(s.length);
+    for (let u = 0; u < s.length; u++)
+      w[u] = s.charCodeAt(u);
+    const B = new Uint8Array(w);
+    e.push(B);
   }
-  const a = await r.blob();
-  return n && (a.name = n), a;
-}, Q = async (e) => new Promise(function(n) {
-  const r = new FileReader();
-  r.onload = (t) => n(t.target.result), r.readAsDataURL(e);
-}), V = async (e) => new Promise(function(n) {
-  const r = new FileReader();
-  r.onload = (t) => n(t.target.result), r.readAsText(e);
-}), X = (e, n, r) => {
-  const t = new Blob([e], { type: r });
-  return n && (t.name = n), t;
-}, $ = (e, n) => (function(t) {
-  if (t == null || typeof navigator < "u" && /MSIE [1-9]\./.test(navigator.userAgent))
+  return new Blob(e, { type: n });
+}
+const te = ({ multiple: t, accept: n } = {}) => new Promise(function(o) {
+  const e = document.createElement("input");
+  e.setAttribute("type", "file"), (t == null || t) && e.setAttribute("multiple", "true"), n != null && e.setAttribute("accept", Array.isArray(n) ? n.join(",") : n), e.value = "", e.setAttribute("style", "display: none;");
+  function i() {
+    const a = [...e.files];
+    e.removeEventListener("change", i), document.body.removeChild(e), o(a);
+  }
+  e.addEventListener("change", i), e.addEventListener("cancel", () => o([])), document.body.appendChild(e), e.click();
+}), N = (t) => t != null && t instanceof Blob, _ = (t) => URL.createObjectURL(t), W = (t) => URL.revokeObjectURL(t), O = (t) => {
+  if (!t || !t.includes("/"))
+    return t;
+  if (t.endsWith("/"))
+    throw new Error("filename cannot end with a '/'");
+  return T(t.split("/").filter((n) => !!n));
+}, G = (t) => {
+  const n = t.split("."), o = j(n, 1), e = T(o);
+  return e ? "." + e : "";
+}, Y = (t) => {
+  if (!t)
     return null;
-  var s = t.document, o = function() {
-    return t.URL || t.webkitURL || t;
-  }, a = s.createElementNS("http://www.w3.org/1999/xhtml", "a"), m = "download" in a, v = function(i) {
-    var l = new MouseEvent("click");
-    i.dispatchEvent(l);
-  }, p = /constructor/i.test(t.HTMLElement) || t.safari, y = /CriOS\/[\d]+/.test(navigator.userAgent), R = function(i) {
-    (t.setImmediate || t.setTimeout)(function() {
-      throw i;
-    }, 0);
-  }, U = "application/octet-stream", x = 1e3 * 40, B = function(i) {
-    var l = function() {
-      typeof i == "string" ? o().revokeObjectURL(i) : i.remove();
-    };
-    setTimeout(l, x);
-  }, L = function(i, l, d) {
-    l = [].concat(l);
-    for (var c = l.length; c--; ) {
-      var w = i["on" + l[c]];
-      if (typeof w == "function")
-        try {
-          w.call(i, d || i);
-        } catch (b) {
-          R(b);
+  const n = O(t);
+  if (!n || !n.includes("."))
+    return n;
+  const o = n.split(".");
+  return C(o, o.length - 1 || 1).join(".");
+}, H = (t, n, { filesParameterName: o = "files" } = {}) => {
+  const e = I(t).reduce((a, s) => (a.append(o, s, s.name), a), new FormData()), i = D(n);
+  return Object.entries(i).reduce((a, s) => (a.append(s[0], s[1]), a), e);
+}, K = async (t, n, o) => new Promise((e) => {
+  const i = new FileReader();
+  i.onload = () => e(M(i.result, n ?? t.name, o ?? t.type)), i.readAsBinaryString(t);
+}), Z = (t, n, o) => {
+  const e = t.substr(0, 100).includes(","), i = e ? t.substr(t.indexOf(",") + 1) : t;
+  !o && e && (o = t.substr(0, t.indexOf(",")).split(":")[1].split(";")[0]);
+  const a = atob(i), s = P(a, o ?? "");
+  return s.name = n, s;
+}, V = async (t, n) => {
+  const o = await fetch(t), e = o.headers.get("content-disposition");
+  if (e && e.indexOf("attachment") !== -1) {
+    const s = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(e);
+    s != null && s[1] && (n = s[1].replace(/['"]/g, ""));
+  }
+  const i = await o.blob();
+  return n && (i.name = n), i;
+}, q = async (t) => new Promise(function(n) {
+  const o = new FileReader();
+  o.onload = (e) => n(e.target.result), o.readAsDataURL(t);
+}), z = async (t) => new Promise(function(n) {
+  const o = new FileReader();
+  o.onload = (e) => n(e.target.result), o.readAsText(t);
+}), J = (t, n, o) => {
+  const e = new Blob([t], { type: o });
+  return n && (e.name = n), e;
+}, Q = (t, n) => {
+  (function(e) {
+    if (e == null || typeof navigator < "u" && /MSIE [1-9]\./.test(navigator.userAgent))
+      return null;
+    const i = e.document, a = () => e.URL ?? e.webkitURL ?? e, s = i.createElementNS("http://www.w3.org/1999/xhtml", "a"), w = "download" in s, B = (r) => {
+      r.dispatchEvent(new MouseEvent("click"));
+    }, u = /constructor/i.test(String(e.HTMLElement ?? "")) || !!e.safari, b = /CriOS\/[\d]+/.test(navigator.userAgent), R = (r) => {
+      e.setImmediate ? e.setImmediate(() => {
+        throw r;
+      }) : e.setTimeout(() => {
+        throw r;
+      }, 0);
+    }, L = "application/octet-stream", U = 1e3 * 40, g = (r) => {
+      setTimeout(() => {
+        typeof r == "string" ? a().revokeObjectURL(r) : r.remove();
+      }, U);
+    }, x = (r, f, p) => {
+      const c = [].concat(f);
+      let m = c.length;
+      for (; m--; ) {
+        const d = r["on" + c[m]];
+        if (typeof d == "function")
+          try {
+            d.call(r, p ?? r);
+          } catch (h) {
+            R(h);
+          }
+      }
+    }, v = (r) => /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(r.type) ? new Blob(["\uFEFF", r], { type: r.type }) : r;
+    function S(r, f, p) {
+      p || (r = v(r));
+      const c = this, m = r.type === L;
+      let d;
+      const h = () => {
+        x(c, "writestart progress write writeend".split(" "));
+      }, F = () => {
+        if ((b || m && u) && e.FileReader) {
+          const y = new FileReader();
+          y.onloadend = function() {
+            const E = b ? y.result : y.result.replace(/^data:[^;]*;/, "data:attachment/file;");
+            e.open(E, "_blank") || (e.location.href = E), c.readyState = c.DONE, h();
+          }, y.readAsDataURL(r), c.readyState = c.INIT;
+          return;
         }
-    }
-  }, A = function(i) {
-    return /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(i.type) ? new Blob(["\uFEFF", i], { type: i.type }) : i;
-  }, T = function(i, l, d) {
-    d || (i = A(i));
-    var c = this, w = i.type, b = w === U, f, g = function() {
-      L(c, "writestart progress write writeend".split(" "));
-    }, k = function() {
-      if ((y || b && p) && t.FileReader) {
-        var h = new FileReader();
-        h.onloadend = function() {
-          var O = y ? h.result : h.result.replace(/^data:[^;]*;/, "data:attachment/file;"), D = t.open(O, "_blank");
-          D || (t.location.href = O), c.readyState = c.DONE, g();
-        }, h.readAsDataURL(i), c.readyState = c.INIT;
+        d || (d = a().createObjectURL(r)), m ? e.location.href = d : e.open(d, "_blank") || (e.location.href = d), c.readyState = c.DONE, h(), g(d);
+      };
+      if (c.readyState = c.INIT, w) {
+        d = a().createObjectURL(r), setTimeout(function() {
+          s.href = d, s.download = f, B(s), h(), g(d), c.readyState = c.DONE;
+        });
         return;
       }
-      if (f || (f = o().createObjectURL(i)), b)
-        t.location.href = f;
-      else {
-        var I = t.open(f, "_blank");
-        I || (t.location.href = f);
-      }
-      c.readyState = c.DONE, g(), B(f);
-    };
-    if (c.readyState = c.INIT, m) {
-      f = o().createObjectURL(i), setTimeout(function() {
-        a.href = f, a.download = l, v(a), g(), B(f), c.readyState = c.DONE;
-      });
-      return;
+      F();
     }
-    k();
-  }, u = T.prototype, F = function(i, l, d) {
-    return new T(i, l || i.name || "download", d);
-  };
-  return typeof navigator < "u" && navigator.msSaveOrOpenBlob ? function(i, l, d) {
-    return l = l || i.name || "download", d || (i = A(i)), navigator.msSaveOrOpenBlob(i, l);
-  } : (u.abort = function() {
-  }, u.readyState = u.INIT = 0, u.WRITING = 1, u.DONE = 2, u.error = u.onwritestart = u.onprogress = u.onwrite = u.onabort = u.onerror = u.onwriteend = null, F);
-})(typeof self < "u" && self || typeof window < "u" && window || (void 0).content)(e, n || e.name || "file"), tt = (e, n = !0, r = 1) => {
-  const t = n ? 1e3 : 1024;
-  if (Math.abs(e) < t)
-    return e + " B";
-  const s = n ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"] : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
-  let o = -1;
-  const a = 10 ** r;
+    const l = S.prototype, k = function(r, f, p) {
+      new S(r, f || r.name || "download", p);
+    }, A = navigator;
+    return typeof navigator < "u" && A.msSaveOrOpenBlob ? function(r, f) {
+      f = f || r.name || "download", A.msSaveOrOpenBlob(v(r), f);
+    } : (l.abort = function() {
+    }, l.readyState = l.INIT = 0, l.WRITING = 1, l.DONE = 2, l.error = l.onwritestart = l.onprogress = l.onwrite = l.onabort = l.onerror = l.onwriteend = null, k);
+  })(typeof self < "u" ? self : typeof window < "u" ? window : null)?.(t, n ?? t.name ?? "file");
+}, X = (t, n = !0, o = 1) => {
+  const e = n ? 1e3 : 1024;
+  if (Math.abs(t) < e)
+    return t + " B";
+  const i = n ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"] : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
+  let a = -1;
+  const s = 10 ** o;
   do
-    e /= t, ++o;
-  while (Math.round(Math.abs(e) * a) / a >= t && o < s.length - 1);
-  return e.toFixed(r) + " " + s[o];
-}, rt = (e) => {
-  e.preventDefault();
-  const {
-    dataTransfer: { items: n, files: r }
-  } = e, t = [];
-  if (n) {
-    for (let s = 0; s < n.length; s++)
-      if (n[s].kind === "file") {
-        const o = n[s].getAsFile();
-        t.push(o);
+    t /= e, ++a;
+  while (Math.round(Math.abs(t) * s) / s >= e && a < i.length - 1);
+  return t.toFixed(o) + " " + i[a];
+}, ne = (t) => {
+  t.preventDefault();
+  const { dataTransfer: n } = t, o = [];
+  if (n?.items) {
+    for (let e = 0; e < n.items.length; e++)
+      if (n.items[e].kind === "file") {
+        const i = n.items[e].getAsFile();
+        i && o.push(i);
       }
-  } else
-    t.push(...r);
-  return t;
-}, ot = {
-  isFile: G,
-  createUrl: H,
-  revokeUrl: Y,
-  getFilename: E,
-  getExtension: Z,
-  getFilenameWithoutExtension: _,
-  toFormData: K,
-  fileToBlob: q,
-  base64ToBlob: z,
-  urlToBlob: J,
-  blobToBase64: Q,
-  readAllText: V,
-  writeAllText: X,
-  saveAs: $,
-  formatFileSize: tt
+  } else n?.files && o.push(...Array.from(n.files));
+  return o;
+}, oe = {
+  isFile: N,
+  createUrl: _,
+  revokeUrl: W,
+  getFilename: O,
+  getExtension: G,
+  getFilenameWithoutExtension: Y,
+  toFormData: H,
+  fileToBlob: K,
+  base64ToBlob: Z,
+  urlToBlob: V,
+  blobToBase64: q,
+  readAllText: z,
+  writeAllText: J,
+  saveAs: Q,
+  formatFileSize: X
 };
 export {
-  z as base64ToBlob,
-  Q as blobToBase64,
-  nt as browse,
-  H as createUrl,
-  ot as default,
-  rt as dropHandler,
-  q as fileToBlob,
-  tt as formatFileSize,
-  Z as getExtension,
-  E as getFilename,
-  _ as getFilenameWithoutExtension,
-  G as isFile,
-  V as readAllText,
-  Y as revokeUrl,
-  $ as saveAs,
-  K as toFormData,
-  J as urlToBlob,
-  X as writeAllText
+  Z as base64ToBlob,
+  q as blobToBase64,
+  te as browse,
+  _ as createUrl,
+  oe as default,
+  ne as dropHandler,
+  K as fileToBlob,
+  X as formatFileSize,
+  G as getExtension,
+  O as getFilename,
+  Y as getFilenameWithoutExtension,
+  N as isFile,
+  z as readAllText,
+  W as revokeUrl,
+  Q as saveAs,
+  H as toFormData,
+  V as urlToBlob,
+  J as writeAllText
 };

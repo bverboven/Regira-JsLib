@@ -1,4 +1,7 @@
 declare class Event {
-    constructor(type: any, src: any, data: any);
+    type: string;
+    src?: Event;
+    [key: string]: unknown;
+    constructor(type: string, src?: Event, data?: Record<string, unknown>);
 }
 export default Event;

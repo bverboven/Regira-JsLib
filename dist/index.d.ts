@@ -1,4 +1,3 @@
-export { default as entities } from "./entities";
 export { default as events } from "./events";
 export { default as extensions } from "./extensions";
 export { default as firebase } from "./firebase";
@@ -8,11 +7,6 @@ export { default as Treelist } from "./treelist";
 export { default as utilities } from "./utilities";
 import Treelist from "./treelist";
 declare const _default: {
-    entities: {
-        EntityManager: typeof import("./entities").EntityManager;
-        JsonService: typeof import("./entities").JsonService;
-        EntityService: typeof import("./entities").EntityService;
-    };
     events: {
         Event: typeof import("./events").Event;
         EventHandler: typeof import("./events").EventHandler;
@@ -37,45 +31,45 @@ declare const _default: {
     Treelist: typeof Treelist;
     utilities: {
         arrayUtility: {
-            isArray: (items: any) => items is any[];
-            isIterable: (items: any) => boolean;
-            toArray: (items: any) => any[];
-            newArray: (length: any) => any[];
-            orderBy: (items: any, selector?: (x: any) => any) => any[];
-            orderByDesc: (items: any, selector?: (x: any) => any) => any[];
-            naturalSort: (items: any, selector?: (x: any) => any) => any[];
-            shuffle: (items: any) => any[];
-            innerJoin: (items1: any, items2: any, selector1?: (x: any) => any, selector2?: (x: any) => any, resultSelector?: (x: any) => any) => any[];
-            groupBy: (items: any, keySelector: any) => any[][];
-            groupJoin: (parentItems: any, childItems: any, parentKeySelector?: (x: any) => any, childSelector?: (x: any) => any, resultSelector?: (parent: any, children: any) => any[]) => any[][];
-            count: (items: any, predicate: any) => number;
-            first: (items: any, predicate: any) => any;
-            last: (items: any, predicate: any) => any;
-            distinctBy: (items: any, selector: any) => any;
-            distinct: (items: any) => unknown[];
-            union: (arr1: any, arr2: any) => unknown[];
-            take: (items: any, n: any) => any[];
-            skip: (items: any, n: any) => any[];
-            page: (items: any, pageSize: any, pageIndex?: number) => any[];
-            countPages: (items: any, pageSize: any) => number;
-            min: (items: any, selector?: (x: any) => any) => any;
-            max: (items: any, selector?: (x: any) => any) => any;
-            sum: (items: any, selector?: (x: any) => any) => any;
-            average: (items: any, selector: any) => number;
-            toMap: (items: any, keySelector: any, valueSelector?: (x: any) => any) => any;
-            sameContent: (items1: any, items2: any, includeOrder?: boolean) => boolean;
-            query: (items: any, filter: any) => any[];
-            getEnumerator: (arr: any) => {
+            isArray: (items: unknown) => items is unknown[];
+            isIterable: (items: unknown) => boolean;
+            toArray: <T>(items: T[] | Iterable<T> | Record<string, T> | null | undefined) => T[];
+            newArray: (length: number) => undefined[];
+            orderBy: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
+            orderByDesc: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
+            naturalSort: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
+            shuffle: <T>(items: Iterable<T>) => T[];
+            innerJoin: <T, U = T, R = T>(items1: Iterable<T>, items2: Iterable<U>, selector1?: (x: T) => unknown, selector2?: (x: U) => unknown, resultSelector?: (x: T, y: U) => R) => R[];
+            groupBy: <T, K = unknown>(items: Iterable<T>, keySelector: (x: T, i?: number, arr?: T[]) => K) => [K, T[]][];
+            groupJoin: <T, U, R = [T, U[]]>(parentItems: Iterable<T>, childItems: Iterable<U>, parentKeySelector?: (x: T, i?: number, arr?: T[]) => unknown, childSelector?: (x: U, i?: number, arr?: U[]) => unknown, resultSelector?: (parent: T, children: U[]) => R) => R[];
+            count: <T>(items: Iterable<T>, predicate?: (x: T) => boolean) => number;
+            first: <T>(items: Iterable<T>, predicate?: (x: T) => boolean) => T | undefined;
+            last: <T>(items: Iterable<T>, predicate?: (x: T) => boolean) => T | undefined;
+            distinctBy: <T>(items: Iterable<T>, selector: (x: T) => unknown) => T[];
+            distinct: <T>(items: Iterable<T>) => T[];
+            union: <T>(arr1: Iterable<T>, arr2: Iterable<T>) => T[];
+            take: <T>(items: Iterable<T>, n: number) => T[];
+            skip: <T>(items: Iterable<T>, n: number) => T[];
+            page: <T>(items: Iterable<T>, pageSize: number, pageIndex?: number) => T[];
+            countPages: (items: Iterable<unknown>, pageSize: number) => number;
+            min: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => (string | number | bigint | boolean) | null | undefined;
+            max: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => (string | number | bigint | boolean) | null | undefined;
+            sum: <T>(items: Iterable<T>, selector?: (x: T) => number) => number;
+            average: <T>(items: Iterable<T>, selector?: (x: T) => number) => number;
+            toMap: <T, K, V = T>(items: Iterable<T>, keySelector: (x: T) => K, valueSelector?: (item: T, i?: number, map?: Map<K, V>) => V) => Map<K, V>;
+            sameContent: <T>(items1: Iterable<T> | null | undefined, items2: Iterable<T> | null | undefined, includeOrder?: boolean) => boolean;
+            query: <T>(items: Iterable<T>, filter: Partial<T>) => T[];
+            getEnumerator: <T>(arr: T[]) => {
                 selectedIndex: number;
-                readonly length: any;
-                readonly current: any;
+                readonly length: number;
+                readonly current: T | null;
                 first(): void;
                 previous(): boolean;
                 next(): boolean;
                 last(): void;
             };
-            move: (arr: any, item: any, pos: any) => void;
-            reFill: (arr: any, values: any) => void;
+            move: <T>(arr: T[], item: T, pos: number) => void;
+            reFill: <T>(arr: T[], values: T[]) => void;
         };
         colorUtility: {
             rgbToHex: (r: any, g: any, b: any) => string;
@@ -106,25 +100,33 @@ declare const _default: {
             stringifyDate: (date: any) => string | null;
         };
         fileUtility: {
-            isFile: (item: any) => item is Blob;
-            createUrl: (blob: any) => string;
-            revokeUrl: (url: any) => void;
-            getFilename: (uri: any) => any;
-            getExtension: (filename: any) => string;
-            getFilenameWithoutExtension: (uri: any) => any;
-            toFormData: (files: any, data: any, { filesParameterName }?: {
-                filesParameterName?: string | undefined;
-            }) => any;
-            fileToBlob: (file: any, filename: any, type: any) => Promise<unknown>;
-            base64ToBlob: (base64: any, filename: any, type: any) => Blob;
-            urlToBlob: (url: any, filename: any) => Promise<Blob>;
-            blobToBase64: (blob: any) => Promise<unknown>;
-            readAllText: (blob: any) => Promise<unknown>;
-            writeAllText: (content: any, filename: any, type: any) => Blob;
+            isFile: (item: unknown) => item is Blob;
+            createUrl: (blob: Blob) => string;
+            revokeUrl: (url: string) => void;
+            getFilename: (uri: string) => string | undefined;
+            getExtension: (filename: string) => string;
+            getFilenameWithoutExtension: (uri: string | null | undefined) => string | null | undefined;
+            toFormData: (files: Blob[], data: Record<string, unknown>, { filesParameterName }?: {
+                filesParameterName?: string;
+            }) => FormData;
+            fileToBlob: (file: File, filename?: string, type?: string) => Promise<Blob & {
+                name: string;
+            }>;
+            base64ToBlob: (base64: string, filename: string, type?: string) => Blob & {
+                name: string;
+            };
+            urlToBlob: (url: string, filename?: string) => Promise<Blob & {
+                name: string;
+            }>;
+            blobToBase64: (blob: Blob) => Promise<string>;
+            readAllText: (blob: Blob) => Promise<string>;
+            writeAllText: (content: string, filename?: string, type?: string) => Blob & {
+                name: string;
+            };
             saveAs: (blob: Blob & {
                 name?: string;
-            }, filename?: string) => any;
-            formatFileSize: (bytes: any, si?: boolean, dp?: number) => string;
+            }, filename?: string) => void;
+            formatFileSize: (bytes: number, si?: boolean, dp?: number) => string;
         };
         htmlUtility: {
             redirect: (url: any, delayInSeconds?: number) => void;
@@ -146,29 +148,31 @@ declare const _default: {
                 png: string;
                 gif: string;
             };
-            getImageContentType: (img: any) => Promise<unknown>;
-            parseContentType: (type: any) => any;
-            urlToImage: (url: any) => Promise<unknown>;
-            blobToImage: (blob: any) => Promise<unknown>;
-            imageToBlob: (img: any, filename: any, type: any) => Promise<Blob>;
-            canvasToImage: (canvas: any, type?: string, quality?: number) => Promise<unknown>;
-            imageToCanvas: (img: any, width: any, height: any) => HTMLCanvasElement;
-            canvasToBlob: (canvas: any, type?: string, quality?: number) => Promise<unknown>;
-            base64ToImage: (data: any) => Promise<unknown>;
-            imageToBase64: (img: any, type?: string, quality?: number) => string;
-            resizeByScale: (img: any, scale: any, { quality, type }?: {
-                quality?: number | undefined;
-                type?: string | undefined;
+            getImageContentType: (img: HTMLImageElement) => Promise<string | undefined>;
+            parseContentType: (type: string | undefined) => string;
+            urlToImage: (url: string) => Promise<unknown>;
+            blobToImage: (blob: Blob) => Promise<unknown>;
+            imageToBlob: (img: HTMLImageElement, filename?: string, _type?: string) => Promise<Blob & {
+                name: string;
+            }>;
+            canvasToImage: (canvas: HTMLCanvasElement, type?: string, quality?: number) => Promise<unknown>;
+            imageToCanvas: (img: HTMLImageElement, width?: number, height?: number) => HTMLCanvasElement;
+            canvasToBlob: (canvas: HTMLCanvasElement, type?: string, quality?: number) => Promise<unknown>;
+            base64ToImage: (data: string) => Promise<unknown>;
+            imageToBase64: (img: HTMLImageElement, type?: string, quality?: number) => string;
+            resizeByScale: (img: HTMLImageElement, scale: number, { quality, type }?: {
+                quality?: number;
+                type?: string;
             }) => Promise<unknown>;
-            resize: (img: any, maxSize: any, { quality, type }?: {
-                quality?: number | undefined;
-                type?: string | undefined;
+            resize: (img: HTMLImageElement, maxSize: number | [number, number], { quality, type }?: {
+                quality?: number;
+                type?: string;
             }) => Promise<unknown>;
-            rotate: (img: any, direction?: number, type?: string) => Promise<unknown>;
-            flipFlop: (img: any, flip: any, flop: any, type?: string) => Promise<unknown>;
-            convertType: (img: any, targetType: any) => Promise<unknown>;
-            getLightness: (img: any) => number;
-            white2transparent: (img: any, tolerance: any) => Promise<unknown>;
+            rotate: (img: HTMLImageElement, direction?: number, type?: string) => Promise<unknown>;
+            flipFlop: (img: HTMLImageElement, flip: boolean, flop: boolean, type?: string) => Promise<unknown>;
+            convertType: (img: HTMLImageElement, targetType: string) => Promise<unknown>;
+            getLightness: (img: HTMLImageElement) => number;
+            white2transparent: (img: HTMLImageElement, tolerance: number) => Promise<unknown>;
         };
         numberUtility: {
             naturalCompare: (as: any, bs: any, f: any) => number;

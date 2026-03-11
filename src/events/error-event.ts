@@ -1,11 +1,12 @@
 import Event from './event';
+import { except } from '../utilities/array-utility';
 
 class ErrorEvent extends Event {
-	constructor(...args) {
-		const type = args.find(function (x) { return typeof (x) === "string"; });
-		const src = args.find(function (x) { return x instanceof Event; });
-		const data = args.except([type, src])[0];
-		super(type || "error", src, data);
+	constructor(...args: unknown[]) {
+		const type = args.find((x): x is string => typeof x === "string");
+		const src = args.find((x): x is Event => x instanceof Event);
+		const data = except(args, [type, src])[0] as Record<string, unknown> | undefined;
+		super(type ?? "error", src, data);
 	}
 }
 

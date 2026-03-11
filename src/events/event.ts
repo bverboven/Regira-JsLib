@@ -1,5 +1,9 @@
 class Event {
-	constructor(type, src, data) {
+	type: string;
+	src?: Event;
+	[key: string]: unknown;
+
+	constructor(type: string, src?: Event, data?: Record<string, unknown>) {
 		this.type = type;
 		this.src = src;
 		if (data != null) {

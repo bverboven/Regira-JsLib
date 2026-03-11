@@ -1,90 +1,88 @@
 class p {
-  constructor(t, s, e) {
-    this.type = t, this.src = s, e != null && Object.keys(e).forEach((i) => {
-      i in this || (this[i] = e[i]);
+  type;
+  src;
+  constructor(c, e, t) {
+    this.type = c, this.src = e, t != null && Object.keys(t).forEach((n) => {
+      n in this || (this[n] = t[n]);
     });
   }
 }
-const a = (n) => {
-  const t = n[0], s = n.splice(0, 1)[0], e = s.callback || n[n.length - 1], i = s.constraint || (n.length > 2 ? n.splice(0, 1).find(function(l) {
-    return l !== e && typeof l == "function";
-  }) : void 0), o = s.scope;
+const a = (s) => {
+  const c = s[0], e = s.splice(0, 1)[0], t = e.callback ?? s[s.length - 1], n = e.constraint ?? (s.length > 2 ? s.splice(0, 1).find((o) => o !== t && typeof o == "function") : void 0), l = e.scope;
   return {
-    key: t || "",
-    constraint: i,
-    callback: e,
-    thisScope: o
+    key: c ?? "",
+    constraint: n,
+    callback: t,
+    thisScope: l
   };
 };
-function h(n) {
-  const t = this;
-  n.key.split(" ").forEach(function(s) {
-    s in t.listeners || (t.listeners[s] = []);
-    const e = {
-      constraint: n.constraint,
-      callback: n.callback,
-      scope: n.thisScope,
-      once: n.once
+function h(s) {
+  const c = this;
+  s.key.split(" ").forEach((e) => {
+    e in c.listeners || (c.listeners[e] = []);
+    const t = {
+      constraint: s.constraint,
+      callback: s.callback,
+      scope: s.thisScope,
+      once: s.once
     };
-    t.listeners[s].push(e);
+    c.listeners[e].push(t);
   });
 }
-class u {
-}
-u.injectInto = function(n) {
-  Object.defineProperties(n, {
-    listeners: {
-      get: function() {
-        return "_listeners" in this || Object.defineProperty(this, "_listeners", { value: {} }), this._listeners;
-      }
-    },
-    on: {
-      value: function() {
-        const t = a([...arguments]);
-        return h.call(this, t), this;
-      },
-      configurable: !0
-    },
-    once: {
-      value: function() {
-        const t = a([...arguments]);
-        return t.once = !0, h.call(this, t), this;
-      },
-      configurable: !0
-    },
-    off: {
-      value: function(t, s) {
-        if (this.listeners[t]) {
-          if (this.listeners[t].length && typeof s == "function") {
-            const e = this.listeners[t].findIndex(function(i) {
-              return i.callback === s;
-            });
-            e >= 0 && this.listeners[t].splice(e, 1);
-          }
-          (!this.listeners[t].length || s == null) && delete this.listeners[t];
+class f {
+  static injectInto(c) {
+    Object.defineProperties(c, {
+      listeners: {
+        get() {
+          return "_listeners" in this || Object.defineProperty(this, "_listeners", { value: {} }), this._listeners;
         }
-        return this;
       },
-      configurable: !0
-    },
-    trigger: {
-      value: async function(t, s) {
-        const e = this, i = typeof t == "string" ? new p(t) : t, o = [];
-        return (e.listeners[i.type] || []).concat(e.listeners[""]).filter((c) => c && (c.constraint == null || c.constraint.call(c.scope || e, t, s))).map((c) => (c.once && e.off(i.type, c.callback), () => {
-          try {
-            const r = c.callback.call(c.scope || e, i, s || {});
-            return Promise.resolve(r);
-          } catch (r) {
-            return console.error("Executing listener failed", { error: r, event: i, listener: c.callback }), Promise.resolve(r);
+      on: {
+        value() {
+          const e = a([...arguments]);
+          return h.call(this, e), this;
+        },
+        configurable: !0
+      },
+      once: {
+        value() {
+          const e = a([...arguments]);
+          return e.once = !0, h.call(this, e), this;
+        },
+        configurable: !0
+      },
+      off: {
+        value(e, t) {
+          if (this.listeners[e]) {
+            if (this.listeners[e].length && typeof t == "function") {
+              const n = this.listeners[e].findIndex((l) => l.callback === t);
+              n >= 0 && this.listeners[e].splice(n, 1);
+            }
+            (!this.listeners[e].length || t == null) && delete this.listeners[e];
           }
-        })).reduce((c, r) => c.then(r).then((f) => (o.push(f), f)), Promise.resolve()).then(() => o);
+          return this;
+        },
+        configurable: !0
       },
-      configurable: !0
-    }
-  });
-};
-u.injectInto(u.prototype);
+      trigger: {
+        async value(e, t) {
+          const n = this, l = typeof e == "string" ? new p(e) : e, o = [];
+          return (n.listeners[l.type] ?? []).concat(n.listeners[""] ?? []).filter((i) => i && (i.constraint == null || i.constraint.call(i.scope ?? n, e, t))).map((i) => (i.once && n.off(l.type, i.callback), () => {
+            try {
+              const r = i.callback.call(i.scope ?? n, l, t ?? {});
+              return Promise.resolve(r);
+            } catch (r) {
+              return console.error("Executing listener failed", { error: r, event: l, listener: i.callback }), Promise.resolve(r);
+            }
+          })).reduce((i, r) => i.then(r).then((u) => (o.push(u), u)), Promise.resolve(void 0)).then(() => o);
+        },
+        configurable: !0
+      }
+    });
+  }
+}
+f.injectInto(f.prototype);
 export {
-  u as E,
+  f as E,
   p as a
 };
