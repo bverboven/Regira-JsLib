@@ -51,7 +51,7 @@ const h = {
     f(t.defaultLang ?? "en"), n.value = t.defaultLang ?? "en", typeof t.messages == "function" ? L(async () => {
       const r = await t.messages();
       d(r), a.value = !0;
-    }) : (d(t.messages), a.value = !0), e.config.globalProperties.$t = (r, i) => a.value && l(r, i), e.config.globalProperties.$tm = (r, i) => o(r, i);
+    }) : (d(t.messages), a.value = !0), e.config.globalProperties.$t = (r, i) => a.value ? l(r, i) : "", e.config.globalProperties.$tm = (r, i) => o(r, i);
   }
 };
 export {
