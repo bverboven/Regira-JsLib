@@ -1,17 +1,15 @@
-export declare const redirect: (url: any, delayInSeconds?: number) => void;
-export declare const getAbsOffset: (element: any) => {
+export declare const redirect: (url: string, delayInSeconds?: number) => void;
+export interface Offset {
     top: number;
     left: number;
-};
-export declare const getAbsScrollPosition: (element: any) => {
-    top: number;
-    left: number;
-};
-export declare const setMetaTag: (name: any, content: any) => void;
-export declare const setCanonicalTag: (url: any) => void;
+}
+export declare const getAbsOffset: (element: HTMLElement) => Offset;
+export declare const getAbsScrollPosition: (element: HTMLElement) => Offset;
+export declare const setMetaTag: (name: string, content: string) => void;
+export declare const setCanonicalTag: (url: string) => void;
 declare const _default: {
-    redirect: (url: any, delayInSeconds?: number) => void;
-    setMetaTag: (name: any, content: any) => void;
-    setCanonicalTag: (url: any) => void;
+    redirect: (url: string, delayInSeconds?: number) => void;
+    setMetaTag: (name: string, content: string) => void;
+    setCanonicalTag: (url: string) => void;
 };
 export default _default;

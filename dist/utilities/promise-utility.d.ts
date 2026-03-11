@@ -8,16 +8,16 @@
  *
  * @returns {Promise} Returns the result of the invoked function, wrapped in a Promise
  */
-export declare const debounceToPromise: (func: any, wait?: number) => () => Promise<unknown>;
+export declare const debounceToPromise: <T>(func: (...args: unknown[]) => T, wait?: number) => (...args: unknown[]) => Promise<T>;
 /**
  * Executes a collection of async functions in order
  * @param {Array<Function>} array of (async) functions
  */
-export declare const enqueue: (arr: any) => Promise<any>;
+export declare const enqueue: (arr: Array<() => unknown>) => Promise<unknown[]>;
 export declare const delay: (ms?: number) => Promise<unknown>;
 declare const _default: {
-    debounceToPromise: (func: any, wait?: number) => () => Promise<unknown>;
-    enqueue: (arr: any) => Promise<any>;
+    debounceToPromise: <T>(func: (...args: unknown[]) => T, wait?: number) => (...args: unknown[]) => Promise<T>;
+    enqueue: (arr: Array<() => unknown>) => Promise<unknown[]>;
     delay: (ms?: number) => Promise<unknown>;
 };
 export default _default;

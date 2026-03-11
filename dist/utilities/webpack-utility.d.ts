@@ -4,4 +4,9 @@
  * @param {Function} ctx
  * @returns {Array} entries
  */
-export declare const getModuleEntries: (ctx: any) => any;
+interface RequireContext {
+    keys(): string[];
+    (id: string): unknown;
+}
+export declare const getModuleEntries: (ctx: RequireContext) => unknown[][];
+export {};

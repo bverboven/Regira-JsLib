@@ -117,13 +117,13 @@ export function formatBelgianPhone(phone: string) {
 
     if (phone.length === 12 && phone.indexOf("00323") === 0) {
         const s = phone.match(/(\d{4})(\d{1})(\d{3})(\d{2})(\d{2})/)
-        if (s.length == 6) {
-            return `+${s[1].substr(2)} ${s[2]} ${s[3]} ${s[4]} ${s[5]}`
+        if (s != null && s.length == 6) {
+            return `+${s[1].substring(2)} ${s[2]} ${s[3]} ${s[4]} ${s[5]}`
         }
     } else if (phone.length === 13 && phone.indexOf("00324") === 0) {
         const s = phone.match(/(\d{4})(\d{3})(\d{2})(\d{2})(\d{2})/)
-        if (s.length == 6) {
-            return `+${s[1].substr(2)} ${s[2]} ${s[3]} ${s[4]} ${s[5]}`
+        if (s != null && s.length == 6) {
+            return `+${s[1].substring(2)} ${s[2]} ${s[3]} ${s[4]} ${s[5]}`
         }
     }
     return phone
@@ -134,7 +134,7 @@ export function htmlEncode(s: string) {
     return s.replace(/[\u00A0-\u9999<>&]/gim, (i) => "&#" + i.charCodeAt(0) + ";")
 }
 export function htmlDecode(s: string) {
-    return s.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
+    return s.replace(/&#(\d+);/g, (_match, dec) => String.fromCharCode(dec))
     // https://stackoverflow.com/questions/3700326/decode-amp-back-to-in-javascript#answer-42254787
     // return typeof (DOMParser) === 'function'
     // 	? new DOMParser().parseFromString(`<!doctype html><body>${s}`, 'text/html').body.textContent
@@ -381,7 +381,7 @@ export function normalizeDiacritics(s: string) {
 }
 
 // capitalizes every word
-export const capitalize = (s: string) => (!s ? "" : s[0].toUpperCase() + s.substr(1).replace(/\s(.)/g, (m) => m.toUpperCase()))
+export const capitalize = (s: string) => (!s ? "" : s[0].toUpperCase() + s.substring(1).replace(/\s(.)/g, (m) => m.toUpperCase()))
 // e.g. this-is-kebab-case
 export const toKebabCase = (s: string) =>
     !s

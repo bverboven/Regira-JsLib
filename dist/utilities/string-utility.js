@@ -22,7 +22,7 @@ function C(u = 10) {
 function d() {
   return ("10000000-1000-4000-8000" + -1e11).replace(/[018]/g, (u) => (u ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> u / 4).toString(16));
 }
-const Z = (u = Math.floor(Math.random() * 24) + 8) => C(u);
+const z = (u = Math.floor(Math.random() * 24) + 8) => C(u);
 function m(u) {
   return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(u);
 }
@@ -33,9 +33,9 @@ function g(u) {
   return /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}$/gi.test(u);
 }
 function w(u) {
-  return g(u) || D(u) ? !1 : /^[+]?(\d{1,3})([-./ ]?)([(-]?(\d{1,4})[)-]?(\d{1,4})?)?([-./ ]?(\d{2,4})){2,4}$/gi.test(u);
+  return g(u) || n(u) ? !1 : /^[+]?(\d{1,3})([-./ ]?)([(-]?(\d{1,4})[)-]?(\d{1,4})?)?([-./ ]?(\d{2,4})){2,4}$/gi.test(u);
 }
-function D(u) {
+function n(u) {
   return (
     // european format (DD-MM-YYYY)
     /^(0?[1-9]|[12][0-9]|3[01])[\/\. -](0?[1-9]|1[1,2])[\/\. -](19|20)?\d{2}$/gi.test(u) || // american format (MM-DD-YYYY)
@@ -54,12 +54,12 @@ function L(u) {
     return "";
   if (u.length === 12 && u.indexOf("00323") === 0) {
     const e = u.match(/(\d{4})(\d{1})(\d{3})(\d{2})(\d{2})/);
-    if (e.length == 6)
-      return `+${e[1].substr(2)} ${e[2]} ${e[3]} ${e[4]} ${e[5]}`;
+    if (e != null && e.length == 6)
+      return `+${e[1].substring(2)} ${e[2]} ${e[3]} ${e[4]} ${e[5]}`;
   } else if (u.length === 13 && u.indexOf("00324") === 0) {
     const e = u.match(/(\d{4})(\d{3})(\d{2})(\d{2})(\d{2})/);
-    if (e.length == 6)
-      return `+${e[1].substr(2)} ${e[2]} ${e[3]} ${e[4]} ${e[5]}`;
+    if (e != null && e.length == 6)
+      return `+${e[1].substring(2)} ${e[2]} ${e[3]} ${e[4]} ${e[5]}`;
   }
   return u;
 }
@@ -69,7 +69,7 @@ function O(u) {
 function P(u) {
   return u.replace(/&#(\d+);/g, (e, E) => String.fromCharCode(E));
 }
-function n(u) {
+function D(u) {
   const e = [
     {
       base: "A",
@@ -294,10 +294,10 @@ function n(u) {
     u = u.replace(e[E].letters, e[E].base);
   return u;
 }
-const F = (u) => u ? u[0].toUpperCase() + u.substr(1).replace(/\s(.)/g, (e) => e.toUpperCase()) : "", s = (u) => u ? l(
+const F = (u) => u ? u[0].toUpperCase() + u.substring(1).replace(/\s(.)/g, (e) => e.toUpperCase()) : "", s = (u) => u ? l(
   u.replace(/[^\w ]+/g, " ").replace(/\s+/g, "-").toLowerCase(),
   "-"
-) : "", y = (u) => u ? s(u).replace(/-+/g, "_") : "", U = (u) => u ? F(s(u).replace(/-+/g, " ")).replace(/\s+/g, "-") : "", b = (u) => u ? s(u).replace(/-/g, " ").replace(/\s(.)/g, (e) => e.toUpperCase()).replace(/\s/g, "").replace(/^(.)/, (e) => e.toLowerCase()) : "", x = (u) => u ? F(b(u)) : "", z = (u) => u ? s(n(u)) : "", _ = {
+) : "", y = (u) => u ? s(u).replace(/-+/g, "_") : "", U = (u) => u ? F(s(u).replace(/-+/g, " ")).replace(/\s+/g, "-") : "", b = (u) => u ? s(u).replace(/-/g, " ").replace(/\s(.)/g, (e) => e.toUpperCase()).replace(/\s/g, "").replace(/^(.)/, (e) => e.toLowerCase()) : "", _ = (u) => u ? F(b(u)) : "", x = (u) => u ? s(D(u)) : "", Z = {
   equals: o,
   contains: B,
   startsWith: i,
@@ -312,31 +312,31 @@ const F = (u) => u ? u[0].toUpperCase() + u.substr(1).replace(/\s(.)/g, (e) => e
   isIP: g,
   isUrl: p,
   isPhone: w,
-  isDate: D,
+  isDate: n,
   isPhysicalFolder: $,
   isPhysicalPath: h,
   formatBelgianPhone: L,
   htmlEncode: O,
   htmlDecode: P,
-  normalizeDiacritics: n,
+  normalizeDiacritics: D,
   capitalize: F,
   toKebabCase: s,
   toSnakeCase: y,
   toTrainCase: U,
   toCamelCase: b,
-  toPascalCase: x,
-  slugify: z
+  toPascalCase: _,
+  slugify: x
 };
 export {
   F as capitalize,
   B as contains,
-  _ as default,
+  Z as default,
   c as endsWith,
   o as equals,
   L as formatBelgianPhone,
   P as htmlDecode,
   O as htmlEncode,
-  D as isDate,
+  n as isDate,
   m as isEmail,
   g as isIP,
   w as isPhone,
@@ -344,15 +344,15 @@ export {
   h as isPhysicalPath,
   p as isUrl,
   d as newGuid,
-  Z as newPassword,
-  n as normalizeDiacritics,
+  z as newPassword,
+  D as normalizeDiacritics,
   C as randomize,
   f as replaceAll,
-  z as slugify,
+  x as slugify,
   i as startsWith,
   b as toCamelCase,
   s as toKebabCase,
-  x as toPascalCase,
+  _ as toPascalCase,
   y as toSnakeCase,
   U as toTrainCase,
   l as trim,

@@ -2,17 +2,16 @@ import {
   isArray,
   toArray,
   take,
-  sum,
   average,
   min,
   max
 } from "./array-utility";
 import { startsWith, trim } from "./string-utility";
 
-export const rgbToHex = (r, g, b) =>
+export const rgbToHex = (r: number, g: number, b: number): string =>
   "#" + [r, g, b].map(x => x.toString(16).padStart(2, "0")).join("");
 
-export const hexToRgb = (hex, opacity) => {
+export const hexToRgb = (hex: string, opacity?: number) => {
   if (hex.length === 4) {
     // e.g. #FFF
     hex =
@@ -29,15 +28,17 @@ export const hexToRgb = (hex, opacity) => {
       }
     : null;
 };
-export const hexToRgbString = (hex, opacity) => {
+export const hexToRgbString = (hex: string, opacity?: number): string | null => {
   const rgba = hexToRgb(hex, opacity);
   return rgba ? `rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, ${rgba.a})` : null;
 };
-export const hexToRgbArray = (hex, opacity) => {
-  const { r, g, b, a = 1 } = hexToRgb(hex, opacity);
+export const hexToRgbArray = (hex: string, opacity?: number): number[] => {
+  const rgb = hexToRgb(hex, opacity);
+  if (!rgb) return [0, 0, 0, 1];
+  const { r, g, b, a = 1 } = rgb;
   return [r, g, b, a];
 };
-export const getRgbString = (input, opacity) => {
+export const getRgbString = (input: number[] | string, opacity?: number): string | null => {
   if (isArray(input)) {
     const [r, g, b, a = 1] = input;
     return `rgba(${r},${g},${b},${a})`;
@@ -50,49 +51,49 @@ export const getRgbString = (input, opacity) => {
       return input;
     }
     if (startsWith(input, "rgb")) {
-      const segments = trim(input.substring("rgb".length), "()").split(",");
+      const segments = trim(input.substring("rgb".length), "()").split(",").map(Number);
       return getRgbString(segments, opacity);
     }
   }
   return null;
 };
-export const invertRgb = (r, g, b) => {
+export const invertRgb = (r: number, g: number, b: number) => {
   const [ri, gi, bi] = [r, g, b].map(x => 255 - x);
   return { ri, gi, bi };
 };
-export const invertHex = hex => {
-  const rgb = hexToRgbArray(hex);
-  const invertedRgb = invertRgb.apply(null, rgb);
-  return rgbToHex.apply(null, invertedRgb);
+export const invertHex = (hex: string): string => {
+  const [r, g, b] = hexToRgbArray(hex);
+  const { ri, gi, bi } = invertRgb(r, g, b);
+  return rgbToHex(ri, gi, bi);
 };
-export const grayscale = (hex, type = "average") => {
+export const grayscale = (hex: string, type = "average"): string => {
   const rgb = take(hexToRgbArray(hex), 3); //skip opacity
-  let gray;
+  let gray: [number, number, number];
   switch (type) {
     case "light": {
-      const maxValue = parseInt(max(rgb) * 0.8, 10);
+      const maxValue = Math.round((max(rgb) as number) * 0.8);
       gray = [maxValue, maxValue, maxValue];
       break;
     }
     case "dark": {
-      const minValue = parseInt(min(rgb), 10);
+      const minValue = min(rgb) as number;
       gray = [minValue, minValue, minValue];
       break;
     }
     case "weight": {
       const factors = [0.21, 0.72, 0.07];
-      const weighted = sum(rgb, (x, i) => parseInt(x * factors[i], 10));
+      const weighted = Math.round(rgb.reduce((acc, x, i) => acc + x * factors[i], 0));
       gray = [weighted, weighted, weighted];
       break;
     }
     default: //'average'
     {
-      const avg = parseInt(average(rgb), 10);
+      const avg = Math.round(average(rgb));
       gray = [avg, avg, avg];
       break;
     }
   }
-  return rgbToHex.apply(null, gray);
+  return rgbToHex(...gray);
 };
 
 // utility

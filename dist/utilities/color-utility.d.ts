@@ -1,37 +1,37 @@
-export declare const rgbToHex: (r: any, g: any, b: any) => string;
-export declare const hexToRgb: (hex: any, opacity: any) => {
+export declare const rgbToHex: (r: number, g: number, b: number) => string;
+export declare const hexToRgb: (hex: string, opacity?: number) => {
     r: number;
     g: number;
     b: number;
-    a: any;
+    a: number;
 } | null;
-export declare const hexToRgbString: (hex: any, opacity: any) => string | null;
-export declare const hexToRgbArray: (hex: any, opacity: any) => any[];
-export declare const getRgbString: (input: any, opacity: any) => any;
-export declare const invertRgb: (r: any, g: any, b: any) => {
+export declare const hexToRgbString: (hex: string, opacity?: number) => string | null;
+export declare const hexToRgbArray: (hex: string, opacity?: number) => number[];
+export declare const getRgbString: (input: number[] | string, opacity?: number) => string | null;
+export declare const invertRgb: (r: number, g: number, b: number) => {
     ri: number;
     gi: number;
     bi: number;
 };
-export declare const invertHex: (hex: any) => string;
-export declare const grayscale: (hex: any, type?: string) => string;
+export declare const invertHex: (hex: string) => string;
+export declare const grayscale: (hex: string, type?: string) => string;
 declare const _default: {
-    rgbToHex: (r: any, g: any, b: any) => string;
-    hexToRgb: (hex: any, opacity: any) => {
+    rgbToHex: (r: number, g: number, b: number) => string;
+    hexToRgb: (hex: string, opacity?: number) => {
         r: number;
         g: number;
         b: number;
-        a: any;
+        a: number;
     } | null;
-    hexToRgbString: (hex: any, opacity: any) => string | null;
-    hexToRgbArray: (hex: any, opacity: any) => any[];
-    getRgbString: (input: any, opacity: any) => any;
-    invertRgb: (r: any, g: any, b: any) => {
+    hexToRgbString: (hex: string, opacity?: number) => string | null;
+    hexToRgbArray: (hex: string, opacity?: number) => number[];
+    getRgbString: (input: number[] | string, opacity?: number) => string | null;
+    invertRgb: (r: number, g: number, b: number) => {
         ri: number;
         gi: number;
         bi: number;
     };
-    invertHex: (hex: any) => string;
-    grayscale: (hex: any, type?: string) => string;
+    invertHex: (hex: string) => string;
+    grayscale: (hex: string, type?: string) => string;
 };
 export default _default;

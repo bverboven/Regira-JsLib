@@ -1,36 +1,35 @@
-export const naturalCompare = (as, bs, f) => {
+export const naturalCompare = <T>(as: T, bs: T, f: (x: T) => string | number) => {
     // https://stackoverflow.com/questions/4373018/sort-array-of-numeric-alphabetical-elements-natural-sort#answer-4373037
-    let a, b, a1, b1, i = 0, rx = /(\d+)|(\D+)/g, rd = /\d/;
-    if (isFinite(f(as)) && isFinite(f(bs))) {
-        return f(as) - f(bs);
+    let a1: string, b1: string, i = 0;
+    const rx = /(\d+)|(\D+)/g, rd = /\d/;
+    if (isFinite(Number(f(as))) && isFinite(Number(f(bs)))) {
+        return Number(f(as)) - Number(f(bs));
     }
-    a = String(f(as)).toLowerCase();
-    b = String(f(bs)).toLowerCase();
+    const a = String(f(as)).toLowerCase();
+    const b = String(f(bs)).toLowerCase();
     if (a === b) {
         return 0;
     }
     if (!(rd.test(a) && rd.test(b))) {
         return a > b ? 1 : -1;
     }
-    a = a.match(rx);
-    b = b.match(rx);
-    const length = a.length > b.length ? b.length : a.length;
+    const aMatches = a.match(rx) ?? [];
+    const bMatches = b.match(rx) ?? [];
+    const length = aMatches.length > bMatches.length ? bMatches.length : aMatches.length;
     while (i < length) {
-        a1 = a[i];
-        b1 = b[i++];
+        a1 = aMatches[i];
+        b1 = bMatches[i++];
         if (a1 !== b1) {
-            if (isFinite(a1) && isFinite(b1)) {
-                if (a1.charAt(0) === "0")
-                    a1 = "." + a1;
-                if (b1.charAt(0) === "0")
-                    b1 = "." + b1;
-                return a1 - b1;
+            if (isFinite(Number(a1)) && isFinite(Number(b1))) {
+                const na = a1.charAt(0) === "0" ? Number("." + a1) : Number(a1);
+                const nb = b1.charAt(0) === "0" ? Number("." + b1) : Number(b1);
+                return na - nb;
             } else {
                 return a1 > b1 ? 1 : -1;
             }
         }
     }
-    return a.length - b.length;
+    return aMatches.length - bMatches.length;
 };
 export const getRandom = (min = 0, max = min) => {
     if (max === min) {

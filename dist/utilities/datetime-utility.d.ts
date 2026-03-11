@@ -1,24 +1,30 @@
-export declare const isValidDate: (date: any) => boolean;
-export declare const daysDiff: (date1: any, date2: any) => number;
+export declare const isValidDate: (date: unknown) => boolean;
+export declare const daysDiff: (date1: Date | number | string, date2: Date | number | string) => number;
 export declare const timer: {
     last: number;
-    log(dateToCompare: any): number;
+    log(dateToCompare?: Date | number | string): number;
 };
-export declare const countDown: (startDate: any, interval?: number) => {};
+export interface CountdownValues {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+}
+export declare const countDown: (startDate: Date | number | string, interval?: number) => CountdownValues;
 /**
  * Stringifies the date without timezone 'correction' in JSON format
  * @param {Date|number} date
  *  the date as Date or time in milliseconds
  * @returns the serialized date
  */
-export declare const stringifyDate: (date: any) => string | null;
+export declare const stringifyDate: (date: Date | number) => string | null;
 declare const _default: {
-    isValidDate: (date: any) => boolean;
+    isValidDate: (date: unknown) => boolean;
     timer: {
         last: number;
-        log(dateToCompare: any): number;
+        log(dateToCompare?: Date | number | string): number;
     };
-    countDown: (startDate: any, interval?: number) => {};
-    stringifyDate: (date: any) => string | null;
+    countDown: (startDate: Date | number | string, interval?: number) => CountdownValues;
+    stringifyDate: (date: Date | number) => string | null;
 };
 export default _default;

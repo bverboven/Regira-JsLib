@@ -1,9 +1,11 @@
 import FileHelper from "./file-helper";
 import imageUtility from "../utilities/image-utility";
 
+type ImageInput = HTMLImageElement | string | Blob | HTMLCanvasElement;
+
 class ImageHelper extends FileHelper {
-  async getImage(input) {
-    if (input instanceof Image) {
+  async getImage(input: ImageInput): Promise<HTMLImageElement> {
+    if (input instanceof HTMLImageElement) {
       return input;
     }
     if (typeof input === "string") {
@@ -17,46 +19,46 @@ class ImageHelper extends FileHelper {
     }
     throw Error("Cannot convert input to type Image");
   }
-  async getBlob(input, filename, type) {
-    if (input instanceof Image) {
-      return imageUtility.imageToBlob(input, filename, type);
+  async getBlob(input: HTMLImageElement | HTMLCanvasElement | File | Blob | string, filename?: string, type?: string): Promise<Blob> {
+    if (input instanceof HTMLImageElement) {
+      return imageUtility.imageToBlob(input, filename, type) as Promise<Blob>;
     } else if (input instanceof HTMLCanvasElement) {
-      return imageUtility.canvasToBlob(input, filename, type);
+      return imageUtility.canvasToBlob(input, type) as Promise<Blob>;
     }
 
     return super.getBlob(input, filename, type);
   }
 
-  async resize(input, max, options) {
+  async resize(input: ImageInput, max: number, options?: { quality?: number; type?: string }) {
     const img = await this.getImage(input);
     return imageUtility.resizeByScale(img, Math.min(1, max / Math.max(img.width, img.height)), options);
     //return imageUtility.resize(img, max, options);
   }
-  async rotate(input, direction) {
+  async rotate(input: Blob, direction: number) {
     const type = imageUtility.parseContentType(input.type);
     const img = await this.getImage(input);
     return imageUtility.rotate(img, direction, type);
   }
-  async flipHorizontally(input) {
+  async flipHorizontally(input: ImageInput) {
     return this.flipFlop(input, true);
   }
-  async flipVertically(input) {
+  async flipVertically(input: ImageInput) {
     return this.flipFlop(input, false, true);
   }
-  async flipFlop(input, flip, flop, type) {
+  async flipFlop(input: ImageInput, flip = false, flop = false, type?: string) {
     const img = await this.getImage(input);
     return imageUtility.flipFlop(img, flip, flop, type);
   }
-  async convertType(input, targetType) {
+  async convertType(input: ImageInput, targetType: string) {
     const img = await this.getImage(input);
     return imageUtility.convertType(img, targetType);
   }
 
-  async getLightness(input) {
+  async getLightness(input: ImageInput) {
     const img = await this.getImage(input);
     return imageUtility.getLightness(img);
   }
-  async white2transparent(input, tolerance = 0) {
+  async white2transparent(input: ImageInput, tolerance = 0) {
     const img = await this.getImage(input);
     return imageUtility.white2transparent(img, tolerance);
   }

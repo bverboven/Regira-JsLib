@@ -1,13 +1,14 @@
-export const isValidDate = (date) => {
-  var dateObj = date instanceof Date ? date : new Date(date);
+export const isValidDate = (date: unknown): boolean => {
+  const dateObj = date instanceof Date ? date : new Date(date as string | number);
   return !isNaN(+dateObj);
 };
 
-export const daysDiff = (date1, date2) => Math.ceil(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+export const daysDiff = (date1: Date | number | string, date2: Date | number | string): number =>
+  Math.ceil(Math.abs(new Date(date2).getTime() - new Date(date1).getTime()) / (1000 * 60 * 60 * 24));
 
 export const timer = {
   last: new Date().getTime(),
-  log(dateToCompare) {
+  log(dateToCompare?: Date | number | string): number {
     const newTime = new Date().getTime();
     const sourceTime = dateToCompare ? new Date(dateToCompare).getTime() : this.last;
     this.last = newTime;
@@ -15,12 +16,24 @@ export const timer = {
   },
 };
 
-export const countDown = (startDate, interval = 1000) => {
+export interface CountdownValues {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+export const countDown = (startDate: Date | number | string, interval = 1000): CountdownValues => {
   // https://stackoverflow.com/questions/13903897/javascript-return-number-of-days-hours-minutes-seconds-between-two-dates#answer-13904120
-  const countDownValues = {};
+  const countDownValues: CountdownValues = {
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  };
   const update = () => {
     const now = new Date();
-    let delta = Math.abs(startDate - now) / 1000;
+    let delta = Math.abs(new Date(startDate).getTime() - now.getTime()) / 1000;
 
     countDownValues.days = Math.floor(delta / 86400);
     delta -= countDownValues.days * 86400;
@@ -40,7 +53,7 @@ export const countDown = (startDate, interval = 1000) => {
   return countDownValues;
 };
 
-const getTimezoneOffset = function(date) {
+const getTimezoneOffset = function(date: Date): string {
   if (!isValidDate(date)) {
     return "";
   }
@@ -62,7 +75,7 @@ const getTimezoneOffset = function(date) {
  *  the date as Date or time in milliseconds
  * @returns the serialized date
  */
-export const stringifyDate = function(date) {
+export const stringifyDate = function(date: Date | number): string | null {
   if (!isValidDate(date)) {
     return null;
   }

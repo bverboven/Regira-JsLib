@@ -1,14 +1,18 @@
 import FileHelper from "./file-helper";
+type ImageInput = HTMLImageElement | string | Blob | HTMLCanvasElement;
 declare class ImageHelper extends FileHelper {
-    getImage(input: any): Promise<unknown>;
-    getBlob(input: any, filename: any, type: any): Promise<unknown>;
-    resize(input: any, max: any, options: any): Promise<unknown>;
-    rotate(input: any, direction: any): Promise<unknown>;
-    flipHorizontally(input: any): Promise<unknown>;
-    flipVertically(input: any): Promise<unknown>;
-    flipFlop(input: any, flip: any, flop: any, type: any): Promise<unknown>;
-    convertType(input: any, targetType: any): Promise<unknown>;
-    getLightness(input: any): Promise<number>;
-    white2transparent(input: any, tolerance?: number): Promise<unknown>;
+    getImage(input: ImageInput): Promise<HTMLImageElement>;
+    getBlob(input: HTMLImageElement | HTMLCanvasElement | File | Blob | string, filename?: string, type?: string): Promise<Blob>;
+    resize(input: ImageInput, max: number, options?: {
+        quality?: number;
+        type?: string;
+    }): Promise<HTMLImageElement>;
+    rotate(input: Blob, direction: number): Promise<HTMLImageElement>;
+    flipHorizontally(input: ImageInput): Promise<HTMLImageElement>;
+    flipVertically(input: ImageInput): Promise<HTMLImageElement>;
+    flipFlop(input: ImageInput, flip?: boolean, flop?: boolean, type?: string): Promise<HTMLImageElement>;
+    convertType(input: ImageInput, targetType: string): Promise<HTMLImageElement>;
+    getLightness(input: ImageInput): Promise<number>;
+    white2transparent(input: ImageInput, tolerance?: number): Promise<HTMLImageElement>;
 }
 export default ImageHelper;

@@ -1,18 +1,18 @@
 export declare const isLocalHost: () => boolean;
-export declare const isHttps: (url: any) => boolean;
-export declare const getHttpsUrl: (url: any) => any;
-export declare const forceHttps: (currentUrl: any) => void;
-export declare function tryCreateValidURL(input: any): any;
-export declare const toAbsoluteUrl: (relative: any, baseUrl?: null) => any;
-export declare const toQueryString: (obj: any, includeNulls?: boolean) => any;
+export declare const isHttps: (url: string | URL) => boolean;
+export declare const getHttpsUrl: (url: string) => string;
+export declare const forceHttps: (currentUrl: string) => void;
+export declare function tryCreateValidURL(input: string): string;
+export declare const toAbsoluteUrl: (relative: string, baseUrl?: string | null) => string;
+export declare const toQueryString: (obj: Record<string, unknown>, includeNulls?: boolean) => string;
 export declare const getQueryStringParams: (url?: string) => {
     [k: string]: string;
 };
 declare const _default: {
     isLocalHost: () => boolean;
-    getHttpsUrl: (url: any) => any;
-    forceHttps: (currentUrl: any) => void;
-    toQueryString: (obj: any, includeNulls?: boolean) => any;
+    getHttpsUrl: (url: string) => string;
+    forceHttps: (currentUrl: string) => void;
+    toQueryString: (obj: Record<string, unknown>, includeNulls?: boolean) => string;
     getQueryStringParams: (url?: string) => {
         [k: string]: string;
     };

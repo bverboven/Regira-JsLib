@@ -5,7 +5,7 @@ export declare const toArray: <T>(items: T[] | Iterable<T> | Record<string, T> |
 export declare const newArray: (length: number) => undefined[];
 export declare const orderBy: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
 export declare const orderByDesc: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
-export declare const naturalSort: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
+export declare const naturalSort: <T>(items: Iterable<T>, selector?: (x: T) => string | number) => T[];
 export declare const shuffle: <T>(items: Iterable<T>) => T[];
 export declare const innerJoin: <T, U = T, R = T>(items1: Iterable<T>, items2: Iterable<U>, selector1?: (x: T) => unknown, selector2?: (x: U) => unknown, resultSelector?: (x: T, y: U) => R) => R[];
 export declare const groupBy: <T, K = unknown>(items: Iterable<T>, keySelector: (x: T, i?: number, arr?: T[]) => K) => [K, T[]][];
@@ -46,7 +46,7 @@ declare const _default: {
     newArray: (length: number) => undefined[];
     orderBy: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
     orderByDesc: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
-    naturalSort: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
+    naturalSort: <T>(items: Iterable<T>, selector?: (x: T) => string | number) => T[];
     shuffle: <T>(items: Iterable<T>) => T[];
     innerJoin: <T, U = T, R = T>(items1: Iterable<T>, items2: Iterable<U>, selector1?: (x: T) => unknown, selector2?: (x: U) => unknown, resultSelector?: (x: T, y: U) => R) => R[];
     groupBy: <T, K = unknown>(items: Iterable<T>, keySelector: (x: T, i?: number, arr?: T[]) => K) => [K, T[]][];

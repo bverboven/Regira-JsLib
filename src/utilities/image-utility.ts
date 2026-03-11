@@ -94,8 +94,8 @@ export const addImageToCanvas = (canvas: HTMLCanvasElement | null | undefined, i
   return c;
 };
 
-export const urlToImage = async (url: string) => {
-  return new Promise((resolve, reject) => {
+export const urlToImage = async (url: string): Promise<HTMLImageElement> => {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve(img);
     img.onerror = reject;

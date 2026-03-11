@@ -1,45 +1,48 @@
-export const redirect = (url, delayInSeconds = 0) => {
+export const redirect = (url: string, delayInSeconds = 0): void => {
   const tag = document.createElement("meta");
   tag.setAttribute("http-equiv", "Refresh");
   tag.setAttribute("content", `${delayInSeconds}; url=${url}`);
   document.head.appendChild(tag);
 };
 
-export const getAbsOffset = (element) => {
-  let top = 0, left = 0;
-  do {
-    top += element.offsetTop || 0;
-    left += element.offsetLeft || 0;
-    element = element.offsetParent;
-  } while (element);
+export interface Offset {
+  top: number;
+  left: number;
+}
 
+export const getAbsOffset = (element: HTMLElement): Offset => {
+  let top = 0, left = 0;
+  let el: HTMLElement | null = element;
+  while (el) {
+    top += el.offsetTop || 0;
+    left += el.offsetLeft || 0;
+    el = el.offsetParent as HTMLElement | null;
+  }
   return {
     top: top,
     left: left
   };
 };
 
-export const getAbsScrollPosition = (element) => {
+export const getAbsScrollPosition = (element: HTMLElement): Offset => {
   let top = 0, left = 0;
-  do {
-    top += element.scrollTop || 0;
-    left += element.scrollLeft || 0;
-    element = element.parentElement;
-  } while (element);
-
+  let el: HTMLElement | null = element;
+  while (el) {
+    top += el.scrollTop || 0;
+    left += el.scrollLeft || 0;
+    el = el.parentElement;
+  }
   return {
     top: top,
     left: left
   };
 };
 
-export const setMetaTag = (name, content) => {
-  let metaTag = document.getElementsByName(name)[0];
+export const setMetaTag = (name: string, content: string): void => {
+  let metaTag = document.getElementsByName(name)[0] as HTMLMetaElement | undefined;
   if (metaTag == null) {
-    const headerNodes = [...document.head.childNodes.values()];
-    const lastMetaTagInHead = headerNodes
-      .filter(n => n.tagName === "META")
-      .slice(-1)[0];
+    const headerNodes = Array.from(document.head.childNodes).filter(n => (n as HTMLElement).tagName === "META");
+    const lastMetaTagInHead = headerNodes.slice(-1)[0] as HTMLElement | undefined;
     metaTag = document.createElement("meta");
     if (lastMetaTagInHead != null) {
       lastMetaTagInHead.insertAdjacentElement("afterend", metaTag);
@@ -51,14 +54,12 @@ export const setMetaTag = (name, content) => {
   metaTag.setAttribute("content", content);
 };
 
-export const setCanonicalTag = url => {
-  let metaTag = document.querySelector("[rel=canonical]");
+export const setCanonicalTag = (url: string): void => {
+  let metaTag = document.querySelector("[rel=canonical]") as HTMLLinkElement | null;
   if (metaTag == null) {
-    const headerNodes = [...document.head.childNodes.values()];
-    const lastMetaTagInHead = headerNodes
-      .filter(n => n.tagName === "META")
-      .slice(-1)[0];
-    metaTag = document.createElement("meta");
+    const headerNodes = Array.from(document.head.childNodes).filter(n => (n as HTMLElement).tagName === "META");
+    const lastMetaTagInHead = headerNodes.slice(-1)[0] as HTMLElement | undefined;
+    metaTag = document.createElement("link");
     if (lastMetaTagInHead != null) {
       lastMetaTagInHead.insertAdjacentElement("afterend", metaTag);
     } else {

@@ -37,7 +37,7 @@ declare const _default: {
             newArray: (length: number) => undefined[];
             orderBy: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
             orderByDesc: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
-            naturalSort: <T>(items: Iterable<T>, selector?: (x: T) => unknown) => T[];
+            naturalSort: <T>(items: Iterable<T>, selector?: (x: T) => string | number) => T[];
             shuffle: <T>(items: Iterable<T>) => T[];
             innerJoin: <T, U = T, R = T>(items1: Iterable<T>, items2: Iterable<U>, selector1?: (x: T) => unknown, selector2?: (x: U) => unknown, resultSelector?: (x: T, y: U) => R) => R[];
             groupBy: <T, K = unknown>(items: Iterable<T>, keySelector: (x: T, i?: number, arr?: T[]) => K) => [K, T[]][];
@@ -72,32 +72,32 @@ declare const _default: {
             reFill: <T>(arr: T[], values: T[]) => void;
         };
         colorUtility: {
-            rgbToHex: (r: any, g: any, b: any) => string;
-            hexToRgb: (hex: any, opacity: any) => {
+            rgbToHex: (r: number, g: number, b: number) => string;
+            hexToRgb: (hex: string, opacity?: number) => {
                 r: number;
                 g: number;
                 b: number;
-                a: any;
+                a: number;
             } | null;
-            hexToRgbString: (hex: any, opacity: any) => string | null;
-            hexToRgbArray: (hex: any, opacity: any) => any[];
-            getRgbString: (input: any, opacity: any) => any;
-            invertRgb: (r: any, g: any, b: any) => {
+            hexToRgbString: (hex: string, opacity?: number) => string | null;
+            hexToRgbArray: (hex: string, opacity?: number) => number[];
+            getRgbString: (input: number[] | string, opacity?: number) => string | null;
+            invertRgb: (r: number, g: number, b: number) => {
                 ri: number;
                 gi: number;
                 bi: number;
             };
-            invertHex: (hex: any) => string;
-            grayscale: (hex: any, type?: string) => string;
+            invertHex: (hex: string) => string;
+            grayscale: (hex: string, type?: string) => string;
         };
         datetimeUtility: {
-            isValidDate: (date: any) => boolean;
+            isValidDate: (date: unknown) => boolean;
             timer: {
                 last: number;
-                log(dateToCompare: any): number;
+                log(dateToCompare?: Date | number | string): number;
             };
-            countDown: (startDate: any, interval?: number) => {};
-            stringifyDate: (date: any) => string | null;
+            countDown: (startDate: Date | number | string, interval?: number) => import("./utilities/datetime-utility").CountdownValues;
+            stringifyDate: (date: Date | number) => string | null;
         };
         fileUtility: {
             isFile: (item: unknown) => item is Blob;
@@ -129,15 +129,15 @@ declare const _default: {
             formatFileSize: (bytes: number, si?: boolean, dp?: number) => string;
         };
         htmlUtility: {
-            redirect: (url: any, delayInSeconds?: number) => void;
-            setMetaTag: (name: any, content: any) => void;
-            setCanonicalTag: (url: any) => void;
+            redirect: (url: string, delayInSeconds?: number) => void;
+            setMetaTag: (name: string, content: string) => void;
+            setCanonicalTag: (url: string) => void;
         };
         httpUtility: {
             isLocalHost: () => boolean;
-            getHttpsUrl: (url: any) => any;
-            forceHttps: (currentUrl: any) => void;
-            toQueryString: (obj: any, includeNulls?: boolean) => any;
+            getHttpsUrl: (url: string) => string;
+            forceHttps: (currentUrl: string) => void;
+            toQueryString: (obj: Record<string, unknown>, includeNulls?: boolean) => string;
             getQueryStringParams: (url?: string) => {
                 [k: string]: string;
             };
@@ -150,44 +150,44 @@ declare const _default: {
             };
             getImageContentType: (img: HTMLImageElement) => Promise<string | undefined>;
             parseContentType: (type: string | undefined) => string;
-            urlToImage: (url: string) => Promise<unknown>;
-            blobToImage: (blob: Blob) => Promise<unknown>;
+            urlToImage: (url: string) => Promise<HTMLImageElement>;
+            blobToImage: (blob: Blob) => Promise<HTMLImageElement>;
             imageToBlob: (img: HTMLImageElement, filename?: string, _type?: string) => Promise<Blob & {
                 name: string;
             }>;
-            canvasToImage: (canvas: HTMLCanvasElement, type?: string, quality?: number) => Promise<unknown>;
+            canvasToImage: (canvas: HTMLCanvasElement, type?: string, quality?: number) => Promise<HTMLImageElement>;
             imageToCanvas: (img: HTMLImageElement, width?: number, height?: number) => HTMLCanvasElement;
             canvasToBlob: (canvas: HTMLCanvasElement, type?: string, quality?: number) => Promise<unknown>;
-            base64ToImage: (data: string) => Promise<unknown>;
+            base64ToImage: (data: string) => Promise<HTMLImageElement>;
             imageToBase64: (img: HTMLImageElement, type?: string, quality?: number) => string;
             resizeByScale: (img: HTMLImageElement, scale: number, { quality, type }?: {
                 quality?: number;
                 type?: string;
-            }) => Promise<unknown>;
+            }) => Promise<HTMLImageElement>;
             resize: (img: HTMLImageElement, maxSize: number | [number, number], { quality, type }?: {
                 quality?: number;
                 type?: string;
-            }) => Promise<unknown>;
-            rotate: (img: HTMLImageElement, direction?: number, type?: string) => Promise<unknown>;
-            flipFlop: (img: HTMLImageElement, flip: boolean, flop: boolean, type?: string) => Promise<unknown>;
-            convertType: (img: HTMLImageElement, targetType: string) => Promise<unknown>;
+            }) => Promise<HTMLImageElement>;
+            rotate: (img: HTMLImageElement, direction?: number, type?: string) => Promise<HTMLImageElement>;
+            flipFlop: (img: HTMLImageElement, flip: boolean, flop: boolean, type?: string) => Promise<HTMLImageElement>;
+            convertType: (img: HTMLImageElement, targetType: string) => Promise<HTMLImageElement>;
             getLightness: (img: HTMLImageElement) => number;
-            white2transparent: (img: HTMLImageElement, tolerance: number) => Promise<unknown>;
+            white2transparent: (img: HTMLImageElement, tolerance: number) => Promise<HTMLImageElement>;
         };
         numberUtility: {
-            naturalCompare: (as: any, bs: any, f: any) => number;
+            naturalCompare: <T>(as: T, bs: T, f: (x: T) => string | number) => number;
             getRandom: (min?: number, max?: number) => number;
         };
         objectUtility: {
-            isPlainObject: (obj: any) => boolean;
-            flattenObject: (obj: any) => {};
-            crawlObject: (obj: any, key: any) => any;
-            mixin: (target: any, ...rest: any[]) => any;
-            filterObject: (obj: any, filter: any) => any;
+            isPlainObject: (obj: unknown) => obj is Record<string, unknown>;
+            flattenObject: (obj: Record<string, unknown>) => Record<string, unknown>;
+            crawlObject: (obj: Record<string, unknown>, key: string) => unknown;
+            mixin: <T extends Record<string, unknown>>(target: T, ...rest: Record<string, unknown>[]) => T;
+            filterObject: (obj: Record<string, unknown>, filter: Record<string, unknown>) => boolean;
         };
         promiseUtility: {
-            debounceToPromise: (func: any, wait?: number) => () => Promise<unknown>;
-            enqueue: (arr: any) => Promise<any>;
+            debounceToPromise: <T>(func: (...args: unknown[]) => T, wait?: number) => (...args: unknown[]) => Promise<T>;
+            enqueue: (arr: Array<() => unknown>) => Promise<unknown[]>;
             delay: (ms?: number) => Promise<unknown>;
         };
         stringUtility: {

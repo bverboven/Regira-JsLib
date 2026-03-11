@@ -1,5 +1,5 @@
-import { trim as w } from "../utilities/string-utility.js";
-const g = (t) => typeof t == "object" && Object.prototype.toString.call(t) === "[object Object]", C = (t) => {
+import { trim as W } from "../utilities/string-utility.js";
+const y = (t) => typeof t == "object" && t !== null && Object.prototype.toString.call(t) === "[object Object]", M = (t) => {
   const n = (r, s) => s === "" ? r : `${s}.${r}`, e = (r, s = "", o = {}) => {
     if (Array.isArray(r))
       for (let c = 0; c < r.length; c++)
@@ -8,95 +8,100 @@ const g = (t) => typeof t == "object" && Object.prototype.toString.call(t) === "
       o[s] = r;
     else
       for (const c of Object.entries(r)) {
-        const i = c[0], u = c[1];
+        const a = c[0], u = c[1];
         if (Array.isArray(u))
           for (let l in u) {
-            const h = n(`${i}[${l}]`, s);
+            const h = n(`${a}[${l}]`, s);
             e(u[l], h, o);
           }
         else {
-          const l = n(i, s);
-          typeof u == "object" && Object.keys(u).length > 0 ? e(u, l, o) : o[l] = u;
+          const l = n(a, s);
+          typeof u == "object" && u !== null && Object.keys(u).length > 0 ? e(u, l, o) : o[l] = u;
         }
       }
     return o;
   };
   return e(t);
-}, W = (t, n) => n.split(".").reduce((e, r) => e == null ? null : e[r], t), nt = (t) => {
+}, x = (t, n) => n.split(".").reduce((e, r) => e == null ? null : e[r], t), ot = (t) => {
   const n = (r, s) => r.filter(s)[0], e = (r, s = []) => {
     if (r === null || typeof r != "object")
       return r;
-    const o = n(s, (i) => i.original === r);
+    const o = n(s, (a) => a.original === r);
     if (o)
       return o.copy;
     if (r instanceof Date)
       return new Date(r);
     const c = Array.isArray(r) ? [] : {};
-    return s.push({ original: r, copy: c }), Object.keys(r).forEach((i) => {
-      c[i] = e(r[i], s);
+    return s.push({ original: r, copy: c }), Object.keys(r).forEach((a) => {
+      c[a] = e(r[a], s);
     }), c;
   };
   return e(t);
-}, x = (t, ...n) => {
+}, D = (t, ...n) => {
   function e(s, o, c) {
-    const i = s[c];
-    return g(o) && g(i) ? s[c] = r(i, o) : s[c] = o, s;
+    const a = s[c];
+    return y(o) && y(a) ? s[c] = r(a, o) : s[c] = o, s;
   }
   function r(s, o) {
-    return Object.keys(o).reduce((c, i) => e(c, o[i], i), s);
+    return Object.keys(o).reduce((c, a) => e(c, o[a], a), s);
   }
   return n.reduce((s, o) => r(s, o), t);
-}, D = (t) => t ? Object.keys(t).filter((n) => typeof t[n] < "u") : [], y = (t, n) => {
-  const e = D(n);
+}, I = (t) => t ? Object.keys(t).filter((n) => typeof t[n] < "u") : [], p = (t, n) => {
+  const e = I(n);
   return !e.length || e.every((r) => {
     const s = n[r];
     if (typeof s == "function")
-      return s.apply(t, r);
+      return s.apply(t, [r]);
     if ((s instanceof Date || typeof s == "number") && !(r in t)) {
-      const c = r[3].toLowerCase() + (r.length > 4 ? r.substring(4) : ""), i = t[c];
+      const c = r[3].toLowerCase() + (r.length > 4 ? r.substring(4) : ""), a = t[c];
       if (r.startsWith("min"))
-        return i >= s;
+        return a >= s;
       if (r.startsWith("max"))
-        return i <= s;
+        return a <= s;
     }
-    const o = w(r, "*");
+    const o = W(r, "*");
     if (typeof s == "string" && (typeof t[o] == "string" || typeof t[o] > "u")) {
-      const c = s?.toUpperCase(), i = t[o]?.toUpperCase();
-      if (i == null && c != null)
+      const c = s?.toUpperCase(), a = t[o]?.toUpperCase();
+      if (a == null && c != null)
         return !1;
       if (r.startsWith("*") && r.endsWith("*"))
-        return i?.includes(c);
+        return a?.includes(c) ?? !1;
       if (r.startsWith("*"))
-        return i?.endsWith(c);
+        return a?.endsWith(c) ?? !1;
       if (r.endsWith("*"))
-        return i?.startsWith(c);
+        return a?.startsWith(c) ?? !1;
     }
     if (r in t) {
       const c = t[r];
-      return Array.isArray(s) && !Array.isArray(c) ? s.some((i) => i == c) : Array.isArray(c) && !Array.isArray(s) ? c.some((i) => i == s) : Array.isArray(c) && Array.isArray(s) ? s.every((i) => c.some((u) => u == i)) : s instanceof Object ? y(c, s) : c == s;
+      return Array.isArray(s) && !Array.isArray(c) ? s.some((a) => a == c) : Array.isArray(c) && !Array.isArray(s) ? c.some((a) => a == s) : Array.isArray(c) && Array.isArray(s) ? s.every((a) => c.some((u) => u == a)) : s instanceof Object ? p(c, s) : c == s;
     }
     return !0;
   });
-}, et = {
-  isPlainObject: g,
-  flattenObject: C,
-  crawlObject: W,
-  mixin: x,
-  filterObject: y
-}, p = (t, n, e) => {
-  let r, s, o, c, i = 0, u = /(\d+)|(\D+)/g, l = /\d/;
-  if (isFinite(e(t)) && isFinite(e(n)))
-    return e(t) - e(n);
-  if (r = String(e(t)).toLowerCase(), s = String(e(n)).toLowerCase(), r === s)
+}, ct = {
+  isPlainObject: y,
+  flattenObject: M,
+  crawlObject: x,
+  mixin: D,
+  filterObject: p
+}, b = (t, n, e) => {
+  let r, s, o = 0;
+  const c = /(\d+)|(\D+)/g, a = /\d/;
+  if (isFinite(Number(e(t))) && isFinite(Number(e(n))))
+    return Number(e(t)) - Number(e(n));
+  const u = String(e(t)).toLowerCase(), l = String(e(n)).toLowerCase();
+  if (u === l)
     return 0;
-  if (!(l.test(r) && l.test(s)))
-    return r > s ? 1 : -1;
-  r = r.match(u), s = s.match(u);
-  const h = r.length > s.length ? s.length : r.length;
-  for (; i < h; )
-    if (o = r[i], c = s[i++], o !== c)
-      return isFinite(o) && isFinite(c) ? (o.charAt(0) === "0" && (o = "." + o), c.charAt(0) === "0" && (c = "." + c), o - c) : o > c ? 1 : -1;
-  return r.length - s.length;
+  if (!(a.test(u) && a.test(l)))
+    return u > l ? 1 : -1;
+  const h = u.match(c) ?? [], g = l.match(c) ?? [], w = h.length > g.length ? g.length : h.length;
+  for (; o < w; )
+    if (r = h[o], s = g[o++], r !== s)
+      if (isFinite(Number(r)) && isFinite(Number(s))) {
+        const C = r.charAt(0) === "0" ? +("." + r) : Number(r), N = s.charAt(0) === "0" ? +("." + s) : Number(s);
+        return C - N;
+      } else
+        return r > s ? 1 : -1;
+  return h.length - g.length;
 }, A = (t = 0, n = t) => {
   if (n === t && (t = 0), n <= t) {
     if (t === 0)
@@ -105,97 +110,97 @@ const g = (t) => typeof t == "object" && Object.prototype.toString.call(t) === "
     throw console.error(e, { min: t, max: n }), Error(e);
   }
   return Math.floor(Math.random() * (n - t + 1)) + t;
-}, st = {
-  naturalCompare: p,
+}, at = {
+  naturalCompare: b,
   getRandom: A
-}, f = (t) => t, I = (t, n, e) => {
+}, f = (t) => t, K = (t, n, e) => {
   const r = e(t), s = e(n);
   return r < s ? -1 : r > s ? 1 : 0;
-}, K = (t, n, e) => {
+}, E = (t, n, e) => {
   const r = e(t), s = e(n);
   return r > s ? -1 : r < s ? 1 : 0;
-}, b = (t) => Array.isArray(t), m = (t) => t != null && typeof t[Symbol.iterator] == "function", a = (t) => t ? b(t) ? t : m(t) ? [...t] : Object.values(t) : [], E = (t) => [...Array(t)], M = (t, n = f) => {
-  const e = [...t];
-  return e.sort((r, s) => I(r, s, n)), e;
-}, S = (t, n = f) => {
+}, m = (t) => Array.isArray(t), O = (t) => t != null && typeof t[Symbol.iterator] == "function", i = (t) => t ? m(t) ? t : O(t) ? [...t] : Object.values(t) : [], S = (t) => [...Array(t)], $ = (t, n = f) => {
   const e = [...t];
   return e.sort((r, s) => K(r, s, n)), e;
-}, $ = (t, n = f) => {
+}, B = (t, n = f) => {
   const e = [...t];
-  return e.sort((r, s) => p(r, s, n)), e;
-}, B = (t) => {
+  return e.sort((r, s) => E(r, s, n)), e;
+}, U = (t, n = f) => {
+  const e = [...t];
+  return e.sort((r, s) => b(r, s, n)), e;
+}, F = (t) => {
   const n = [...t];
   return [...Array(n.length)].map(() => {
     const e = A(n.length - 1);
     return n.splice(e, 1)[0];
   });
 }, j = (t, n, e = f, r = f, s = (o) => o) => {
-  const o = [], c = a(t), i = a(n);
+  const o = [], c = i(t), a = i(n);
   return c.forEach((u) => {
-    i.filter((h) => e(u) === r(h)).forEach((h) => {
+    a.filter((h) => e(u) === r(h)).forEach((h) => {
       o.push(s(u, h));
     });
   }), o;
-}, U = (t, n) => {
-  const e = a(t);
-  return d(e.map(n)).map((s) => [s, e.filter((o, c, i) => s === n(o, c, i))]);
-}, F = (t, n, e = f, r = f, s = (o, c) => [o, c]) => {
-  const o = a(n);
-  return a(t).map((c, i, u) => [c, o.filter((l, h, v) => e(c, i, u) === r(l, h, v))]).map(([c, i]) => s(c, i));
-}, ot = (t, n, e = f, r = f) => {
-  const s = a(n);
-  return a(t).filter((o) => !s.some((c) => e(o) === r(c)));
-}, V = (t, n) => {
-  const e = a(t);
-  return n ? e.filter(n).length : e.length;
+}, P = (t, n) => {
+  const e = i(t);
+  return d(e.map(n)).map((s) => [s, e.filter((o, c, a) => s === n(o, c, a))]);
+}, V = (t, n, e = f, r = f, s = (o, c) => [o, c]) => {
+  const o = i(n);
+  return i(t).map((c, a, u) => [c, o.filter((l, h, g) => e(c, a, u) === r(l, h, g))]).map(([c, a]) => s(c, a));
+}, it = (t, n, e = f, r = f) => {
+  const s = i(n);
+  return i(t).filter((o) => !s.some((c) => e(o) === r(c)));
 }, J = (t, n) => {
-  const e = a(t);
-  return n ? e.find(n) : e[0];
+  const e = i(t);
+  return n ? e.filter(n).length : e.length;
 }, L = (t, n) => {
-  const e = a(t);
+  const e = i(t);
+  return n ? e.find(n) : e[0];
+}, q = (t, n) => {
+  const e = i(t);
   if (!n)
     return e.length ? e[e.length - 1] : void 0;
   for (let r = e.length - 1; r >= 0; r--)
     if (n(e[r]))
       return e[r];
-}, P = (t, n) => a(t).reduce((r, s) => r.some((o) => n(o) === n(s)) ? r : r.concat([s]), []), d = (t) => [...new Set(a(t))], q = (t, n) => d(a(t).concat(a(n))), z = (t, n) => a(t).slice(0, n), G = (t, n) => a(t).slice(n), H = (t, n, e = 0) => {
+}, z = (t, n) => i(t).reduce((r, s) => r.some((o) => n(o) === n(s)) ? r : r.concat([s]), []), d = (t) => [...new Set(i(t))], G = (t, n) => d(i(t).concat(i(n))), H = (t, n) => i(t).slice(0, n), R = (t, n) => i(t).slice(n), Q = (t, n, e = 0) => {
   const r = n * e;
-  return a(t).slice(r, r + n);
-}, R = (t, n) => {
-  const e = a(t).length;
+  return i(t).slice(r, r + n);
+}, T = (t, n) => {
+  const e = i(t).length;
   return Math.ceil(e / n);
-}, N = (t, n = f) => {
-  const e = a(t);
+}, X = (t, n = f) => {
+  const e = i(t);
   if (e.length)
     return e.reduce((r, s) => {
       const o = n(s);
       return r == null || o < r ? o : r;
     }, null);
-}, Q = (t, n = f) => {
-  const e = a(t);
+}, Y = (t, n = f) => {
+  const e = i(t);
   if (e.length)
     return e.reduce((r, s) => {
       const o = n(s);
       return r == null || o > r ? o : r;
     }, null);
-}, O = (t, n) => {
+}, v = (t, n) => {
   const e = n ?? f;
-  return a(t).reduce((r, s) => r + e(s), 0);
-}, T = (t, n) => {
-  const e = a(t);
-  return O(e, n) / e.length;
-}, X = (t, n, e) => {
+  return i(t).reduce((r, s) => r + e(s), 0);
+}, Z = (t, n) => {
+  const e = i(t);
+  return v(e, n) / e.length;
+}, _ = (t, n, e) => {
   const r = e ?? f;
-  return a(t).reduce((o, c, i) => {
-    const u = n(c), l = r(c, i, o);
+  return i(t).reduce((o, c, a) => {
+    const u = n(c), l = r(c, a, o);
     return o.set(u, l);
   }, /* @__PURE__ */ new Map());
-}, Y = (t, n, e = !0) => {
+}, k = (t, n, e = !0) => {
   if (t === n)
     return !0;
   if (t == null || n == null)
     return !1;
-  const r = a(t), s = a(n);
+  const r = i(t), s = i(n);
   if (r.length !== s.length)
     return !1;
   if (e) {
@@ -205,7 +210,7 @@ const g = (t) => typeof t == "object" && Object.prototype.toString.call(t) === "
     return !0;
   }
   return j(r, s).length === r.length;
-}, Z = (t, n) => a(t).filter((r) => y(r, n)), _ = (t) => {
+}, tt = (t, n) => i(t).filter((r) => p(r, n)), rt = (t) => {
   let n = 0;
   return {
     get selectedIndex() {
@@ -233,80 +238,80 @@ const g = (t) => typeof t == "object" && Object.prototype.toString.call(t) === "
       n = t.length - 1;
     }
   };
-}, k = (t, n, e) => {
+}, nt = (t, n, e) => {
   const r = t.indexOf(n);
   r !== -1 && (t.splice(r, 1), t.splice(e, 0, n));
-}, tt = (t, n) => {
+}, et = (t, n) => {
   t.splice(0, t.length, ...n);
-}, ct = {
-  isArray: b,
-  isIterable: m,
-  toArray: a,
-  newArray: E,
-  orderBy: M,
-  orderByDesc: S,
-  naturalSort: $,
-  shuffle: B,
+}, ut = {
+  isArray: m,
+  isIterable: O,
+  toArray: i,
+  newArray: S,
+  orderBy: $,
+  orderByDesc: B,
+  naturalSort: U,
+  shuffle: F,
   innerJoin: j,
-  groupBy: U,
-  groupJoin: F,
-  count: V,
-  first: J,
-  last: L,
-  distinctBy: P,
+  groupBy: P,
+  groupJoin: V,
+  count: J,
+  first: L,
+  last: q,
+  distinctBy: z,
   distinct: d,
-  union: q,
-  take: z,
-  skip: G,
-  page: H,
-  countPages: R,
-  min: N,
-  max: Q,
-  sum: O,
-  average: T,
-  toMap: X,
-  sameContent: Y,
-  query: Z,
-  getEnumerator: _,
-  move: k,
-  reFill: tt
+  union: G,
+  take: H,
+  skip: R,
+  page: Q,
+  countPages: T,
+  min: X,
+  max: Y,
+  sum: v,
+  average: Z,
+  toMap: _,
+  sameContent: k,
+  query: tt,
+  getEnumerator: rt,
+  move: nt,
+  reFill: et
 };
 export {
-  F as A,
-  j as B,
-  k as C,
-  $ as D,
-  E,
-  M as F,
-  tt as G,
-  Y as H,
-  B as I,
-  X as J,
-  q as K,
-  z as a,
-  ct as b,
-  T as c,
-  O as d,
-  Q as e,
-  C as f,
-  nt as g,
-  S as h,
-  b as i,
-  m as j,
-  d as k,
-  L as l,
-  N as m,
-  st as n,
-  et as o,
-  H as p,
-  Z as q,
-  V as r,
-  G as s,
-  a as t,
-  R as u,
-  P as v,
-  ot as w,
-  J as x,
-  _ as y,
-  U as z
+  j as A,
+  nt as B,
+  U as C,
+  S as D,
+  $ as E,
+  et as F,
+  k as G,
+  F as H,
+  v as I,
+  _ as J,
+  G as K,
+  H as a,
+  ut as b,
+  Z as c,
+  Y as d,
+  ot as e,
+  M as f,
+  B as g,
+  O as h,
+  m as i,
+  d as j,
+  J as k,
+  q as l,
+  X as m,
+  at as n,
+  ct as o,
+  Q as p,
+  tt as q,
+  T as r,
+  R as s,
+  i as t,
+  z as u,
+  it as v,
+  L as w,
+  rt as x,
+  P as y,
+  V as z
 };

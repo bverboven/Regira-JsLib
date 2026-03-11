@@ -34,7 +34,7 @@ export const orderByDesc = <T>(items: Iterable<T>, selector: (x: T) => unknown =
   arr.sort((a, b) => compareDesc(a, b, selector));
   return arr;
 };
-export const naturalSort = <T>(items: Iterable<T>, selector: (x: T) => unknown = selfSelector): T[] => {
+export const naturalSort = <T>(items: Iterable<T>, selector: (x: T) => string | number = selfSelector as (x: T) => string | number): T[] => {
   const arr = [...items];
   arr.sort((a, b) => naturalCompare(a, b, selector));
   return arr;
@@ -230,7 +230,7 @@ export const sameContent = <T>(
 
 export const query = <T>(items: Iterable<T>, filter: Partial<T>): T[] => {
   const arr = toArray(items);
-  return arr.filter((x) => filterObject(x, filter));
+  return arr.filter((x) => filterObject(x as Record<string, unknown>, filter as Record<string, unknown>));
 };
 export const getEnumerator = <T>(arr: T[]) => {
   let index = 0;

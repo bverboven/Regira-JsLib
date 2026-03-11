@@ -1,21 +1,22 @@
-import m from "axios";
+import b from "axios";
 import o from "../utilities/file-utility.js";
 import { isUrl as y } from "../utilities/string-utility.js";
 import { i as n } from "../_chunks/image-utility-3.0.1.js";
-class i {
+class l {
   async getBlob(e, t, r) {
-    let a;
     if (e instanceof File)
       return o.fileToBlob(e, t, r);
-    if (e instanceof Blob)
-      return a = e, t && a.name !== t && (a.name = t), a;
+    if (e instanceof Blob) {
+      const a = e;
+      return t && a.name !== t && (a.name = t), a;
+    }
     if (typeof e == "string")
-      return y(e) ? o.urlToBlob(e, t, r) : o.base64ToBlob(e, t, r);
+      return y(e) ? o.urlToBlob(e, t) : o.base64ToBlob(e, t ?? "", r);
     throw Error("Cannot convert input to type Blob");
   }
   async getBase64Url(e) {
     const t = await this.getBlob(e);
-    return o.getBase64Url(t);
+    return o.blobToBase64(t);
   }
   async createUrl(e) {
     const t = await this.getBlob(e);
@@ -23,10 +24,10 @@ class i {
   }
   async browse(e = {}) {
     return new Promise(function(t) {
-      const r = document.createElement("INPUT");
+      const r = document.createElement("input");
       r.setAttribute("type", "file"), (e.multiple == null || e.multiple) && r.setAttribute("multiple", "true"), e.accept && r.setAttribute("accept", Array.isArray(e.accept) ? e.accept.join(",") : e.accept), r.value = "", r.setAttribute("style", "display: none;");
       function a() {
-        const s = [...this.files];
+        const s = [...this.files ?? []];
         r.removeEventListener("change", a), document.body.removeChild(r), t(s);
       }
       r.addEventListener("change", a), document.body.appendChild(r), r.click();
@@ -49,25 +50,25 @@ class i {
     return o.writeAllText(r, t, "application/json");
   }
   async send(e, t, r = {}, a = {}) {
-    const s = o.toFormData(t || [], r || {}, a || {}), { method: c = "POST" } = a, g = {
+    const { method: s = "POST", headers: m, filesParameterName: i } = a, g = o.toFormData(t || [], r || {}, i ? { filesParameterName: i } : {}), f = {
       "Content-Type": "multipart/form-data",
-      ...a.headers || {}
+      ...m || {}
     };
-    return m({
-      method: c,
+    return b({
+      method: s,
       url: e,
-      data: s,
-      headers: g
+      data: g,
+      headers: f
     });
   }
-  async saveAs(e, t, r = null) {
-    const a = await this.getBlob(e, r || e.name, t || e.type);
-    return o.saveAs(a, a.name || "file");
+  async saveAs(e, t, r) {
+    const a = e, s = await this.getBlob(e, r || a.name, t || a.type);
+    return o.saveAs(s, s.name || "file");
   }
 }
-class b extends i {
+class u extends l {
   async getImage(e) {
-    if (e instanceof Image)
+    if (e instanceof HTMLImageElement)
       return e;
     if (typeof e == "string")
       return n.urlToImage(e);
@@ -78,7 +79,7 @@ class b extends i {
     throw Error("Cannot convert input to type Image");
   }
   async getBlob(e, t, r) {
-    return e instanceof Image ? n.imageToBlob(e, t, r) : e instanceof HTMLCanvasElement ? n.canvasToBlob(e, t, r) : super.getBlob(e, t, r);
+    return e instanceof HTMLImageElement ? n.imageToBlob(e, t, r) : e instanceof HTMLCanvasElement ? n.canvasToBlob(e, r) : super.getBlob(e, t, r);
   }
   async resize(e, t, r) {
     const a = await this.getImage(e);
@@ -94,7 +95,7 @@ class b extends i {
   async flipVertically(e) {
     return this.flipFlop(e, !1, !0);
   }
-  async flipFlop(e, t, r, a) {
+  async flipFlop(e, t = !1, r = !1, a) {
     const s = await this.getImage(e);
     return n.flipFlop(s, t, r, a);
   }
@@ -111,12 +112,12 @@ class b extends i {
     return n.white2transparent(r, t);
   }
 }
-const p = {
-  FileHelper: i,
-  ImageHelper: b
+const w = {
+  FileHelper: l,
+  ImageHelper: u
 };
 export {
-  i as FileHelper,
-  b as ImageHelper,
-  p as default
+  l as FileHelper,
+  u as ImageHelper,
+  w as default
 };

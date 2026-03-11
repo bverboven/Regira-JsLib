@@ -1,7 +1,7 @@
-export declare const naturalCompare: (as: any, bs: any, f: any) => number;
+export declare const naturalCompare: <T>(as: T, bs: T, f: (x: T) => string | number) => number;
 export declare const getRandom: (min?: number, max?: number) => number;
 declare const _default: {
-    naturalCompare: (as: any, bs: any, f: any) => number;
+    naturalCompare: <T>(as: T, bs: T, f: (x: T) => string | number) => number;
     getRandom: (min?: number, max?: number) => number;
 };
 export default _default;

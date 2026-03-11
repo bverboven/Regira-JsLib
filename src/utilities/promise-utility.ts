@@ -8,20 +8,19 @@
  * 
  * @returns {Promise} Returns the result of the invoked function, wrapped in a Promise
  */
-export const debounceToPromise = (func, wait = 250) => {
-    let timeout;
-    let funcsToResolve = [];
-    return async function () {
+export const debounceToPromise = <T>(func: (...args: unknown[]) => T, wait = 250) => {
+    let timeout: ReturnType<typeof setTimeout> | null = null;
+    let funcsToResolve: Array<(value: T) => void> = [];
+    return async function (...args: unknown[]) {
         // https://davidwalsh.name/javascript-debounce-function
-        const args = [...arguments];
-        clearTimeout(timeout);
-        return new Promise(resolve => {
+        if (timeout !== null) clearTimeout(timeout);
+        return new Promise<T>(resolve => {
             funcsToResolve.push(resolve);
             timeout = setTimeout(() => {
                 timeout = null;
                 const result = func(...args);
                 while (funcsToResolve.length) {
-                    funcsToResolve.shift()(result);
+                    funcsToResolve.shift()!(result);
                 }
             }, wait);
         });
@@ -31,14 +30,14 @@ export const debounceToPromise = (func, wait = 250) => {
  * Executes a collection of async functions in order
  * @param {Array<Function>} array of (async) functions 
  */
-export const enqueue = async (arr) => {
+export const enqueue = async (arr: Array<() => unknown>) => {
     let hasErrors = false;
-    const results = await arr.reduce(async (r, p) => {
+    const results = await arr.reduce(async (r: Promise<unknown[]>, p: () => unknown) => {
         const currentResult = await r;
         const newResult = await Promise.resolve(p()).catch(err => { hasErrors = true; return err; });
         currentResult.push(newResult);
         return currentResult;
-    }, []);
+    }, Promise.resolve([]));
     if (hasErrors) {
         return Promise.reject(results);
     }

@@ -5,4 +5,9 @@
  * @param {Function} ctx
  * @returns {Array} entries
  */
-export const getModuleEntries = ctx => ctx.keys().map(filename => ([filename, ctx(filename)]));
+interface RequireContext {
+    keys(): string[];
+    (id: string): unknown;
+}
+
+export const getModuleEntries = (ctx: RequireContext) => ctx.keys().map((filename: string) => ([filename, ctx(filename)]));

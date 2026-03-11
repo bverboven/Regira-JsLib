@@ -1,11 +1,12 @@
 import { trim } from "./string-utility"
 
 // consider using https://www.npmjs.com/package/is-plain-object
-export const isPlainObject = (obj) => typeof obj === "object" && Object.prototype.toString.call(obj) === "[object Object]"
+export const isPlainObject = (obj: unknown): obj is Record<string, unknown> =>
+    typeof obj === "object" && obj !== null && Object.prototype.toString.call(obj) === "[object Object]"
 
-export const flattenObject = (obj) => {
-    const getKey = (key, prefix) => (prefix === "" ? key : `${prefix}.${key}`)
-    const flattenProperties = (obj, prefix = "", result = {}) => {
+export const flattenObject = (obj: Record<string, unknown>): Record<string, unknown> => {
+    const getKey = (key: string, prefix: string) => (prefix === "" ? key : `${prefix}.${key}`)
+    const flattenProperties = (obj: unknown, prefix = "", result: Record<string, unknown> = {}): Record<string, unknown> => {
         if (Array.isArray(obj)) {
             for (let i = 0; i < obj.length; i++) {
                 flattenProperties(obj, `${prefix}[${i}]`, result)
@@ -13,7 +14,7 @@ export const flattenObject = (obj) => {
         } else if (typeof obj !== "object") {
             result[prefix] = obj
         } else {
-            for (const entry of Object.entries(obj)) {
+            for (const entry of Object.entries(obj as Record<string, unknown>)) {
                 const name = entry[0]
                 const value = entry[1]
                 if (Array.isArray(value)) {
@@ -23,7 +24,7 @@ export const flattenObject = (obj) => {
                     }
                 } else {
                     const objKey = getKey(name, prefix)
-                    if (typeof value === "object" && Object.keys(value).length > 0) {
+                    if (typeof value === "object" && value !== null && Object.keys(value as object).length > 0) {
                         flattenProperties(value, objKey, result)
                     } else {
                         result[objKey] = value
@@ -36,25 +37,31 @@ export const flattenObject = (obj) => {
 
     return flattenProperties(obj)
 }
-export const crawlObject = (obj, key) => key.split(".").reduce((res, p) => (res == null ? null : res[p]), obj)
-export const removeEmpty = (obj) =>
+export const crawlObject = (obj: Record<string, unknown>, key: string) =>
+    key.split(".").reduce<unknown>((res, p) => (res == null ? null : (res as Record<string, unknown>)[p]), obj)
+export const removeEmpty = (obj: Record<string, unknown>): Record<string, unknown> =>
     Object.fromEntries(
         Object.entries(obj)
             .filter(([, value]) => value != null)
-            .map(([key, value]) => (typeof value === "object" ? [key, removeEmpty(value)] : [key, value]))
+            .map(([key, value]) => (typeof value === "object" ? [key, removeEmpty(value as Record<string, unknown>)] : [key, value]))
     )
 
+interface DeepCopyCacheEntry {
+    original: unknown
+    copy: unknown
+}
+
 // ToDo?: export const deepCopy = structuredClone
-export const deepCopy = (obj) => {
+export const deepCopy = <T>(obj: T): T => {
     // https://github.com/vuejs/vuex/blob/dev/src/util.js
 
-    const find = (list, f) => list.filter(f)[0]
-    const copyWithCache = (o, cache = []) => {
+    const find = (list: DeepCopyCacheEntry[], f: (c: DeepCopyCacheEntry) => boolean) => list.filter(f)[0]
+    const copyWithCache = (o: unknown, cache: DeepCopyCacheEntry[] = []): unknown => {
         if (o === null || typeof o !== "object") {
             return o
         }
 
-        const hit = find(cache, (c) => c.original === o)
+        const hit = find(cache, (c: DeepCopyCacheEntry) => c.original === o)
         if (hit) {
             return hit.copy
         }
@@ -63,56 +70,57 @@ export const deepCopy = (obj) => {
             return new Date(o)
         }
 
-        const copy = Array.isArray(o) ? [] : {}
+        const copy: Record<string, unknown> | unknown[] = Array.isArray(o) ? [] : {}
         cache.push({ original: o, copy })
 
-        Object.keys(o).forEach((key) => {
-            copy[key] = copyWithCache(o[key], cache)
+        Object.keys(o as object).forEach((key) => {
+            (copy as Record<string, unknown>)[key] = copyWithCache((o as Record<string, unknown>)[key], cache)
         })
 
         return copy
     }
 
-    return copyWithCache(obj)
+    return copyWithCache(obj) as T
 }
 
-export const mixin = (target, ...rest) => {
+export const mixin = <T extends Record<string, unknown>>(target: T, ...rest: Record<string, unknown>[]): T => {
     // https://github.com/jonschlinkert/mixin-deep/blob/master/index.js
-    function mixin(target, val, key) {
+    function mixinProp(target: Record<string, unknown>, val: unknown, key: string): Record<string, unknown> {
         const obj = target[key]
         if (isPlainObject(val) && isPlainObject(obj)) {
-            target[key] = merge(obj, val)
+            target[key] = merge(obj as Record<string, unknown>, val as Record<string, unknown>)
         } else {
             target[key] = val
         }
         return target
     }
-    function merge(obj1, obj2) {
-        return Object.keys(obj2).reduce((obj, key) => mixin(obj, obj2[key], key), obj1)
+    function merge(obj1: Record<string, unknown>, obj2: Record<string, unknown>): Record<string, unknown> {
+        return Object.keys(obj2).reduce((obj, key) => mixinProp(obj, obj2[key], key), obj1)
     }
 
-    return rest.reduce((r, obj) => merge(r, obj), target)
+    return rest.reduce<Record<string, unknown>>((r, obj) => merge(r, obj), target) as T
 }
 
-const getKeys = (keyFilter) => (keyFilter ? Object.keys(keyFilter).filter((x) => typeof keyFilter[x] !== "undefined") : [])
-export const filterObject = (obj, filter) => {
+const getKeys = (keyFilter: Record<string, unknown> | null | undefined) =>
+    keyFilter ? Object.keys(keyFilter).filter((x) => typeof keyFilter[x] !== "undefined") : []
+export const filterObject = (obj: Record<string, unknown>, filter: Record<string, unknown>): boolean => {
     const keys = getKeys(filter)
     return (
         !keys.length ||
         keys.every((key) => {
             const filterValue = filter[key]
             if (typeof filterValue === "function") {
-                return filterValue.apply(obj, key)
+                return (filterValue as (...args: unknown[]) => boolean).apply(obj, [key])
             }
             if (filterValue instanceof Date || typeof filterValue === "number") {
                 if (!(key in obj)) {
                     const objKey = key[3].toLowerCase() + (key.length > 4 ? key.substring(4) : "")
                     const objValue = obj[objKey]
                     if (key.startsWith("min")) {
-                        return objValue >= filterValue
+                        return (objValue as number) >= (filterValue as number)
                     }
                     if (key.startsWith("max")) {
-                        return objValue <= filterValue
+                        return (objValue as number) <= (filterValue as number)
                     }
                 }
             }
@@ -120,16 +128,16 @@ export const filterObject = (obj, filter) => {
             const trimmedKey = trim(key, "*")
             if (typeof filterValue === "string" && (typeof obj[trimmedKey] === "string" || typeof obj[trimmedKey] == "undefined")) {
                 const value = filterValue?.toUpperCase()
-                const objValue = obj[trimmedKey]?.toUpperCase()
+                const objValue = (obj[trimmedKey] as string | undefined)?.toUpperCase()
                 if (objValue == null && value != null) {
                     return false
                 }
                 if (key.startsWith("*") && key.endsWith("*")) {
-                    return objValue?.includes(value)
+                    return objValue?.includes(value) ?? false
                 } else if (key.startsWith("*")) {
-                    return objValue?.endsWith(value)
+                    return objValue?.endsWith(value) ?? false
                 } else if (key.endsWith("*")) {
-                    return objValue?.startsWith(value)
+                    return objValue?.startsWith(value) ?? false
                 }
             }
             if (key in obj) {
@@ -143,7 +151,7 @@ export const filterObject = (obj, filter) => {
                 }
                 if (filterValue instanceof Object) {
                     // recursive call
-                    return filterObject(objValue, filterValue)
+                    return filterObject(objValue as Record<string, unknown>, filterValue as Record<string, unknown>)
                 }
                 // allow flexible comparison ('2' == 2)
                 return objValue == filterValue

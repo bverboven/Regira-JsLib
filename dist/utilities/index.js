@@ -1,55 +1,58 @@
-import { o as p, n as U, b as f } from "../_chunks/array-utility-3.0.1.js";
-import { i as y, c as h } from "../_chunks/image-utility-3.0.1.js";
-import { d as u } from "../_chunks/datetime-utility-3.0.1.js";
-import b from "./file-utility.js";
-import { r as d, c as g, h as j } from "../_chunks/clipboard-utility-3.0.1.js";
-import w from "./promise-utility.js";
-import R from "./string-utility.js";
-const a = () => location.hostname === "localhost" || location.hostname === "127.0.0.1", L = (t) => (typeof t == "string" ? new URL(t) : t).protocol === "https:", l = (t) => {
+import { o as U, n as y, b as f } from "../_chunks/array-utility-3.0.1.js";
+import { i as h, c as u } from "../_chunks/image-utility-3.0.1.js";
+import { d as b } from "../_chunks/datetime-utility-3.0.1.js";
+import g from "./file-utility.js";
+import { r as d, c as j, h as w } from "../_chunks/clipboard-utility-3.0.1.js";
+import R from "./promise-utility.js";
+import L from "./string-utility.js";
+const l = () => location.hostname === "localhost" || location.hostname === "127.0.0.1", C = (t) => (typeof t == "string" ? new URL(t) : t).protocol === "https:", m = (t) => {
   const o = new URL(t);
-  return L(o) ? t : "https:" + t.substring(o.protocol.length);
-}, C = (t) => {
-  const o = l(t);
-  o !== t && !a() && d(o);
-}, H = (t, o = !1) => {
-  const i = (e, n) => `${encodeURIComponent(e)}=${encodeURIComponent(n)}`, c = (e, n) => Object.entries(e).filter((r) => o || r[1] != null).flatMap(([r, s]) => (r = n ? `${n}[${r}]` : r, Array.isArray(s) ? s.map((m) => i(r, m)) : typeof v == "object" ? c(s, r) : i(r, s)));
-  return c(t).join("&");
+  return C(o) ? t : "https:" + t.substring(o.protocol.length);
+}, H = (t) => {
+  const o = m(t);
+  o !== t && !l() && d(o);
+}, S = (t, o = !1) => {
+  const i = (s, n) => `${encodeURIComponent(s)}=${encodeURIComponent(String(n))}`, a = (s, n) => Object.entries(s).filter((e) => o || e[1] != null).flatMap(([e, r]) => {
+    const c = n ? `${n}[${e}]` : e;
+    return Array.isArray(r) ? r.map((p) => i(c, p)) : typeof r == "object" && r !== null ? a(r, c) : [i(c, r)];
+  });
+  return a(t).join("&");
 }, $ = (t = window.location.href) => {
   const o = new URL(t), i = new URLSearchParams(o.search);
   return Object.fromEntries(i.entries());
 }, O = {
-  isLocalHost: a,
-  getHttpsUrl: l,
-  forceHttps: C,
-  toQueryString: H,
+  isLocalHost: l,
+  getHttpsUrl: m,
+  forceHttps: H,
+  toQueryString: S,
   getQueryStringParams: $
-}, x = {
+}, z = {
   arrayUtility: f,
-  colorUtility: h,
-  datetimeUtility: u,
-  fileUtility: b,
-  htmlUtility: j,
+  colorUtility: u,
+  datetimeUtility: b,
+  fileUtility: g,
+  htmlUtility: w,
   httpUtility: O,
-  imageUtility: y,
-  numberUtility: U,
-  objectUtility: p,
-  promiseUtility: w,
-  stringUtility: R,
+  imageUtility: h,
+  numberUtility: y,
+  objectUtility: U,
+  promiseUtility: R,
+  stringUtility: L,
   //webpackUtility,
-  clipboardUtility: g
+  clipboardUtility: j
 };
 export {
   f as arrayUtility,
-  g as clipboardUtility,
-  h as colorUtility,
-  u as datetimeUtility,
-  x as default,
-  b as fileUtility,
-  j as htmlUtility,
+  j as clipboardUtility,
+  u as colorUtility,
+  b as datetimeUtility,
+  z as default,
+  g as fileUtility,
+  w as htmlUtility,
   O as httpUtility,
-  y as imageUtility,
-  U as numberUtility,
-  p as objectUtility,
-  w as promiseUtility,
-  R as stringUtility
+  h as imageUtility,
+  y as numberUtility,
+  U as objectUtility,
+  R as promiseUtility,
+  L as stringUtility
 };
