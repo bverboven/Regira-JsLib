@@ -10,3 +10,10 @@ export { default as LoginForm } from "./LoginForm.vue";
 export { default as LogoutForm } from "./LogoutForm.vue";
 export { default as LoginModal } from "./LoginModal.vue";
 export { default as ForgotPasswordModal } from "./ForgotPasswordModal.vue";
+declare module "@vue/runtime-core" {
+    interface ComponentCustomProperties {
+        $auth: import("./auth").IGlobalAuth | {
+            enabled: false;
+        };
+    }
+}
