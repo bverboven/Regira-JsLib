@@ -1,8 +1,7 @@
-import type { IScreen } from "./screen"
-
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
-        $screen: IScreen
+        $isDebug: boolean
+        $setDebug: (value?: boolean) => boolean
     }
 }
 

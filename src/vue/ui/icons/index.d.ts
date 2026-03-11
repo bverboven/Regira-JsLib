@@ -1,8 +1,8 @@
-import type { IScreen } from "./screen"
+import type { IIconProvider } from "./plugin"
 
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
-        $screen: IScreen
+        $icons: IIconProvider
     }
 }
 

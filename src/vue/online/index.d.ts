@@ -1,8 +1,8 @@
-import type { IScreen } from "./screen"
+import type { Ref } from "vue"
 
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
-        $screen: IScreen
+        $isOnline: Ref<boolean>
     }
 }
 
