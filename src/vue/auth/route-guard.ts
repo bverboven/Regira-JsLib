@@ -2,7 +2,7 @@ import type { Store } from "pinia"
 import type { Router } from "vue-router"
 
 export default ({ router, store }: { router: Router; store: Store & { isAuthenticated: boolean; hasPermission(value: string): boolean } }) => {
-    router.beforeEach((to, from) => {
+    router.beforeEach((to, _from) => {
         // allowAnonmyous
         if (to.meta && to.meta.allowAnonymous) {
             return true

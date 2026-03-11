@@ -1,5 +1,9 @@
-import { E as a } from "../_chunks/event-handler-3.0.1.js";
+import { E as a } from "../_chunks/event-handler-3.0.2.js";
 class s {
+  _service;
+  _autoRefreshTimer;
+  _autoRefresh;
+  state;
   constructor({ authenticationService: e, autoRefresh: t = !1 }) {
     this._service = e, this._autoRefreshTimer = null, this._autoRefresh = t, this._setState();
   }
@@ -26,17 +30,18 @@ class s {
       this.state = { isAuthenticated: !1 };
       return;
     }
+    const t = e;
     this.state = {
-      ...e,
-      expiresAt: new Date((/* @__PURE__ */ new Date()).getTime() + e.expiresIn * 1e3),
+      ...t,
+      expiresAt: new Date((/* @__PURE__ */ new Date()).getTime() + t.expiresIn * 1e3),
       isAuthenticated: !0
     };
   }
   _checkAutoRefresh() {
     const e = this;
     if (this._autoRefreshTimer && clearTimeout(this._autoRefreshTimer), this._autoRefresh) {
-      const t = Math.abs(this.state.expiresAt - /* @__PURE__ */ new Date()) - 6e4;
-      this._autoRefreshTimer = setTimeout(e.refresh, t);
+      const t = Math.abs(this.state.expiresAt.getTime() - (/* @__PURE__ */ new Date()).getTime()) - 6e4;
+      this._autoRefreshTimer = setTimeout(() => e.refresh(), t);
     }
   }
 }

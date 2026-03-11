@@ -43,7 +43,7 @@ export function useRouteOverview({ pagingInfo, searchObject, defaultPageSize = D
             ...currentRoute,
             query,
         }
-        router.push(route)
+        router.push(route as Parameters<typeof router.push>[0])
     }
 
     async function routeSearchHandler(): Promise<void> {

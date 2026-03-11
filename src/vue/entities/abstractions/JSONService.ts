@@ -37,13 +37,13 @@ export abstract class JSONService<T extends IEntity> extends EntityServiceBase<T
   }
   public override async list(so?: ISearchObject & IPagingInfo): Promise<T[]> {
     const searchObject = this.processSearchObject(so);
-    const items = query(await this.fetchJSONItems(), searchObject);
+    const items = query(await this.fetchJSONItems(), searchObject as unknown as Partial<T>);
     const pageSize = typeof so?.pageSize === "undefined" ? this.config.defaultPageSize : so.pageSize;
     return pageSize || 0 > 0 ? page(items, pageSize, Math.max(so?.page || 0, 1) - 1) : items;
   }
   public override async search(so?: ISearchObject & IPagingInfo): Promise<SearchResult<T>> {
     const searchObject = this.processSearchObject(so);
-    const count = query(await this.fetchJSONItems(), searchObject).length;
+    const count = query(await this.fetchJSONItems(), searchObject as unknown as Partial<T>).length;
     return {
       items: await this.list(so),
       count,
@@ -54,7 +54,7 @@ export abstract class JSONService<T extends IEntity> extends EntityServiceBase<T
     const isNew = processedItem.$id == null || processedItem.$id == "new";
     const items = await this.fetchJSONItems();
     if (isNew) {
-      const newId = max(items, (x: T) => parseInt(x.$id.toString())) + 1;
+      const newId = ((max(items, (x: T) => parseInt(x.$id.toString())) as number | null) ?? 0) + 1;
       //processedItem.id = newId
       Object.defineProperty(processedItem, "id", { value: newId, enumerable: true, writable: true, configurable: true });
       this.cachedItems!.push(processedItem);

@@ -1,11 +1,29 @@
 import EventHandler from '../events/event-handler';
 
+type AuthService = {
+    login(email: string, password: string): Promise<unknown>;
+    refresh(refreshToken: string): Promise<unknown>;
+};
+
+type IdentityState = {
+    isAuthenticated: boolean;
+    refreshToken?: string;
+    expiresAt?: Date;
+    expiresIn?: number;
+    [key: string]: unknown;
+};
+
 /**
  * Handles login/logoff and saves state of current identity
  * automatically refreshes token when autoRefresh is enabled
  */
 class IdentityManager {
-    constructor({ authenticationService, autoRefresh = false }) {
+    private _service: AuthService;
+    private _autoRefreshTimer: ReturnType<typeof setTimeout> | null;
+    private _autoRefresh: boolean;
+    state!: IdentityState;
+
+    constructor({ authenticationService, autoRefresh = false }: { authenticationService: AuthService; autoRefresh?: boolean }) {
         this._service = authenticationService;
         this._autoRefreshTimer = null;
         this._autoRefresh = autoRefresh;
@@ -23,34 +41,35 @@ class IdentityManager {
     }
 
 
-    async login(email, password) {
+    async login(email: string, password: string) {
         const identityResponse = await this._service.login(email, password);
         this._setState(identityResponse);
         this._checkAutoRefresh();
-        return this.trigger('login', { ...this.state });
+        return (this as unknown as { trigger(e: string, arg?: unknown): Promise<unknown[]> }).trigger('login', { ...this.state });
     }
     async refresh() {
-        const identityResponse = await this._service.refresh(this.state.refreshToken);
+        const identityResponse = await this._service.refresh(this.state.refreshToken!);
         this._setState(identityResponse);
         this._checkAutoRefresh();
-        return this.trigger('refresh', { ...this.state });
+        return (this as unknown as { trigger(e: string, arg?: unknown): Promise<unknown[]> }).trigger('refresh', { ...this.state });
     }
     async logoff() {
         const oldState = { ...this.state };
         this._setState();
-        return this.trigger('logoff', oldState);
+        return (this as unknown as { trigger(e: string, arg?: unknown): Promise<unknown[]> }).trigger('logoff', oldState);
     }
 
 
-    _setState(response = null) {
+    _setState(response: unknown = null) {
         if (!response) {
             this.state = { isAuthenticated: false };
             return;
         }
 
+        const r = response as IdentityState;
         this.state = {
-            ...response,
-            expiresAt: new Date(new Date().getTime() + response.expiresIn * 1000),
+            ...r,
+            expiresAt: new Date(new Date().getTime() + (r.expiresIn as number) * 1000),
             isAuthenticated: true
         };
     }
@@ -60,8 +79,8 @@ class IdentityManager {
             clearTimeout(this._autoRefreshTimer);
         }
         if (this._autoRefresh) {
-            const refreshInMs = Math.abs(this.state.expiresAt - new Date()) - (60 * 1000)//1 minute to spare
-            this._autoRefreshTimer = setTimeout(mgr.refresh, refreshInMs);
+            const refreshInMs = Math.abs(this.state.expiresAt!.getTime() - new Date().getTime()) - (60 * 1000) //1 minute to spare
+            this._autoRefreshTimer = setTimeout(() => mgr.refresh(), refreshInMs);
         }
     }
 }

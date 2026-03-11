@@ -5,13 +5,13 @@ const AUTH_URLS = {
     REFRESH_TOKEN: 'https://securetoken.googleapis.com/v1',
     IDENTITY_TOOLKIT: 'https://identitytoolkit.googleapis.com/v1/accounts:'
 };
-function getRestUrl(url, key, action) {
+function getRestUrl(url: string, key: string, action: string): string {
     return `${url}/${action}/?key=${key}`;
 };
 
 
 // Sign in with email / password
-export async function login(key, email, password) {
+export async function login(key: string, email: string, password: string) {
     const url = getRestUrl(AUTH_URLS.IDENTITY_TOOLKIT, key, 'accounts:verifyPassword');
     const data = {
         email,
@@ -28,7 +28,7 @@ export async function login(key, email, password) {
     return { idToken, refreshToken, expiresIn, userId };
 };
 // Exchange a refresh token for an ID token
-export async function refresh(key, refreshToken) {
+export async function refresh(key: string, refreshToken: string) {
     const url = getRestUrl(AUTH_URLS.REFRESH_TOKEN, key, 'token');
     const data = {
         grant_type: 'refresh_token',
@@ -44,7 +44,7 @@ export async function refresh(key, refreshToken) {
     return { idToken, refreshToken: newRefreshToken, expiresIn, userId };
 };
 // Send password reset email
-export async function resetPassword(key, email) {
+export async function resetPassword(key: string, email: string) {
     const url = getRestUrl(AUTH_URLS.IDENTITY_TOOLKIT, key, 'accounts:sendOobCode');
     const data = {
         email,

@@ -94,10 +94,10 @@ export async function getFile(url: string, method: string = "GET", filename?: st
     return blob
 }
 
-type UploadOptions = Record<string, any> & {
+type UploadOptions = Record<string, unknown> & {
     method?: string
     headers?: Record<string, string>
-    data?: object
+    data?: Record<string, unknown>
     filesParameterName?: string
 }
 // upload blob

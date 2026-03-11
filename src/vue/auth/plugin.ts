@@ -38,7 +38,7 @@ export default {
           return store.authData
         },
         get isAuthenticated() {
-          return !!this.authData?.isAuthenticated
+          return !!store.authData?.isAuthenticated
         },
         get isRequired() {
           return store.authRequired

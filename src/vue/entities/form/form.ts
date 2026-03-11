@@ -1,7 +1,7 @@
 import { ref, watch, onMounted, type Ref } from "vue"
 import { useRouter, type RouteLocationRaw } from "vue-router"
 import { deepCopy } from "../../../utilities/object-utility"
-import useFeedback, { type FeedbackError, type FeedbackOut } from "../../ui/feedback"
+import useFeedback, { type FeedbackOut } from "../../ui/feedback"
 import type { IEntity } from "../abstractions/IEntity"
 import type { IEntityService, SaveResult } from "../abstractions/IEntityService"
 
@@ -49,7 +49,6 @@ interface FormOut<T extends IEntity> {
     handleRemove(): Promise<void>
     handleRestore(): Promise<void>
 }
-type Error = { response: { data?: FeedbackError } }
 
 // FormContainer
 export function useForm<T extends IEntity>({ entityService, props, emit, feedback = useFeedback() }: FormIn<T>): FormOut<T> {

@@ -9,9 +9,6 @@ let growOptions: Options
 function convertRemToPixels(rem: number) {
     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
 }
-function convertPixelsToRem(px: number) {
-    return px / parseFloat(getComputedStyle(document.documentElement).fontSize)
-}
 function callback(e: any) {
     const {
         target: el,

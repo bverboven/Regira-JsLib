@@ -3,13 +3,13 @@ class AuthenticationService {
         console.warn('This is a dummy-service');
     }
 
-    async login(email, password) {
+    async login(_email: string, _password: string): Promise<void> {
         console.warn('Not implemented: login');
     }
-    async refresh(refreshToken) {
+    async refresh(_refreshToken: string): Promise<void> {
         console.warn('Not implemented: refresh');
     }
-    async resetPassword(email) {
+    async resetPassword(_email: string): Promise<void> {
         console.warn('Not implemented: resetPassword');
     }
 }

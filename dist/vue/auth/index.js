@@ -1,4 +1,4 @@
-import { c as G } from "../../_chunks/query-3.0.1.js";
+import { c as G } from "../../_chunks/query-3.0.2.js";
 import { ref as g, computed as v, watch as N, defineComponent as M, openBlock as k, createElementBlock as y, withModifiers as H, unref as f, createElementVNode as c, createTextVNode as J, createCommentVNode as x, withDirectives as F, isRef as $, vModelText as T, toDisplayString as Q, resolveComponent as I, createBlock as C, withCtx as q, renderSlot as L, normalizeProps as R, guardReactiveProps as D, createVNode as W } from "vue";
 import { useRouter as O } from "vue-router";
 import { defineStore as X } from "pinia";
@@ -37,12 +37,12 @@ class Z {
     return e ? (this.tokenManager.token = t, new U(t, { isAuthenticated: e })) : (this.tokenManager.token = void 0, A());
   }
   async login(t, e) {
-    const s = this.options?.loginUrl || "auth", a = await this.axios.post(s, { username: t, password: e });
-    return this.authenticate(a.data);
+    const s = this.options?.loginUrl || "auth", i = await this.axios.post(s, { username: t, password: e });
+    return this.authenticate(i.data);
   }
   async refresh(t) {
-    const s = `auth/refresh/?${G(t || {})}`, a = await this.axios.post(s);
-    return this.authenticate(a.data);
+    const s = `auth/refresh/?${G(t || {})}`, i = await this.axios.post(s);
+    return this.authenticate(i.data);
   }
   async validateToken() {
     if (this.tokenManager.token != null)
@@ -126,21 +126,21 @@ class Fe {
 }
 let P;
 function te(n) {
-  const { enabled: t, tokenManager: e, axios: s, clientApp: a, loginUrl: o } = n;
+  const { enabled: t, tokenManager: e, axios: s, clientApp: i, loginUrl: o } = n;
   return P = {
     enabled: t,
-    clientApp: a,
+    clientApp: i,
     tokenManager: e,
-    service: new Z(s, e, { clientApp: a, loginUrl: o })
+    service: new Z(s, e, { clientApp: i, loginUrl: o })
   }, P;
 }
 const b = () => P, V = "Auth";
 function E() {
-  const n = g(!0), t = g(), e = g(A()), s = g(!1), a = O(), o = v(() => n.value && !a.currentRoute.value?.meta?.allowAnonymous), u = v(() => !!e.value.isAuthenticated), r = v(() => e.value?.displayName), d = v(() => (l) => e.value.get(l)), h = v(() => (l, w) => e.value?.hasClaim(l, w) ?? !1), p = v(() => (l) => e.value?.hasPermission(l) ?? !1);
+  const n = g(!0), t = g(), e = g(A()), s = g(!1), i = O(), o = v(() => n.value && !i.currentRoute.value?.meta?.allowAnonymous), u = v(() => !!e.value.isAuthenticated), r = v(() => e.value?.displayName), d = v(() => (l) => e.value.get(l)), h = v(() => (l, w) => e.value?.hasClaim(l, w) ?? !1), p = v(() => (l) => e.value?.hasPermission(l) ?? !1);
   function _(l) {
     t.value = l;
   }
-  async function i({ username: l, password: w }) {
+  async function a({ username: l, password: w }) {
     const { service: z } = b();
     return e.value = await z.login(l, w, t.value), e.value.isAuthenticated;
   }
@@ -169,7 +169,7 @@ function E() {
     hasClaim: h,
     getClaimValue: d,
     setClientApp: _,
-    login: i,
+    login: a,
     refresh: m,
     validateToken: B,
     logout: j
@@ -194,47 +194,47 @@ function ne(n, t) {
 }
 const $e = {
   async install(n, t) {
-    const { clientApp: e, loginUrl: s, tokenManager: a, authStore: o, axios: u, enableRouteGuard: r = !0, enabled: d = !0, onAuthenticationChange: h = () => {
+    const { clientApp: e, loginUrl: s, tokenManager: i, authStore: o, axios: u, enableRouteGuard: r = !0, enabled: d = !0, onAuthenticationChange: h = () => {
     } } = t, { $router: p } = n.config.globalProperties, _ = te({
       enabled: d,
-      tokenManager: a,
+      tokenManager: i,
       axios: u,
       clientApp: e,
       loginUrl: s
-    }), i = o ?? S();
+    }), a = o ?? S();
     if (d ? (n.config.globalProperties.$auth = {
       ..._,
       get authData() {
-        return i.authData;
+        return a.authData;
       },
       get isAuthenticated() {
-        return !!this.authData?.isAuthenticated;
+        return !!a.authData?.isAuthenticated;
       },
       get isRequired() {
-        return i.authRequired;
+        return a.authRequired;
       }
-    }, e && i.$patch({ clientApp: e, enabled: d })) : n.config.globalProperties.$auth = { enabled: !1 }, d) {
-      se(u, a);
+    }, e && a.$patch({ clientApp: e, enabled: d })) : n.config.globalProperties.$auth = { enabled: !1 }, d) {
+      se(u, i);
       let m = 0;
       N(
-        () => i.isAuthenticated,
+        () => a.isAuthenticated,
         () => {
-          i.isAuthenticated && (clearInterval(m), m = setInterval(() => i.validateToken(), i.authData.expires * 1e3)), h(i.authData);
+          a.isAuthenticated && (clearInterval(m), m = setInterval(() => a.validateToken(), a.authData.expires * 1e3)), h(a.authData);
         }
-      ), await i.validateToken(), r && ee({ router: p, store: i }), ne(u, i);
+      ), await a.validateToken(), r && ee({ router: p, store: a }), ne(u, a);
     } else
       h({ isAuthenticated: !1 });
   }
 };
 function oe(n, t) {
-  const e = g(n.username || ""), s = g(""), a = g(!1), o = g(!1), u = g(!1), r = S();
+  const e = g(n.username || ""), s = g(""), i = g(!1), o = g(!1), u = g(!1), r = S();
   async function d() {
-    o.value = !0, a.value = !1, t("signingIn", e.value);
+    o.value = !0, i.value = !1, t("signingIn", e.value);
     try {
       const p = await r.login({ username: e.value, password: s.value });
       t(p ? "success" : "fail", e.value);
     } catch (p) {
-      console.error("login failed", { ex: p }), a.value = !0, u.value = p.response?.data?.isLockedOut, t("fail", e.value);
+      console.error("login failed", { ex: p }), i.value = !0, u.value = p.response?.data?.isLockedOut, t("fail", e.value);
     } finally {
       o.value = !1;
     }
@@ -245,7 +245,7 @@ function oe(n, t) {
   return {
     username: e,
     password: s,
-    failed: a,
+    failed: i,
     signingIn: o,
     isLockedOut: u,
     handleSubmit: d,
@@ -253,15 +253,15 @@ function oe(n, t) {
   };
 }
 function Te(n, t, e) {
-  const { service: s } = b(), a = g(!1), o = g(n.username || ""), u = v(() => o.value != ""), r = g();
+  const { service: s } = b(), i = g(!1), o = g(n.username || ""), u = v(() => o.value != ""), r = g();
   async function d() {
-    r.value = void 0, a.value = !0;
+    r.value = void 0, i.value = !0;
     try {
       await s.forgotPassword({ username: o.value, siteUrl: e.siteUrl, siteName: e.siteName }), t("success", o.value), r.value = !0;
     } catch (h) {
       r.value = !1, console.error("Resetting password failed", { err: h }), t("fail", h);
     } finally {
-      a.value = !1;
+      i.value = !1;
     }
   }
   return N(
@@ -269,7 +269,7 @@ function Te(n, t, e) {
     () => o.value = n.username || ""
   ), {
     username: o,
-    isLoading: a,
+    isLoading: i,
     isFormValid: u,
     isSuccess: r,
     handleSubmit: d
@@ -289,9 +289,9 @@ const ae = {
   },
   emits: ["forgotPassword", "signingIn", "success", "fail"],
   setup(n, { emit: t }) {
-    const e = t, s = n, { username: a, password: o, signingIn: u, failed: r, isLockedOut: d, handleSubmit: h, handleForgotPassword: p } = oe(s, e);
-    return (_, i) => (k(), y("form", {
-      onSubmit: i[3] || (i[3] = H(
+    const e = t, s = n, { username: i, password: o, signingIn: u, failed: r, isLockedOut: d, handleSubmit: h, handleForgotPassword: p } = oe(s, e);
+    return (_, a) => (k(), y("form", {
+      onSubmit: a[3] || (a[3] = H(
         //@ts-ignore
         (...m) => f(h) && f(h)(...m),
         ["prevent"]
@@ -300,12 +300,12 @@ const ae = {
     }, [
       f(r) ? (k(), y("div", ae, [
         c("div", ie, [
-          i[4] || (i[4] = J(" Unfortunately, signing in failed. ", -1)),
+          a[4] || (a[4] = J(" Unfortunately, signing in failed. ", -1)),
           f(d) ? (k(), y("span", re, "Try again in 5 min.")) : x("", !0)
         ])
       ])) : x("", !0),
       c("div", ue, [
-        i[5] || (i[5] = c("label", {
+        a[5] || (a[5] = c("label", {
           for: "username",
           class: "col-sm-3 col-form-label"
         }, "Username", -1)),
@@ -314,16 +314,16 @@ const ae = {
             F(c("input", {
               class: "form-control",
               autocomplete: "username email",
-              "onUpdate:modelValue": i[0] || (i[0] = (m) => $(a) ? a.value = m : null),
+              "onUpdate:modelValue": a[0] || (a[0] = (m) => $(i) ? i.value = m : null),
               disabled: f(u)
             }, null, 8, de), [
-              [T, f(a)]
+              [T, f(i)]
             ])
           ])
         ])
       ]),
       c("div", he, [
-        i[6] || (i[6] = c("label", {
+        a[6] || (a[6] = c("label", {
           for: "password",
           class: "col-sm-3 col-form-label"
         }, "Password", -1)),
@@ -332,7 +332,7 @@ const ae = {
             type: "password",
             class: "form-control",
             autocomplete: "password current-password",
-            "onUpdate:modelValue": i[1] || (i[1] = (m) => $(o) ? o.value = m : null),
+            "onUpdate:modelValue": a[1] || (a[1] = (m) => $(o) ? o.value = m : null),
             disabled: f(u)
           }, null, 8, fe), [
             [T, f(o)]
@@ -352,7 +352,7 @@ const ae = {
             key: 1,
             type: "button",
             class: "btn btn-link",
-            onClick: i[2] || (i[2] = //@ts-ignore
+            onClick: a[2] || (a[2] = //@ts-ignore
             (...m) => f(p) && f(p)(...m))
           }, "Forgot password?"))
         ])
@@ -366,13 +366,13 @@ const ae = {
       t.logout();
       const o = e.currentRoute.value.fullPath;
       e.push({ name: "login", query: { returnUrl: o } });
-    }, a = v(() => t.displayName);
+    }, i = v(() => t.displayName);
     return (o, u) => (k(), y("form", null, [
       c("button", {
         type: "button",
         class: "btn btn-sm btn-secondary",
         onClick: s
-      }, Q(a.value) + " afmelden", 1)
+      }, Q(i.value) + " afmelden", 1)
     ]));
   }
 }), Ie = /* @__PURE__ */ M({
@@ -384,8 +384,8 @@ const ae = {
   emits: ["forgotPassword", "signingIn", "success", "fail"],
   setup(n, { emit: t }) {
     return (e, s) => {
-      const a = I("MyModal");
-      return k(), C(a, {
+      const i = I("MyModal");
+      return k(), C(i, {
         title: n.title,
         showFooter: !1
       }, {

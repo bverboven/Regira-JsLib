@@ -1,31 +1,31 @@
-import { defineComponent as s, computed as c, openBlock as i, createElementBlock as a, toDisplayString as g, createCommentVNode as b, ref as l } from "vue";
+import { defineComponent as c, getCurrentInstance as i, computed as s, openBlock as a, createElementBlock as g, toDisplayString as b, createCommentVNode as p, ref as l } from "vue";
 const d = {
   key: 0,
   class: "debug pre text-muted"
-}, m = /* @__PURE__ */ s({
+}, m = /* @__PURE__ */ c({
   __name: "Display",
   props: {
     modelValue: {}
   },
   setup(e) {
-    const o = e, u = c(() => JSON.stringify(o.modelValue || {}, null, 2));
-    return (t, r) => t.$isDebug ? (i(), a("div", d, g(u.value), 1)) : b("", !0);
+    const u = e, r = i(), t = s(() => !!r?.proxy?.$isDebug), o = s(() => JSON.stringify(u.modelValue || {}, null, 2));
+    return (n, f) => t.value ? (a(), g("div", d, b(o.value), 1)) : p("", !0);
   }
-}), f = {
-  install(e, o) {
-    const u = l(!!o?.isDebug), t = l(!0);
+}), y = {
+  install(e, u) {
+    const r = l(!!u?.isDebug), t = l(!0);
     e.component("Debug", m), Object.defineProperty(e.config.globalProperties, "$isDebug", {
       get() {
         const n = e.config.globalProperties.$router.currentRoute.value.query?.debug;
-        return t.value && (typeof n < "u" ? n === "1" : u.value);
+        return t.value && (typeof n < "u" ? n === "1" : r.value);
       },
       enumerable: !0,
       configurable: !0
-    }), e.config.globalProperties.$setDebug = (r = !0) => t.value = r;
+    }), e.config.globalProperties.$setDebug = (o = !0) => t.value = o;
   }
 };
 export {
   m as Debug,
-  f as default,
-  f as plugin
+  y as default,
+  y as plugin
 };

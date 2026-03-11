@@ -7,7 +7,7 @@ import { DEFAULT_PAGESIZE, type IPagingInfo } from "./PagingInfo"
 import type { ISortByInfo } from "./SortByInfo"
 import type { IEntityService } from "./IEntityService"
 import type { DetailsResult, ListResult, SearchResult, SaveResult, SavedResult, DeleteResult } from "./IEntityService"
-import type ISearchObject from "./ISearchObject"
+import type { ISearchObject } from "./ISearchObject"
 
 type HasDefaultPageSize = { defaultPageSize: number }
 

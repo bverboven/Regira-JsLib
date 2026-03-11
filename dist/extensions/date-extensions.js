@@ -1,8 +1,8 @@
-import { s as t } from "../_chunks/datetime-utility-3.0.1.js";
+import { s as t } from "../_chunks/datetime-utility-3.0.2.js";
 const o = {
   use() {
     Date.prototype.toJSON = function() {
-      return t(this);
+      return t(this) ?? "";
     };
   }
 };

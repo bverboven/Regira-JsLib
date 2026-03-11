@@ -1,8 +1,8 @@
 import { ref as p, watch as E, onMounted as I, getCurrentInstance as D, unref as S } from "vue";
 import { useRouter as O } from "vue-router";
-import { e as h, m as $ } from "./array-utility-3.0.1.js";
-import "./DefaultModal.vue_vue_type_script_setup_true_lang-3.0.1.js";
-import { u as C } from "./feedback-3.0.1.js";
+import { e as h, m as $ } from "./array-utility-3.0.2.js";
+import "./DefaultModal.vue_vue_type_script_setup_true_lang-3.0.2.js";
+import { u as C } from "./feedback-3.0.2.js";
 import { useVModelField as V } from "../vue/vue-helper.js";
 var P = /* @__PURE__ */ ((a) => (a.pending = "Pending", a.saved = "Saved", a.removed = "Removed", a.error = "Error", a))(P || {});
 const j = {
@@ -185,7 +185,7 @@ function G({ props: a, emit: s }) {
   };
   function i({ saved: n, isNew: u }) {
     if (u) {
-      const f = ($(e.value, (d) => d.id) || 0) - 1;
+      const f = ($(e.value, (d) => d.id) ?? 0) - 1;
       n.id = f, s("update:modelValue", e.value.concat([n])), o.value = { id: 0 };
     }
   }
@@ -222,7 +222,7 @@ function J({ props: a, emit: s }) {
   };
   function u({ saved: f, isNew: d }) {
     if (d) {
-      const w = Math.min($(e.value, (g) => g.id) || 0, 0) - 1;
+      const w = Math.min($(e.value, (g) => g.id) ?? 0, 0) - 1;
       f.id = w;
       const y = e.value.concat([f]);
       e.value = y, i();

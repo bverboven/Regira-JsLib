@@ -1,16 +1,16 @@
-export declare function login(key: any, email: any, password: any): Promise<{
+export declare function login(key: string, email: string, password: string): Promise<{
     idToken: any;
     refreshToken: any;
     expiresIn: any;
     userId: any;
 }>;
-export declare function refresh(key: any, refreshToken: any): Promise<{
+export declare function refresh(key: string, refreshToken: string): Promise<{
     idToken: any;
     refreshToken: any;
     expiresIn: any;
     userId: any;
 }>;
-export declare function resetPassword(key: any, email: any): Promise<boolean>;
+export declare function resetPassword(key: string, email: string): Promise<boolean>;
 declare const _default: {
     login: typeof login;
     refresh: typeof refresh;

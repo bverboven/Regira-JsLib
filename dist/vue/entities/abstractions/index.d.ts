@@ -2,7 +2,7 @@ export * from "../abstractions";
 export type { IEntity } from "./IEntity";
 export type { IEntityService, DetailsResult, ListResult, SaveResult, SearchResult, DeleteResult } from "./IEntityService";
 export { type IConfig, NavTypes } from "./IConfig";
-export type { default as ISearchObject } from "./ISearchObject";
+export type { ISearchObject } from "./ISearchObject";
 export { type IPagingInfo, PagingInfo, DEFAULT_PAGESIZE } from "./PagingInfo";
 export { type ISortByInfo, SortByInfo } from "./SortByInfo";
 export { default as EntityServiceBase } from "./EntityServiceBase";

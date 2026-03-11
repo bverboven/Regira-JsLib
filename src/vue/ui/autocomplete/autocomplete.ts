@@ -237,7 +237,7 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T,
 
     // search
     const search = props.search || (props.data && dataItemsSearch) || throwError<() => void>(new Error("prop search or data is required"))
-    const debouncedSearch = debounceToPromise(search, props.debounceTime) as unknown as (term: string) => Promise<Array<T>>
+    const debouncedSearch = debounceToPromise(search as (...args: unknown[]) => Promise<T[] | undefined>, props.debounceTime) as unknown as (term: string) => Promise<Array<T>>
 
     const updateContainerOffset = () => {
         containerOffset.value = getAbsOffset(inputEl.value)

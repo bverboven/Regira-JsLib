@@ -3,14 +3,15 @@ import arrayUtility from '../utilities/array-utility';
 const { isArray, isIterable, toArray, newArray, ...arrayFunctions } = arrayUtility;
 
 export default {
-	injectInto(target, overwrite = false) {
-		Object.getOwnPropertyNames(arrayFunctions)
+	injectInto(target: object, overwrite = false) {
+		const fns = arrayFunctions as Record<string, (...args: unknown[]) => unknown>;
+		Object.getOwnPropertyNames(fns)
 			.forEach(prop => {
-				if (prop !== "constructor" && (overwrite || !target.hasOwnProperty(prop))) {
+				if (prop !== "constructor" && (overwrite || !Object.prototype.hasOwnProperty.call(target, prop))) {
 					Object.defineProperty(target, prop, {
 						value: function () {
 							const args = [this, ...arguments];
-							return arrayFunctions[prop].apply(this, args);
+							return fns[prop].apply(this, args);
 						},
 						configurable: true
 					});

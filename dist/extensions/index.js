@@ -1,13 +1,14 @@
-import { b as u } from "../_chunks/array-utility-3.0.1.js";
-import t from "./date-extensions.js";
+import { b as u } from "../_chunks/array-utility-3.0.2.js";
+import n from "./date-extensions.js";
 import { debounceToPromise as c, enqueue as y } from "../utilities/promise-utility.js";
-const { isArray: d, isIterable: l, toArray: x, newArray: E, ...n } = u, r = {
+const { isArray: d, isIterable: p, toArray: x, newArray: E, ...m } = u, r = {
   injectInto(e, i = !1) {
-    Object.getOwnPropertyNames(n).forEach((s) => {
-      s !== "constructor" && (i || !e.hasOwnProperty(s)) && Object.defineProperty(e, s, {
+    const t = m;
+    Object.getOwnPropertyNames(t).forEach((s) => {
+      s !== "constructor" && (i || !Object.prototype.hasOwnProperty.call(e, s)) && Object.defineProperty(e, s, {
         value: function() {
           const a = [this, ...arguments];
-          return n[s].apply(this, a);
+          return t[s].apply(this, a);
         },
         configurable: !0
       });
@@ -22,12 +23,12 @@ const { isArray: d, isIterable: l, toArray: x, newArray: E, ...n } = u, r = {
   }
 }, P = {
   useArrayExtensions: r.use.bind(r),
-  useDateExtensions: t.use.bind(t),
+  useDateExtensions: n.use.bind(n),
   usePromiseExtensions: o.use.bind(o)
 };
 export {
   r as arrayExtensions,
-  t as dateExtensions,
+  n as dateExtensions,
   P as default,
   o as promiseExtensions
 };

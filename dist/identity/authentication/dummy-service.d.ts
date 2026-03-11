@@ -1,7 +1,7 @@
 declare class AuthenticationService {
     constructor();
-    login(email: any, password: any): Promise<void>;
-    refresh(refreshToken: any): Promise<void>;
-    resetPassword(email: any): Promise<void>;
+    login(_email: string, _password: string): Promise<void>;
+    refresh(_refreshToken: string): Promise<void>;
+    resetPassword(_email: string): Promise<void>;
 }
 export default AuthenticationService;

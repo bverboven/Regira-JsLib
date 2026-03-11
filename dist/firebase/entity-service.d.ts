@@ -1,12 +1,16 @@
 declare class EntityService {
+    apiUrl: string;
+    catalogName: string;
     constructor({ catalogName, apiUrl }: {
-        catalogName: any;
-        apiUrl: any;
+        catalogName: string;
+        apiUrl: string;
     });
-    details(id: any): Promise<any>;
-    list(): Promise<any[]>;
-    save(item: any): Promise<any>;
-    delete(item: any): Promise<any>;
-    import(items: any): Promise<Promise<any>[]>;
+    details(id: string | number): Promise<any>;
+    list(): Promise<{
+        id: string;
+    }[]>;
+    save(item: Record<string, unknown>): Promise<any>;
+    delete(item: Record<string, unknown>): Promise<any>;
+    import(items: Record<string, unknown>[]): Promise<Promise<any>[]>;
 }
 export default EntityService;

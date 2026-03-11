@@ -2,17 +2,18 @@ import { login, refresh, resetPassword } from './authentication-utility';
 
 
 class AuthenticationService {
-    constructor(options) {
-        this.apiKey = options.apiKey || options;
+    apiKey: string;
+    constructor(options: string | { apiKey: string }) {
+        this.apiKey = typeof options === 'string' ? options : options.apiKey;
     }
 
-    async login(email, password) {
+    async login(email: string, password: string) {
         return login(this.apiKey, email, password);
     }
-    async refresh(refreshToken) {
+    async refresh(refreshToken: string) {
         return refresh(this.apiKey, refreshToken);
     }
-    async resetPassword(email) {
+    async resetPassword(email: string) {
         return resetPassword(this.apiKey, email);
     }
 }

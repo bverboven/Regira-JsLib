@@ -1,5 +1,5 @@
 <template>
-    <ul class="nav" :class="{ 'nav-pills': !$screen.isLarge, 'nav-tabs': $screen.isLarge }">
+    <ul class="nav" :class="{ 'nav-pills': !screen?.isLarge, 'nav-tabs': screen?.isLarge }">
         <template v-for="tab in tabs" :key="tab.key">
             <li v-if="isVisible(tab)" class="nav-item" :class="{ disabled: tab.isDisabled }">
                 <a :href="`#${tab.key}`" :class="['py-1 px-2', 'nav-link', { active: activeTab == tab.key, disabled: tab.isDisabled }]" @click.prevent="$emit('select', tab.key)">
@@ -12,9 +12,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
+import { computed, inject } from "vue"
 import type { ITab } from "./Tab"
 import type { IEmits } from "./tabs"
+import type { IScreen } from "../screen/screen"
 
 interface Emits extends IEmits {}
 
@@ -24,5 +25,6 @@ defineProps<{
     activeTab: string
 }>()
 
+const screen = inject<IScreen>("screen")
 const isVisible = computed(() => (tab: ITab) => typeof tab.isVisible == "function" ? tab.isVisible() : tab.isVisible)
 </script>

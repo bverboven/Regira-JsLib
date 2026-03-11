@@ -7,13 +7,13 @@
 </template>
 
 <script setup lang="ts">
-import { type IEmits, type IProps } from "./useLoginForm"
+import { type IEmits } from "./useLoginForm"
 import LoginForm from "./LoginForm.vue"
 
 interface ILoginEmits extends IEmits {}
 const emit = defineEmits<ILoginEmits>()
 
-const props: IProps = withDefaults(
+const props = withDefaults(
     defineProps<{
         username?: string
         title?: string

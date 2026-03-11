@@ -1,2 +1,2 @@
-export declare function useCulture(): any;
+export declare function useCulture(): string | undefined;
 export default useCulture;

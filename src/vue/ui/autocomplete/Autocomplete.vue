@@ -78,7 +78,6 @@ const {
     selectedItem,
     selectedIndex,
     items,
-    isOpen,
     isFocus,
     inputEl,
     resultStyle,

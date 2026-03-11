@@ -1,12 +1,23 @@
 import type { AxiosInstance } from "axios"
 import type { ITokenManager } from "./token-manager"
 import { AuthService, type IAuthService } from "./auth-service"
+import type { IAuthData } from "./AuthData"
 
 interface IAuth {
     enabled: boolean
     clientApp?: string
     tokenManager: ITokenManager
     service: IAuthService
+}
+
+export interface IGlobalAuth {
+    enabled: boolean
+    clientApp?: string
+    tokenManager: ITokenManager
+    service: IAuthService
+    authData: IAuthData
+    isAuthenticated: boolean
+    isRequired: boolean
 }
 export type IAuthOptions = {
     clientApp?: string

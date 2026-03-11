@@ -1,13 +1,13 @@
 import type { IPagingInfo } from "../abstractions/PagingInfo"
 
-export function cleanQueryParams(queryParams: Record<string, any>, defaultPageSize: number): Record<string, any> {
+export function cleanQueryParams(queryParams: Record<string, unknown>, _defaultPageSize?: number): Record<string, unknown> {
     return Object.fromEntries(
         Object.entries(queryParams).filter(([key, value]) => {
             return (
                 value != null &&
                 // no private values (like $meta)
                 key[0] != "$" &&
-                (key !== "page" || value > 1)
+                (key !== "page" || (value as number) > 1)
                 //&& (key !== "pageSize" || (value > 0 && value !== defaultPageSize))
             )
         })

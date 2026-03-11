@@ -40,5 +40,5 @@ export declare function createStore(): IDefineAuthStore;
 export declare namespace createStore {
     var storeName: string;
 }
-export declare const useAuthStore: import("pinia").StoreDefinition<string, Pick<IDefineAuthStore, "authRequired" | "enabled" | "clientApp" | "authData">, Pick<IDefineAuthStore, "displayName" | "isAuthenticated" | "isRequired" | "hasPermission" | "hasClaim" | "getClaimValue">, Pick<IDefineAuthStore, "login" | "refresh" | "setClientApp" | "validateToken" | "logout">>;
+export declare const useAuthStore: import("pinia").StoreDefinition<string, Pick<IDefineAuthStore, "authRequired" | "enabled" | "clientApp" | "authData">, Pick<IDefineAuthStore, "isAuthenticated" | "displayName" | "isRequired" | "hasPermission" | "hasClaim" | "getClaimValue">, Pick<IDefineAuthStore, "login" | "refresh" | "setClientApp" | "validateToken" | "logout">>;
 export default useAuthStore;

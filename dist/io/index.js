@@ -1,7 +1,7 @@
 import b from "axios";
 import o from "../utilities/file-utility.js";
 import { isUrl as y } from "../utilities/string-utility.js";
-import { i as n } from "../_chunks/image-utility-3.0.1.js";
+import { i as n } from "../_chunks/image-utility-3.0.2.js";
 class l {
   async getBlob(e, t, r) {
     if (e instanceof File)

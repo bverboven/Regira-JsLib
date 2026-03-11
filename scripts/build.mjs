@@ -27,3 +27,24 @@ for (const [src, dest] of scssFiles) {
     copyFileSync(resolve(root, src), destPath)
     console.log(`Copied ${src} → ${dest}`)
 }
+
+// Step 4: Copy ComponentCustomProperties augmentation files (types.d.ts) to dist
+// vue-tsc overwrites index.d.ts with generated declarations, so these live as types.d.ts
+const typesFiles = [
+    "src/vue/app/types.d.ts",
+    "src/vue/auth/types.d.ts",
+    "src/vue/debug/types.d.ts",
+    "src/vue/ioc/types.d.ts",
+    "src/vue/lang/types.d.ts",
+    "src/vue/online/types.d.ts",
+    "src/vue/ui/feedback/types.d.ts",
+    "src/vue/ui/icons/types.d.ts",
+    "src/vue/ui/screen/types.d.ts",
+]
+for (const src of typesFiles) {
+    const dest = src.replace(/^src\//, "dist/")
+    const destPath = resolve(root, dest)
+    mkdirSync(dirname(destPath), { recursive: true })
+    copyFileSync(resolve(root, src), destPath)
+    console.log(`Copied ${src} → ${dest}`)
+}
