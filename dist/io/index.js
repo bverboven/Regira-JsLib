@@ -1,7 +1,7 @@
 import m from "axios";
 import o from "../utilities/file-utility.js";
 import { isUrl as y } from "../utilities/string-utility.js";
-import { i as n } from "../_chunks/image-utility-3.0.0.js";
+import { i as n } from "../_chunks/image-utility-3.0.1.js";
 class i {
   async getBlob(e, t, r) {
     let a;

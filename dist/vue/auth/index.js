@@ -1,4 +1,4 @@
-import { c as G } from "../../_chunks/query-3.0.0.js";
+import { c as G } from "../../_chunks/query-3.0.1.js";
 import { ref as g, computed as v, watch as N, defineComponent as M, openBlock as k, createElementBlock as y, withModifiers as H, unref as f, createElementVNode as c, createTextVNode as J, createCommentVNode as x, withDirectives as F, isRef as $, vModelText as T, toDisplayString as Q, resolveComponent as I, createBlock as C, withCtx as q, renderSlot as L, normalizeProps as R, guardReactiveProps as D, createVNode as W } from "vue";
 import { useRouter as O } from "vue-router";
 import { defineStore as X } from "pinia";

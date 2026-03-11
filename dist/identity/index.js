@@ -1,4 +1,4 @@
-import { E as a } from "../_chunks/event-handler-3.0.0.js";
+import { E as a } from "../_chunks/event-handler-3.0.1.js";
 class s {
   constructor({ authenticationService: e, autoRefresh: t = !1 }) {
     this._service = e, this._autoRefreshTimer = null, this._autoRefresh = t, this._setState();

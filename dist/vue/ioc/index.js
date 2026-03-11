@@ -1,5 +1,5 @@
-import { d as e } from "../../_chunks/ServiceProvider-3.0.0.js";
-import { S as l, g as v } from "../../_chunks/ServiceProvider-3.0.0.js";
+import { d as e } from "../../_chunks/ServiceProvider-3.0.1.js";
+import { S as l, g as v } from "../../_chunks/ServiceProvider-3.0.1.js";
 const s = {
   install(r, { configure: i } = {}) {
     r.config.globalProperties.$services = e, r.provide("services", e), i && i(e);
