@@ -1,4 +1,4 @@
-import { r as h } from "./html-utility-ZF83RbzI.js";
+import { r as h } from "./html-utility-3.0.0.js";
 const a = () => location.hostname === "localhost" || location.hostname === "127.0.0.1", m = (t) => (typeof t == "string" ? new URL(t) : t).protocol === "https:", p = (t) => {
   const r = new URL(t);
   return m(r) ? t : "https:" + t.substring(r.protocol.length);

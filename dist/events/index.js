@@ -1,4 +1,4 @@
-import { E as e, a as t } from "../_chunks/event-handler-DDyWpzD1.js";
+import { E as e, a as t } from "../_chunks/event-handler-3.0.0.js";
 const n = {
   Event: t,
   EventHandler: e

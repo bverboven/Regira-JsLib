@@ -2,6 +2,7 @@ import { defineConfig } from "vite"
 import { resolve } from "path"
 import vue from "@vitejs/plugin-vue"
 import { fileURLToPath } from "url"
+import { version } from "./package.json"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -58,7 +59,7 @@ export default defineConfig({
         rollupOptions: {
             external: ["axios", "date-fns", "lodash", "pinia", "vue", "vue-router"],
             output: {
-                chunkFileNames: "_chunks/[name]-[hash].js",
+                chunkFileNames: `_chunks/[name]-${version}.js`,
             },
         },
     },

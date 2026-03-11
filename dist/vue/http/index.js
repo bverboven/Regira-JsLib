@@ -1,5 +1,5 @@
 import { getFile as r, initAxios as i, upload as t, useAxios as s } from "./axios.js";
-import { c as a } from "../../_chunks/query-Bo7m-wc_.js";
+import { c as a } from "../../_chunks/query-3.0.0.js";
 export {
   a as createQueryString,
   r as getFile,
