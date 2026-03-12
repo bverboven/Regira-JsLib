@@ -1,3 +1,4 @@
+import { type IAuthData } from "./AuthData";
 export { AuthService, type IAuthenticateInput, type IChangePasswordInput, type IForgotPasswordInput, type IResetPasswordInput } from "./auth-service";
 export { default as routeGuard } from "./route-guard";
 export { type ITokenManager, CookieTokenManager, MemoryTokenManager, LocalStorageTokenManager } from "./token-manager";
@@ -14,6 +15,7 @@ declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
         $auth: import("./auth").IGlobalAuth | {
             enabled: false;
+            authData?: IAuthData;
         };
     }
 }
