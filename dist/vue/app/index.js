@@ -1,80 +1,68 @@
-import { ref as n, computed as i, getCurrentInstance as a, watch as s, onMounted as l } from "vue";
-import { defineStore as c } from "pinia";
-var g = /* @__PURE__ */ ((e) => (e.Init = "Init", e.Loading = "Loading", e.Mounting = "Mounting", e.Ready = "Ready", e))(g || {});
-const u = c("AppStore", () => {
-  const e = n(
-    "Init"
-    /* Init */
-  ), r = n(navigator.language), t = n();
-  return {
-    culture: r,
-    logo: t,
-    status: e,
-    isReady: i(
-      () => e.value == "Ready"
-      /* Ready */
-    ),
-    setCulture(o) {
-      r.value = o || navigator.language;
-    },
-    setStatus(o) {
-      e.value = o;
-    },
-    setLogo(o) {
-      t.value = o;
-    }
-  };
-}), b = {
-  install(e, { culture: r } = {}) {
-    const t = u();
-    t.setCulture(r), Object.defineProperty(e.config.globalProperties, "$culture", {
-      get() {
-        return t.culture;
-      },
-      enumerable: !0,
-      configurable: !0
-    }), e.config.globalProperties.$setCulture = (o) => t.setCulture(o), Object.defineProperty(e.config.globalProperties, "$isReady", {
-      get() {
-        return t.isReady;
-      },
-      enumerable: !0,
-      configurable: !0
-    }), Object.defineProperty(e.config.globalProperties, "$appStatus", {
-      get() {
-        return t.status;
-      },
-      enumerable: !0,
-      configurable: !0
-    }), e.config.globalProperties.$setAppStatus = (o) => t.setStatus(o);
-  }
-};
-function y() {
-  return a()?.appContext.config.globalProperties.$culture;
+import { computed as e, getCurrentInstance as t, onMounted as n, ref as r, watch as i } from "vue";
+import { defineStore as a } from "pinia";
+//#region src/vue/app/store.ts
+var o = /* @__PURE__ */ function(e) {
+	return e.Init = "Init", e.Loading = "Loading", e.Mounting = "Mounting", e.Ready = "Ready", e;
+}({}), s = a("AppStore", () => {
+	let t = r(o.Init), n = r(navigator.language), i = r();
+	return {
+		culture: n,
+		logo: i,
+		status: t,
+		isReady: e(() => t.value == o.Ready),
+		setCulture(e) {
+			n.value = e || navigator.language;
+		},
+		setStatus(e) {
+			t.value = e;
+		},
+		setLogo(e) {
+			i.value = e;
+		}
+	};
+}), c = { install(e, { culture: t } = {}) {
+	let n = s();
+	n.setCulture(t), Object.defineProperty(e.config.globalProperties, "$culture", {
+		get() {
+			return n.culture;
+		},
+		enumerable: !0,
+		configurable: !0
+	}), e.config.globalProperties.$setCulture = (e) => n.setCulture(e), Object.defineProperty(e.config.globalProperties, "$isReady", {
+		get() {
+			return n.isReady;
+		},
+		enumerable: !0,
+		configurable: !0
+	}), Object.defineProperty(e.config.globalProperties, "$appStatus", {
+		get() {
+			return n.status;
+		},
+		enumerable: !0,
+		configurable: !0
+	}), e.config.globalProperties.$setAppStatus = (e) => n.setStatus(e);
+} };
+//#endregion
+//#region src/vue/app/culture.ts
+function l() {
+	return t()?.appContext.config.globalProperties.$culture;
 }
-function p(e) {
-  const r = u(), t = a();
-  r.isReady ? e() : (s(
-    () => r.isReady,
-    () => e(),
-    { once: !0 }
-  ), t && l(() => {
-    r.isReady && e();
-  }));
+//#endregion
+//#region src/vue/app/functions.ts
+function u(e) {
+	let r = s(), a = t();
+	r.isReady ? e() : (i(() => r.isReady, () => e(), { once: !0 }), a && n(() => {
+		r.isReady && e();
+	}));
 }
-function R() {
-  const e = u();
-  return new Promise((r) => {
-    let t = !1;
-    return e.isReady ? r() : p(() => {
-      t || (r(), t = !0);
-    });
-  });
+function d() {
+	let e = s();
+	return new Promise((t) => {
+		let n = !1;
+		return e.isReady ? t() : u(() => {
+			n ||= (t(), !0);
+		});
+	});
 }
-export {
-  g as AppStatus,
-  p as onAppReady,
-  b as plugin,
-  u as useAppStore,
-  y as useCulture,
-  R as whenAppReady
-};
+//#endregion
+export { o as AppStatus, u as onAppReady, c as plugin, s as useAppStore, l as useCulture, d as whenAppReady };

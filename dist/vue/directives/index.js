@@ -1,56 +1,39 @@
-const u = {
-  beforeMount: (t, e) => {
-    t.clickOutsideEvent = (n) => {
-      t == n.target || t.contains(n.target) || typeof e.value == "function" && e.value(n);
-    }, document.addEventListener("click", t.clickOutsideEvent);
-  },
-  unmounted: (t) => {
-    document.removeEventListener("click", t.clickOutsideEvent);
-  }
-}, f = {
-  install(t) {
-    t.directive("clickOutside", u);
-  }
-}, l = {
-  mounted: (t) => {
-    setTimeout(() => t.focus(), 250);
-  }
-}, m = {
-  install(t) {
-    t.directive("focus", l);
-  }
-}, r = {
-  maxGrow: 7
-};
-let s;
-function a(t) {
-  return t * parseFloat(getComputedStyle(document.documentElement).fontSize);
+//#region src/vue/directives/click-outside.ts
+var e = {
+	beforeMount: (e, t) => {
+		e.clickOutsideEvent = (n) => {
+			e == n.target || e.contains(n.target) || typeof t.value == "function" && t.value(n);
+		}, document.addEventListener("click", e.clickOutsideEvent);
+	},
+	unmounted: (e) => {
+		document.removeEventListener("click", e.clickOutsideEvent);
+	}
+}, t = { install(t) {
+	t.directive("clickOutside", e);
+} }, n = { mounted: (e) => {
+	setTimeout(() => e.focus(), 250);
+} }, r = { install(e) {
+	e.directive("focus", n);
+} }, i = { maxGrow: 7 }, a;
+function o(e) {
+	return e * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
-function c(t) {
-  const {
-    target: e,
-    target: { value: n }
-  } = t, i = n?.split(`
-`).length || 0;
-  if (i > 1 && i <= s.maxGrow) {
-    const o = i * 1.75;
-    a(o) > e.offsetHeight && (e.style.minHeight = o + "rem");
-  } else n == "" && (e.style.minHeight = "");
+function s(e) {
+	let { target: t, target: { value: n } } = e, r = n?.split("\n").length || 0;
+	if (r > 1 && r <= a.maxGrow) {
+		let e = r * 1.75;
+		o(e) > t.offsetHeight && (t.style.minHeight = e + "rem");
+	} else n == "" && (t.style.minHeight = "");
 }
-const d = {
-  beforeMount(t) {
-    t.addEventListener("input", c);
-  },
-  unmounted: (t) => {
-    t.removeEventListener("input", c);
-  }
-}, v = {
-  install(t, e = r) {
-    s = e, t.directive("grow", d);
-  }
-};
-export {
-  f as clickOutside,
-  m as focus,
-  v as grow
-};
+var c = {
+	beforeMount(e) {
+		e.addEventListener("input", s);
+	},
+	unmounted: (e) => {
+		e.removeEventListener("input", s);
+	}
+}, l = { install(e, t = i) {
+	a = t, e.directive("grow", c);
+} };
+//#endregion
+export { t as clickOutside, r as focus, l as grow };

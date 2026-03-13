@@ -1,69 +1,69 @@
-import p from "axios";
-import { toFormData as d } from "../../utilities/file-utility.js";
-let a;
-function x(r) {
-  const { api: l, includeCredentials: n } = r, o = p.create({
-    baseURL: l,
-    withCredentials: n
-  });
-  return Object.defineProperties(o, {
-    getFile: {
-      value: c,
-      configurable: !0
-    },
-    upload: {
-      value: f,
-      configurable: !0
-    }
-  }), o.interceptors.response.use(
-    (e) => e,
-    (e) => e.request.responseType === "blob" && e.response.data instanceof Blob && e.response.data.type && e.response.data.type.toLowerCase().indexOf("json") != -1 ? new Promise((u, i) => {
-      let t = new FileReader();
-      t.onload = () => {
-        e.response.data = JSON.parse(t.result), i(e);
-      }, t.onerror = () => {
-        i(e);
-      }, t.readAsText(e.response.data);
-    }) : Promise.reject(e)
-  ), a = o, a;
+import { toFormData as e } from "../../utilities/file-utility.js";
+import t from "axios";
+//#region src/vue/http/axios.ts
+var n;
+function r(e) {
+	let { api: r, includeCredentials: i } = e, s = t.create({
+		baseURL: r,
+		withCredentials: i
+	});
+	return Object.defineProperties(s, {
+		getFile: {
+			value: a,
+			configurable: !0
+		},
+		upload: {
+			value: o,
+			configurable: !0
+		}
+	}), s.interceptors.response.use((e) => e, (e) => e.request.responseType === "blob" && e.response.data instanceof Blob && e.response.data.type && e.response.data.type.toLowerCase().indexOf("json") != -1 ? new Promise((t, n) => {
+		let r = new FileReader();
+		r.onload = () => {
+			e.response.data = JSON.parse(r.result), n(e);
+		}, r.onerror = () => {
+			n(e);
+		}, r.readAsText(e.response.data);
+	}) : Promise.reject(e)), n = s, n;
 }
-function w() {
-  if (a == null)
-    throw Error("Api-Axios is not initialized yet. Call 'initApiAxios(config)' first.");
-  return a;
+function i() {
+	if (n == null) throw Error("Api-Axios is not initialized yet. Call 'initApiAxios(config)' first.");
+	return n;
 }
-async function c(r, l = "GET", n, o) {
-  const e = await a({ url: r, method: l, responseType: "blob" });
-  if (p.isAxiosError(e))
-    throw e;
-  o == null && (o = e.headers["content-type"]);
-  const u = new Blob([e.data], { type: o });
-  if (!n) {
-    const s = e.headers["content-disposition"];
-    if (s) {
-      var i = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/, t = i.exec(s);
-      t != null && t[1] && (n = t[1].replace(/['"]/g, ""));
-    }
-  }
-  return n && Object.defineProperty(u, "name", { value: n, configurable: !0, writable: !0, enumerable: !0 }), u;
+async function a(e, r = "GET", i, a) {
+	let o = await n({
+		url: e,
+		method: r,
+		responseType: "blob"
+	});
+	if (t.isAxiosError(o)) throw o;
+	a ??= o.headers["content-type"];
+	let s = new Blob([o.data], { type: a });
+	if (!i) {
+		let e = o.headers["content-disposition"];
+		if (e) {
+			var c = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(e);
+			c != null && c[1] && (i = c[1].replace(/['"]/g, ""));
+		}
+	}
+	return i && Object.defineProperty(s, "name", {
+		value: i,
+		configurable: !0,
+		writable: !0,
+		enumerable: !0
+	}), s;
 }
-async function f(r, l, n) {
-  const { method: o = "POST", headers: e, data: u = {}, filesParameterName: i = "file" } = n || {}, t = d(l, u, { filesParameterName: i }), s = await a({
-    method: o,
-    url: r,
-    data: t,
-    headers: {
-      "Content-Type": "multipart/form-data",
-      ...e || {}
-    }
-  });
-  if (p.isAxiosError(s))
-    throw s;
-  return s;
+async function o(r, i, a) {
+	let { method: o = "POST", headers: s, data: c = {}, filesParameterName: l = "file" } = a || {}, u = e(i, c, { filesParameterName: l }), d = await n({
+		method: o,
+		url: r,
+		data: u,
+		headers: {
+			"Content-Type": "multipart/form-data",
+			...s || {}
+		}
+	});
+	if (t.isAxiosError(d)) throw d;
+	return d;
 }
-export {
-  c as getFile,
-  x as initAxios,
-  f as upload,
-  w as useAxios
-};
+//#endregion
+export { a as getFile, r as initAxios, o as upload, i as useAxios };

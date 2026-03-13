@@ -1,15 +1,13 @@
-import { ref as o } from "vue";
+import { ref as e } from "vue";
+//#region src/vue/online/online-checker.ts
 function t() {
-  return { isOnline: o(navigator.onLine) };
+	return { isOnline: e(navigator.onLine) };
 }
-const s = {
-  install(n) {
-    const { isOnline: e } = t(), i = () => e.value = navigator.onLine;
-    window.addEventListener("offline", i), window.addEventListener("online", i), n.config.globalProperties.$isOnline = e, n.provide("isOnline", e);
-  }
-};
-export {
-  s as default,
-  s as plugin,
-  t as useOnlineChecker
-};
+//#endregion
+//#region src/vue/online/plugin.ts
+var n = { install(e) {
+	let { isOnline: n } = t(), r = () => n.value = navigator.onLine;
+	window.addEventListener("offline", r), window.addEventListener("online", r), e.config.globalProperties.$isOnline = n, e.provide("isOnline", n);
+} };
+//#endregion
+export { n as default, n as plugin, t as useOnlineChecker };

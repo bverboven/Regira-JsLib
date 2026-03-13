@@ -1,23 +1,21 @@
-import { computed as r, onMounted as d, onUnmounted as f } from "vue";
-function s(o, t, e = "modelValue", n) {
-  return r({
-    get: () => typeof o[e] < "u" ? o[e] : n,
-    set: (u) => {
-      t(`update:${e}`, u);
-    }
-  });
+import { computed as e, onMounted as t, onUnmounted as n } from "vue";
+//#region src/vue/vue-helper.ts
+function r(t, n, r = "modelValue", i) {
+	return e({
+		get: () => t[r] === void 0 ? i : t[r],
+		set: (e) => {
+			n(`update:${r}`, e);
+		}
+	});
 }
-function m(o) {
-  const { fromPool: t } = o;
-  return r(() => (e) => t(e));
+function i(t) {
+	let { fromPool: n } = t;
+	return e(() => (e) => n(e));
 }
-function c(o, t, e, n = !1) {
-  t.split(" ").forEach((u) => {
-    d(() => o.addEventListener(u, e, n)), f(() => o.removeEventListener(u, e, n));
-  });
+function a(e, r, i, a = !1) {
+	r.split(" ").forEach((r) => {
+		t(() => e.addEventListener(r, i, a)), n(() => e.removeEventListener(r, i, a));
+	});
 }
-export {
-  m as createFromComputedPool,
-  c as useEventListener,
-  s as useVModelField
-};
+//#endregion
+export { i as createFromComputedPool, a as useEventListener, r as useVModelField };

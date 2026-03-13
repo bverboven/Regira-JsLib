@@ -1,10 +1,8 @@
-import { E as e, a as t } from "../_chunks/event-handler-3.0.2.js";
-const n = {
-  Event: t,
-  EventHandler: e
+import { n as e, t } from "../_chunks/event-handler-3.0.3.js";
+//#region src/events/index.ts
+var n = {
+	Event: e,
+	EventHandler: t
 };
-export {
-  t as Event,
-  e as EventHandler,
-  n as default
-};
+//#endregion
+export { e as Event, t as EventHandler, n as default };

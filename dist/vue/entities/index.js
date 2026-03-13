@@ -1,850 +1,774 @@
-import { AxiosError as j } from "axios";
-import { c as N } from "../../_chunks/query-3.0.2.js";
-import { q as _, p as X, d as W, g as K } from "../../_chunks/array-utility-3.0.2.js";
-import { defineComponent as Z, computed as S, ref as m, unref as U, withAsyncContext as Y, toRefs as ee, withDirectives as te, openBlock as $, createElementBlock as M, isRef as se, renderSlot as ne, createElementVNode as ae, toDisplayString as z, createCommentVNode as re, Fragment as ie, renderList as oe, vModelSelect as ce, watch as le, onMounted as ue, toRaw as fe } from "vue";
-import { _ as ot, u as ct } from "../../_chunks/DetailsSummary-3.0.2.js";
-import { F as ut, f as ft, a as dt, u as ht, b as pt, c as mt, d as vt, e as gt, g as yt } from "../../_chunks/ownedModal-3.0.2.js";
-import { TreeList as q } from "../../treelist/index.js";
-import "../../_chunks/Paging.vue_vue_type_script_setup_true_lang-3.0.2.js";
-import "date-fns";
-import "../../_chunks/DefaultModal.vue_vue_type_script_setup_true_lang-3.0.2.js";
-import { u as de } from "../../_chunks/feedback-3.0.2.js";
-import { useRouter as he } from "vue-router";
-import "lodash";
-import { debounceToPromise as L } from "../../utilities/promise-utility.js";
-import { g as pe } from "../../_chunks/ServiceProvider-3.0.2.js";
-var me = /* @__PURE__ */ ((a) => (a.dashboard = "Dashboard", a.navbar = "Navbar", a))(me || {});
-const g = 10;
-class ve {
-  page = 1;
-  pageSize = g;
-  constructor(e = g, t = 1) {
-    this.pageSize = e, this.page = t;
-  }
+import { C as e, S as t, g as n, w as r } from "../../_chunks/array-utility-3.0.3.js";
+import { debounceToPromise as i } from "../../utilities/promise-utility.js";
+import { t as a } from "../../_chunks/treelist-3.0.3.js";
+import { t as o } from "../../_chunks/query-3.0.3.js";
+import { i as s } from "../../_chunks/feedback-3.0.3.js";
+import "../../_chunks/modal-3.0.3.js";
+import { n as c, t as l } from "../../_chunks/details-3.0.3.js";
+import { a as u, c as d, i as f, l as p, n as m, o as h, r as g, s as _, t as ee } from "../../_chunks/form-3.0.3.js";
+import "../../_chunks/ui-3.0.3.js";
+import "../../_chunks/icons-3.0.3.js";
+import { i as te } from "../../_chunks/ioc-3.0.3.js";
+import { AxiosError as v } from "axios";
+import { Fragment as ne, computed as y, createCommentVNode as re, createElementBlock as b, createElementVNode as ie, defineComponent as ae, isRef as oe, onMounted as se, openBlock as x, ref as S, renderList as ce, renderSlot as le, toDisplayString as C, toRaw as ue, toRefs as de, unref as w, vModelSelect as fe, watch as pe, withAsyncContext as me, withDirectives as T } from "vue";
+import { useRouter as E } from "vue-router";
+//#region src/vue/entities/abstractions/IConfig.ts
+var D = /* @__PURE__ */ function(e) {
+	return e.dashboard = "Dashboard", e.navbar = "Navbar", e;
+}({}), he = 10, O = class {
+	page = 1;
+	pageSize = 10;
+	constructor(e = 10, t = 1) {
+		this.pageSize = e, this.page = t;
+	}
+}, ge = class {
+	sortBy = "";
+};
+//#endregion
+//#region src/vue/entities/utilities/query.ts
+function k(e, t) {
+	return Object.fromEntries(Object.entries(e).filter(([e, t]) => t != null && e[0] != "$" && (e !== "page" || t > 1)));
 }
-class Le {
-  sortBy = "";
+function A(e) {
+	let { page: t, pageSize: n, ...r } = e;
+	return {
+		searchObject: r,
+		pagingInfo: {
+			page: parseInt(t) || 1,
+			pageSize: parseInt(n)
+		}
+	};
 }
-function x(a, e) {
-  return Object.fromEntries(
-    Object.entries(a).filter(([t, s]) => s != null && // no private values (like $meta)
-    t[0] != "$" && (t !== "page" || s > 1))
-  );
-}
-function ge(a) {
-  const { page: e, pageSize: t, ...s } = a, n = {
-    page: parseInt(e) || 1,
-    pageSize: parseInt(t)
-  };
-  return { searchObject: s, pagingInfo: n };
-}
-class ye {
-  constructor(e, t) {
-    this.axios = e, this.config = t, this.defaultPageSize = t.defaultPageSize || g;
-  }
-  defaultPageSize = g;
-  async details(e) {
-    const t = await this.axios.get(`${this.config.detailsUrl}/${e}`);
-    if (t?.status == 200) {
-      const {
-        data: { item: s }
-      } = t;
-      return this.processItem(s);
-    }
-    throw t;
-  }
-  async list(e) {
-    const { items: t } = await this.fetchItems(this.config.listUrl, e);
-    return t.map((s) => this.processItem(s));
-  }
-  async search(e) {
-    const { items: t, count: s } = await this.fetchItems(this.config.searchUrl, e);
-    return {
-      items: t.map((n) => this.processItem(n)),
-      count: s
-    };
-  }
-  async searchUnion(e, t) {
-    const s = {
-      ...this.config.baseQueryParams || {},
-      ...t || {}
-    }, n = N(x(s, this.defaultPageSize)), i = `${this.config.searchUrl}?${n}`, {
-      data: r
-      //  status,
-    } = await this.axios.post(i, e).then((o) => o);
-    return r;
-  }
-  async save(e) {
-    const t = e.$id == null || e.$id === "new", s = t ? await this.insert(e) : await this.update(e);
-    return { saved: this.processItem(s), isNew: t };
-  }
-  async remove(e) {
-    const t = this.prepareItem(e), s = `${this.config.deleteUrl}/${t.$id}`;
-    await this.axios.delete(s).then((n) => n.data);
-  }
-  async update(e) {
-    const t = `${this.config.saveUrl}/${e.$id}`, s = this.prepareItem(e);
-    console.debug("update", { item: e, prepared: s });
-    const n = await this.axios.put(t, s);
-    if (n instanceof j)
-      throw n;
-    const { item: i } = await n.data;
-    return this.processItem(i);
-  }
-  async insert(e) {
-    const t = `${this.config.saveUrl}`, s = this.prepareItem(e), n = await this.axios.post(t, s);
-    if (n instanceof j)
-      throw n;
-    const { item: i } = n.data;
-    return "id" in i && Object.defineProperty(e, "id", { value: i.id, writable: !0, configurable: !0, enumerable: !0 }), this.processItem(i);
-  }
-  async fetchItems(e, t) {
-    const s = {
-      ...this.config.baseQueryParams || {},
-      ...t || {}
-    };
-    !s.pageSize && s.pageSize !== 0 && (s.pageSize = this.defaultPageSize), (!("isArchived" in s) || s.isArchived == null) && (s.isArchived = !1);
-    const n = N(x(s, this.defaultPageSize)), i = `${e}?${n}`, {
-      data: r
-      //  status,
-    } = await this.axios.get(i).then((o) => o);
-    return r;
-  }
-  // abstract to force items to be instances of T
-  // https://www.typescriptlang.org/docs/handbook/2/generics.html (not working for generic generics...)
-  processItem(e) {
-    if (e == null)
-      return null;
-    const t = this.toEntity(e);
-    if ("created" in e) {
-      const s = t;
-      s.created != null && (t.created = new Date(Date.parse(s.created)));
-    }
-    if ("lastModified" in e) {
-      const s = t;
-      s.lastModified != null && (t.lastModified = new Date(Date.parse(s.lastModified)));
-    }
-    return t;
-  }
-  prepareItem(e) {
-    return Object.keys(e).forEach((t) => {
-      t[0] == "_" && delete e[t];
-    }), e;
-  }
-  createInstance(e) {
-    return new e();
-  }
-  async newEntity(e) {
-    return this.toEntity(e || {});
-  }
-}
-const F = /* @__PURE__ */ new Map();
-class Ve extends ye {
-  constructor(e, t, s) {
-    super(e, t), this.key = s;
-  }
-  get cachedItems() {
-    return F.get(this.key) || null;
-  }
-  set cachedItems(e) {
-    F.set(this.key, e);
-  }
-  async fetchJSONItems() {
-    return this.cachedItems == null && (this.cachedItems = await super.list()), this.cachedItems;
-  }
-  async details(e) {
-    const t = (await this.list({ pageSize: 0 })).find((s) => s.$id == e) || null;
-    return t != null ? this.toEntity(t) : null;
-  }
-  async list(e) {
-    const t = this.processSearchObject(e), s = _(await this.fetchJSONItems(), t), n = typeof e?.pageSize > "u" ? this.config.defaultPageSize : e.pageSize;
-    return n ? X(s, n, Math.max(e?.page || 0, 1) - 1) : s;
-  }
-  async search(e) {
-    const t = this.processSearchObject(e), s = _(await this.fetchJSONItems(), t).length;
-    return {
-      items: await this.list(e),
-      count: s
-    };
-  }
-  async save(e) {
-    const t = this.processItem(e), s = t.$id == null || t.$id == "new", n = await this.fetchJSONItems();
-    if (s) {
-      const i = (W(n, (r) => parseInt(r.$id.toString())) ?? 0) + 1;
-      Object.defineProperty(t, "id", { value: i, enumerable: !0, writable: !0, configurable: !0 }), this.cachedItems.push(t);
-    } else {
-      const i = n.findIndex((r) => r.$id == t.$id);
-      n.splice(i, 1, t);
-    }
-    return { saved: this.toEntity(t), isNew: s };
-  }
-  async remove(e) {
-    const t = this.cachedItems.findIndex((s) => s.$id == e.$id);
-    t !== -1 && this.cachedItems.splice(t, 1);
-  }
-  processSearchObject(e) {
-    const {
-      pageSize: t = 0,
-      page: s = 0,
-      q: n = "",
-      ...i
-    } = {
-      ...e || {},
-      "*$title*": e?.q || null
-    };
-    return Object.fromEntries(Object.entries(i).filter(([, r]) => r != null));
-  }
-}
-class b {
-  //guid: string
-  constructor() {
-  }
-}
-Object.defineProperty(b.prototype, "entityType", {
-  get() {
-    return this.constructor.name;
-  },
-  configurable: !0,
-  enumerable: !0
+//#endregion
+//#region src/vue/entities/abstractions/EntityServiceBase.ts
+var j = class {
+	defaultPageSize = 10;
+	constructor(e, t) {
+		this.axios = e, this.config = t, this.defaultPageSize = t.defaultPageSize || 10;
+	}
+	async details(e) {
+		let t = await this.axios.get(`${this.config.detailsUrl}/${e}`);
+		if (t?.status == 200) {
+			let { data: { item: e } } = t;
+			return this.processItem(e);
+		}
+		throw t;
+	}
+	async list(e) {
+		let { items: t } = await this.fetchItems(this.config.listUrl, e);
+		return t.map((e) => this.processItem(e));
+	}
+	async search(e) {
+		let { items: t, count: n } = await this.fetchItems(this.config.searchUrl, e);
+		return {
+			items: t.map((e) => this.processItem(e)),
+			count: n
+		};
+	}
+	async searchUnion(e, t) {
+		let n = o(k({
+			...this.config.baseQueryParams || {},
+			...t || {}
+		}, this.defaultPageSize)), r = `${this.config.searchUrl}?${n}`, { data: i } = await this.axios.post(r, e).then((e) => e);
+		return i;
+	}
+	async save(e) {
+		let t = e.$id == null || e.$id === "new", n = t ? await this.insert(e) : await this.update(e);
+		return {
+			saved: this.processItem(n),
+			isNew: t
+		};
+	}
+	async remove(e) {
+		let t = this.prepareItem(e), n = `${this.config.deleteUrl}/${t.$id}`;
+		await this.axios.delete(n).then((e) => e.data);
+	}
+	async update(e) {
+		let t = `${this.config.saveUrl}/${e.$id}`, n = this.prepareItem(e);
+		console.debug("update", {
+			item: e,
+			prepared: n
+		});
+		let r = await this.axios.put(t, n);
+		if (r instanceof v) throw r;
+		let { item: i } = await r.data;
+		return this.processItem(i);
+	}
+	async insert(e) {
+		let t = `${this.config.saveUrl}`, n = this.prepareItem(e), r = await this.axios.post(t, n);
+		if (r instanceof v) throw r;
+		let { item: i } = r.data;
+		return "id" in i && Object.defineProperty(e, "id", {
+			value: i.id,
+			writable: !0,
+			configurable: !0,
+			enumerable: !0
+		}), this.processItem(i);
+	}
+	async fetchItems(e, t) {
+		let n = {
+			...this.config.baseQueryParams || {},
+			...t || {}
+		};
+		!n.pageSize && n.pageSize !== 0 && (n.pageSize = this.defaultPageSize), (!("isArchived" in n) || n.isArchived == null) && (n.isArchived = !1);
+		let r = `${e}?${o(k(n, this.defaultPageSize))}`, { data: i } = await this.axios.get(r).then((e) => e);
+		return i;
+	}
+	processItem(e) {
+		if (e == null) return null;
+		let t = this.toEntity(e);
+		if ("created" in e) {
+			let e = t;
+			e.created != null && (t.created = new Date(Date.parse(e.created)));
+		}
+		if ("lastModified" in e) {
+			let e = t;
+			e.lastModified != null && (t.lastModified = new Date(Date.parse(e.lastModified)));
+		}
+		return t;
+	}
+	prepareItem(e) {
+		return Object.keys(e).forEach((t) => {
+			t[0] == "_" && delete e[t];
+		}), e;
+	}
+	createInstance(e) {
+		return new e();
+	}
+	async newEntity(e) {
+		return this.toEntity(e || {});
+	}
+}, M = /* @__PURE__ */ new Map(), N = class extends j {
+	constructor(e, t, n) {
+		super(e, t), this.key = n;
+	}
+	get cachedItems() {
+		return M.get(this.key) || null;
+	}
+	set cachedItems(e) {
+		M.set(this.key, e);
+	}
+	async fetchJSONItems() {
+		return this.cachedItems ??= await super.list(), this.cachedItems;
+	}
+	async details(e) {
+		let t = (await this.list({ pageSize: 0 })).find((t) => t.$id == e) || null;
+		return t == null ? null : this.toEntity(t);
+	}
+	async list(t) {
+		let n = this.processSearchObject(t), i = r(await this.fetchJSONItems(), n), a = t?.pageSize === void 0 ? this.config.defaultPageSize : t.pageSize;
+		return a ? e(i, a, Math.max(t?.page || 0, 1) - 1) : i;
+	}
+	async search(e) {
+		let t = this.processSearchObject(e), n = r(await this.fetchJSONItems(), t).length;
+		return {
+			items: await this.list(e),
+			count: n
+		};
+	}
+	async save(e) {
+		let t = this.processItem(e), r = t.$id == null || t.$id == "new", i = await this.fetchJSONItems();
+		if (r) {
+			let e = (n(i, (e) => parseInt(e.$id.toString())) ?? 0) + 1;
+			Object.defineProperty(t, "id", {
+				value: e,
+				enumerable: !0,
+				writable: !0,
+				configurable: !0
+			}), this.cachedItems.push(t);
+		} else {
+			let e = i.findIndex((e) => e.$id == t.$id);
+			i.splice(e, 1, t);
+		}
+		return {
+			saved: this.toEntity(t),
+			isNew: r
+		};
+	}
+	async remove(e) {
+		let t = this.cachedItems.findIndex((t) => t.$id == e.$id);
+		t !== -1 && this.cachedItems.splice(t, 1);
+	}
+	processSearchObject(e) {
+		let { pageSize: t = 0, page: n = 0, q: r = "", ...i } = {
+			...e || {},
+			"*$title*": e?.q || null
+		};
+		return Object.fromEntries(Object.entries(i).filter(([, e]) => e != null));
+	}
+}, P = class {
+	constructor() {}
+};
+Object.defineProperty(P.prototype, "entityType", {
+	get() {
+		return this.constructor.name;
+	},
+	configurable: !0,
+	enumerable: !0
 });
-class we {
-  q;
-  // toJSON() {
-  //     // exclude $meta from json
-  //     const jsonObj = Object.fromEntries(Object.entries(this).filter(([key]) => key[0] != "$"))
-  //     return JSON.stringify(jsonObj)
-  // }
+//#endregion
+//#region src/vue/entities/abstractions/SearchObjectBase.ts
+var F = class {
+	q;
+}, I = class extends F {}, L = class {
+	Entity;
+	serviceBuilder;
+	config;
+	Overview;
+	Details;
+	Form;
+	Fiche;
+	constructor(e, t, n, { Overview: r, Details: i, Form: a, Fiche: o }) {
+		this.Entity = e, this.serviceBuilder = t, this.config = n, this.Overview = r, this.Details = i, this.Form = a, this.Fiche = o;
+	}
+	get key() {
+		return this.Entity.name;
+	}
+}, _e = ["value"], ve = ["value"], ye = /* @__PURE__ */ ae({
+	__name: "Selector",
+	props: {
+		modelValue: {},
+		data: {},
+		dataUrl: {},
+		dataFunc: {},
+		idProp: {},
+		titleFunc: {
+			type: Function,
+			default: (e) => (typeof e == "string" ? e : e.$title) || ""
+		},
+		showEmptyOption: {
+			type: Boolean,
+			default: !0
+		},
+		emptyValue: {},
+		emptyText: {}
+	},
+	emits: ["update:modelValue"],
+	async setup(e, { emit: t }) {
+		let n, r, i = e;
+		!i.data && !i.dataFunc && !i.dataUrl && console.error("props data OR dataUrl is required");
+		let a = y(() => i.data || o.value), o = S([]);
+		i.data ?? (o.value = w(([n, r] = me(() => Promise.resolve(i.dataFunc())), n = await n, r(), n)));
+		let { modelValue: s } = de(i);
+		return (t, n) => T((x(), b("select", { "onUpdate:modelValue": n[0] ||= (e) => oe(s) ? s.value = e : null }, [e.showEmptyOption ? le(t.$slots, "default", { key: 0 }, () => [ie("option", { value: e.emptyValue }, C(e.emptyText), 9, _e)]) : re("", !0), (x(!0), b(ne, null, ce(a.value, (t) => (x(), b("option", { value: e.idProp ? t[e.idProp] : t }, C(e.titleFunc(t)), 9, ve))), 256))], 512)), [[fe, w(s)]]);
+	}
+}), R = /* @__PURE__ */ new Map(), z = Symbol();
+function be(e = z) {
+	let t = R.has(e) ? R.get(e) : R.set(e, /* @__PURE__ */ new Map()).get(e);
+	function n(e, n, r) {
+		t.set(e.key, {
+			config: e,
+			store: n,
+			components: r
+		});
+	}
+	function r(e) {
+		return t.get(e);
+	}
+	return {
+		describers: t,
+		get types() {
+			return [...t.keys()];
+		},
+		addType: n,
+		getDesc: r
+	};
 }
-class Ee extends we {
+//#endregion
+//#region src/vue/entities/filter/filter.ts
+function xe({ searchObject: e, emit: t, Constructor: n }) {
+	let r = () => {
+		t("update:modelValue", { ...e.value });
+	}, i = () => {
+		t("filter", e.value);
+	};
+	return {
+		filterIsActive: y(() => {
+			let t = n ? new n() : new I(), r = Object.keys(t), i = Object.entries(e.value || {}).filter(([, e]) => e != null).map(([e]) => e);
+			return r.some((e) => i.some((t) => e == t));
+		}),
+		handleToggle: () => t("toggle-adv"),
+		handleFilter: i,
+		handleUpdate: () => {
+			r(), i();
+		},
+		handleReset: () => {
+			t("update:modelValue", Object.fromEntries(Object.entries({ ...e.value }).map(([e, t]) => [e, null]))), i();
+		}
+	};
 }
-class Ce {
-  Entity;
-  serviceBuilder;
-  config;
-  Overview;
-  Details;
-  Form;
-  Fiche;
-  constructor(e, t, s, { Overview: n, Details: i, Form: r, Fiche: o }) {
-    this.Entity = e, this.serviceBuilder = t, this.config = s, this.Overview = n, this.Details = i, this.Form = r, this.Fiche = o;
-  }
-  get key() {
-    return this.Entity.name;
-  }
-}
-const Se = ["value"], be = ["value"], Be = /* @__PURE__ */ Z({
-  __name: "Selector",
-  props: {
-    modelValue: {},
-    data: {},
-    dataUrl: {},
-    dataFunc: {},
-    idProp: {},
-    titleFunc: { type: Function, default: (a) => (typeof a == "string" ? a : a.$title) || "" },
-    showEmptyOption: { type: Boolean, default: !0 },
-    emptyValue: {},
-    emptyText: {}
-  },
-  emits: ["update:modelValue"],
-  async setup(a, { emit: e }) {
-    let t, s;
-    const n = a;
-    !n.data && !n.dataFunc && !n.dataUrl && console.error("props data OR dataUrl is required");
-    const i = S(() => n.data || r.value), r = m([]);
-    n.data == null && (r.value = U(([t, s] = Y(() => Promise.resolve(n.dataFunc())), t = await t, s(), t)));
-    const { modelValue: o } = ee(n);
-    return (l, c) => te(($(), M("select", {
-      "onUpdate:modelValue": c[0] || (c[0] = (f) => se(o) ? o.value = f : null)
-    }, [
-      a.showEmptyOption ? ne(l.$slots, "default", { key: 0 }, () => [
-        ae("option", { value: a.emptyValue }, z(a.emptyText), 9, Se)
-      ]) : re("", !0),
-      ($(!0), M(ie, null, oe(i.value, (f) => ($(), M("option", {
-        value: a.idProp ? f[a.idProp] : f
-      }, z(a.titleFunc(f)), 9, be))), 256))
-    ], 512)), [
-      [ce, U(o)]
-    ]);
-  }
-}), R = /* @__PURE__ */ new Map(), Ie = /* @__PURE__ */ Symbol();
-function Qe(a = Ie) {
-  const e = R.has(a) ? R.get(a) : R.set(a, /* @__PURE__ */ new Map()).get(a);
-  function t(n, i, r) {
-    e.set(n.key, { config: n, store: i, components: r });
-  }
-  function s(n) {
-    return e.get(n);
-  }
-  return {
-    describers: e,
-    get types() {
-      return [...e.keys()];
-    },
-    addType: t,
-    getDesc: s
-  };
-}
-function Ge({ searchObject: a, emit: e, Constructor: t }) {
-  const s = () => {
-    e("update:modelValue", { ...a.value });
-  }, n = () => {
-    e("filter", a.value);
-  };
-  return {
-    filterIsActive: S(() => {
-      const r = t ? new t() : new Ee(), o = Object.keys(r), l = Object.entries(a.value || {}).filter(([, c]) => c != null).map(([c]) => c);
-      return o.some((c) => l.some((f) => c == f));
-    }),
-    handleToggle: () => e("toggle-adv"),
-    handleFilter: n,
-    handleUpdate: () => {
-      s(), n();
-    },
-    handleReset: () => {
-      const r = Object.fromEntries(
-        Object.entries({
-          ...a.value
-        }).map(([o, l]) => [o, null])
-      );
-      e("update:modelValue", r), n();
-    }
-  };
-}
-class V {
-  id;
-  name;
-  icon;
-  routeName;
-  title;
-  description;
-  initialQuery;
-  parentId;
-}
-class Oe {
-  id;
-  title;
-  parentId;
-  icon;
-}
-function C(a) {
-  return Object.assign(new Oe(), a);
-}
-function A(a, e) {
-  return Object.assign(new V(), {
-    id: a.key,
-    parentId: e,
-    icon: a.name,
-    routeName: `${a.name}Overview`,
-    title: a.overviewTitle,
-    description: a.description,
-    initialQuery: a.initialQuery ?? {}
-  });
-}
-function He(a) {
-  function e(n) {
-    return a.configs.find((i) => i.key == n);
-  }
-  const t = a.entities.flatMap(
-    ([n, i]) => i.map((r) => e(r)).filter((r) => a.hasAccess(r)).map((r) => A(r, n))
-  );
-  return a.groups.filter((n) => t.some((i) => i.parentId == n.id)).map((n) => C(n)).concat(t);
-}
-function Je(a) {
-  function e(s) {
-    return a.configs.find((n) => n.key == s);
-  }
-  const t = a.groups?.map(C);
-  return a.entities.flatMap((s) => {
-    if (s.length == 2 && Array.isArray(s[1])) {
-      const i = t.find((o) => o.id == s[0]), r = s[1].map((o) => e(o)).filter((o) => a.hasAccess(o)).map((o) => A(o, i.id));
-      return [i, ...r];
-    }
-    const n = e(s);
-    return a.hasAccess(n) ? [A(n)] : [];
-  });
-}
-function Xe(a) {
-  return new q().init(a, (e, t) => t.filter((s) => s.id == e.parentId));
-}
-function We(a) {
-  return a instanceof V;
-}
-function B({
-  service: a,
-  searchObject: e,
-  defaultPageSize: t = g
-}) {
-  const s = m(e), n = m(new ve(t || g)), i = m(), r = m(), o = m(!1), l = de();
-  async function c(u) {
-    o.value = !0;
-    try {
-      l.reset();
-      const { saved: d, isNew: p } = await a.save(u);
-      return l.success(`Saved ${u.$title}`), { saved: d, isNew: p };
-    } catch (d) {
-      console.error("saving failed", { ex: d, item: u });
-      const p = d;
-      l.fail(`Saving ${u.$title} failed`, p.response?.data?.errors);
-    } finally {
-      o.value = !1;
-    }
-    return null;
-  }
-  async function f(u) {
-    o.value = !0;
-    try {
-      l.reset(), await a.remove(u);
-    } catch (d) {
-      console.error("removing failed", { ex: d, item: u });
-      const p = d;
-      l.fail(`Removing ${u.$title} failed`, p.response?.data?.errors);
-    } finally {
-      o.value = !1;
-    }
-  }
-  function v({ saved: u, isNew: d }) {
-    if (r.value != null)
-      if (d)
-        r.value.push(u);
-      else {
-        const p = r.value.findIndex((E) => E.$id === u.$id);
-        p !== -1 && r.value.splice(p, 1, u);
-      }
-  }
-  function w(u) {
-    if (r.value == null)
-      return;
-    const d = r.value.findIndex((p) => p.$id === u.$id);
-    d !== -1 && r.value.splice(d, 1);
-  }
-  function h() {
-    n.value = {
-      ...n?.value,
-      page: 1
-    };
-  }
-  return {
-    searchObject: s,
-    pagingInfo: n,
-    items: r,
-    itemsCount: i,
-    isLoading: o,
-    feedback: l,
-    applySave: c,
-    applyRemove: f,
-    handleSave: v,
-    handleRemove: w,
-    resetPage: h
-  };
-}
-const Q = 250;
-function Ke({
-  service: a,
-  searchObject: e,
-  defaultPageSize: t = g,
-  debounceDelay: s = Q
-}) {
-  const {
-    searchObject: n,
-    pagingInfo: i,
-    items: r,
-    itemsCount: o,
-    isLoading: l,
-    feedback: c,
-    applySave: f,
-    applyRemove: v,
-    handleSave: w,
-    handleRemove: h,
-    resetPage: u
-  } = B({ service: a, searchObject: e, defaultPageSize: t });
-  async function d(E = !1) {
-    l.value = !0;
-    try {
-      c.reset();
-      const y = { ...n.value || {}, ...i.value || {} };
-      E && (y.page = 1);
-      const { items: O, count: J } = await a.search(y);
-      r.value = O, o.value = J;
-    } catch (y) {
-      console.error("fetching failed", { ex: y });
-      const O = y;
-      c.fail("fetching data failed", O.response?.data?.errors);
-    } finally {
-      l.value = !1;
-    }
-  }
-  const p = L(d, s);
-  return {
-    searchObject: n,
-    pagingInfo: i,
-    items: r,
-    itemsCount: o,
-    isLoading: l,
-    feedback: c,
-    applySave: f,
-    applyRemove: v,
-    handleSave: w,
-    handleRemove: h,
-    resetPage: u,
-    searchHandler: d,
-    debouncedSearchHandler: p
-  };
-}
-function Ze({
-  service: a,
-  searchObject: e,
-  defaultPageSize: t = g,
-  debounceDelay: s = Q
-}) {
-  const {
-    searchObject: n,
-    pagingInfo: i,
-    items: r,
-    itemsCount: o,
-    isLoading: l,
-    feedback: c,
-    applySave: f,
-    applyRemove: v,
-    handleSave: w,
-    handleRemove: h,
-    resetPage: u
-  } = B({ service: a, searchObject: e, defaultPageSize: t });
-  async function d() {
-    l.value = !0;
-    try {
-      c.reset(), r.value = await a.list({ ...e.value || {}, ...i.value || {} }), o.value = r.value.length;
-    } catch (E) {
-      console.error("fetching failed", { ex: E });
-      const y = E;
-      c.fail("fetching data failed", y.response?.data?.errors);
-    } finally {
-      l.value = !1;
-    }
-  }
-  const p = L(d, s);
-  return {
-    searchObject: n,
-    pagingInfo: i,
-    items: r,
-    itemsCount: o,
-    isLoading: l,
-    feedback: c,
-    applySave: f,
-    applyRemove: v,
-    handleSave: w,
-    handleRemove: h,
-    resetPage: u,
-    listHandler: d,
-    debouncedListHandler: p
-  };
-}
-function Ye({ pagingInfo: a, searchObject: e, defaultPageSize: t = g, handler: s }) {
-  const n = he();
-  function i(l = !1) {
-    l && a != null && (a.value = {
-      ...a?.value,
-      page: 1
-    });
-    const c = n.currentRoute.value, f = x(
-      {
-        ...c.query,
-        // values that should be removed should explicitly be overwritten by <<null>> in searchObject
-        ...e.value,
-        ...a.value || {}
-      }
-    ), v = {
-      ...c,
-      query: f
-    };
-    n.push(v);
-  }
-  async function r() {
-    const { searchObject: l, pagingInfo: c } = ge(n.currentRoute.value.query);
-    c.page || (c.page = 1), !c.pageSize && t > 0 && (c.pageSize = t), e.value != null && (e.value = l), a.value != null && (a.value = c), await s();
-  }
-  const o = le(n.currentRoute, async (l, c) => {
-    l.name === c.name && await r();
-  });
-  return ue(r), {
-    updateOverviewRoute: i,
-    //: debounce(updateOverviewRoute, 50),
-    routeSearchHandler: r,
-    routeWatcher: o
-  };
-}
-class k {
-  constructor(e, t, s) {
-    this.service = e, this.cache = t, this.type = s;
-  }
-  async details(e) {
-    const t = await this.service.details(e);
-    return t == null ? null : (this.cache.set(this.toEntity({ ...t })), this.toEntity({ ...t }));
-  }
-  async list(e) {
-    const t = await this.service.list(e);
-    return t.forEach((s) => this.cache.set(this.toEntity({ ...s }))), t;
-  }
-  async search(e) {
-    const { items: t, count: s } = await this.service.search(e);
-    return t.forEach((n) => this.cache.set(this.toEntity({ ...n }))), { items: t, count: s };
-  }
-  async searchUnion(e, t) {
-    const { items: s, count: n } = await this.service.searchUnion(e, t);
-    return s.forEach((i) => this.cache.set(this.toEntity({ ...i }))), { items: s, count: n };
-  }
-  async save(e) {
-    const { saved: t, isNew: s } = await this.service.save(e);
-    return this.cache.set(this.toEntity({ ...t })), { saved: t, isNew: s };
-  }
-  async remove(e) {
-    await this.service.remove(e), this.cache.remove(e);
-  }
-  get(e) {
-    const t = this.toEntity(e);
-    return this.cache.get(this.type, t.$id) || this.cache.set(t);
-  }
-  getMany(e) {
-    return e.map((t) => this.get(t)).filter((t) => t != null);
-  }
-  set(e) {
-    return e = this.toEntity(e), this.cache.set(e);
-  }
-  setMany(e) {
-    return e.map((t) => this.set(t));
-  }
-  toEntity(e) {
-    return this.service.toEntity(e);
-  }
-  newEntity(e) {
-    return this.service.newEntity(e);
-  }
-}
-const P = {
-  INTERVAL: 60,
-  EXPIRES: 600,
-  MAX_ITEMS: 1e3
+//#endregion
+//#region src/vue/entities/navigation/NavItem.ts
+var B = class {
+	id;
+	name;
+	icon;
+	routeName;
+	title;
+	description;
+	initialQuery;
+	parentId;
+}, V = class {
+	id;
+	title;
+	parentId;
+	icon;
 };
-class $e {
-  _cache = /* @__PURE__ */ new Map();
-  _expires;
-  _maxItems;
-  persistentTypes = [];
-  constructor({ interval: e = P.INTERVAL, expires: t = P.EXPIRES, maxItems: s = P.MAX_ITEMS } = {}) {
-    e > 0 && setInterval(() => this.cleanup(), e * 1e3), this._expires = t, this._maxItems = s;
-  }
-  set(e) {
-    const t = this.getEntityMap(e.constructor.name);
-    let s = this.get(e.constructor.name, e.$id);
-    return s == null ? s = m(e) : s.value = e, s.timestamp = +/* @__PURE__ */ new Date(), t.set(e.$id, s), s;
-  }
-  get(e, t) {
-    return this.getEntityMap(e).get(t);
-  }
-  remove(e) {
-    return this.getEntityMap(e.constructor.name).delete(e.$id);
-  }
-  hasType(e) {
-    return this._cache.has(e);
-  }
-  getAll(e) {
-    return e != null ? [...this.getEntityMap(e)].map(([, s]) => s) : [...this._cache].flatMap(([, t]) => [...t].map(([, s]) => s));
-  }
-  findReferences(e) {
-    return this.getAll().filter((n) => {
-      function i(r) {
-        if (Array.isArray(r))
-          return r.some((o) => i(o));
-        if (r instanceof b) {
-          if (r?.constructor?.name === e.constructor.name)
-            return r.$id === e.$id;
-          const o = Object.entries(r).map(([, l]) => l).filter((l) => l instanceof b || Array.isArray(l) && l.some((c) => c instanceof b));
-          return i(o);
-        }
-        return !1;
-      }
-      return i(n.value);
-    });
-  }
-  getEntityMap(e) {
-    return this._cache.has(e) || this._cache.set(e, /* @__PURE__ */ new Map()), this._cache.get(e);
-  }
-  cleanup() {
-    if (this._expires > 0) {
-      const t = +/* @__PURE__ */ new Date() - this._expires * 1e3;
-      for (let [s, n] of this._cache)
-        if (!this.persistentTypes.includes(s))
-          for (let [i, r] of n)
-            r.timestamp < t && (console.debug("removing", s, i), n.delete(i));
-    }
-    const e = K(
-      [...this._cache].flatMap(([, t]) => [...t].map(([, s]) => s)),
-      (t) => t.timestamp
-    );
-    e.length > this._maxItems && e.slice(this._maxItems).forEach((s) => {
-      const n = s.value.constructor.name;
-      if (!this.persistentTypes.includes(n)) {
-        const i = this.getEntityMap(n);
-        console.debug("removing", n, s.value.$id), i.delete(s.value.$id);
-      }
-    });
-  }
+//#endregion
+//#region src/vue/entities/navigation/functions.ts
+function H(e) {
+	return Object.assign(new V(), e);
 }
-const Me = new $e();
-function G(a, e, t = Me, s = !1) {
-  const n = a instanceof k ? a : new k(a, t, e);
-  s && !t.persistentTypes.includes(e) && t.persistentTypes.push(e);
-  function i(r) {
-    if (r == null)
-      return r;
-    if (!Array.isArray(r)) {
-      const o = a.toEntity(r);
-      if (["new", null, void 0, "", 0].includes(o?.$id))
-        return o;
-    }
-    return Array.isArray(r) ? n.getMany(r || []).map((o) => o.value) : n.get(r)?.value;
-  }
-  return {
-    service: n,
-    cache: t,
-    details: n.details.bind(n),
-    list: n.list.bind(n),
-    search: n.search.bind(n),
-    searchUnion: n.searchUnion.bind(n),
-    save: n.save.bind(n),
-    remove: n.remove.bind(n),
-    toEntity: n.toEntity.bind(n),
-    newEntity: n.newEntity.bind(n),
-    get: (r) => n.get(r),
-    getMany: (r) => n.getMany(r),
-    set: (r) => t.set(n.toEntity(r)),
-    setMany: (r) => r.map((o) => t.set(n.toEntity(o))),
-    fromPool: i,
-    fromCache: (r) => r ? t.get(e, r) : t.getAll(e)
-  };
+function U(e, t) {
+	return Object.assign(new B(), {
+		id: e.key,
+		parentId: t,
+		icon: e.name,
+		routeName: `${e.name}Overview`,
+		title: e.overviewTitle,
+		description: e.description,
+		initialQuery: e.initialQuery ?? {}
+	});
 }
-function et(a, e) {
-  return G(a, e);
+function Se(e) {
+	function t(t) {
+		return e.configs.find((e) => e.key == t);
+	}
+	let n = e.entities.flatMap(([n, r]) => r.map((e) => t(e)).filter((t) => e.hasAccess(t)).map((e) => U(e, n)));
+	return e.groups.filter((e) => n.some((t) => t.parentId == e.id)).map((e) => H(e)).concat(n);
 }
-const D = [], I = [];
-function H(a) {
-  I.length = 0, D.length = 0;
-  for (let e of a) {
-    D.push(e.name);
-    const t = pe(e.name), { list: s } = G(t, e.name, void 0, !0), n = s({ pageSize: 0 });
-    I.push(n);
-  }
-  return T();
+function Ce(e) {
+	function t(t) {
+		return e.configs.find((e) => e.key == t);
+	}
+	let n = e.groups?.map(H);
+	return e.entities.flatMap((r) => {
+		if (r.length == 2 && Array.isArray(r[1])) {
+			let i = n.find((e) => e.id == r[0]);
+			return [i, ...r[1].map((e) => t(e)).filter((t) => e.hasAccess(t)).map((e) => U(e, i.id))];
+		}
+		let i = t(r);
+		return e.hasAccess(i) ? [U(i)] : [];
+	});
 }
-async function T() {
-  return await new Promise((a) => {
-    async function e() {
-      if (D.length > I.length) {
-        setTimeout(e, 50);
-        return;
-      }
-      const t = await Promise.allSettled(I);
-      a(t);
-    }
-    e();
-  });
+function we(e) {
+	return new a().init(e, (e, t) => t.filter((t) => t.id == e.parentId));
 }
-const tt = {
-  install(a) {
-  },
-  preload: H,
-  ready: T
+function Te(e) {
+	return e instanceof B;
+}
+//#endregion
+//#region src/vue/entities/overview/overview-core.ts
+function W({ service: e, searchObject: t, defaultPageSize: n = 10 }) {
+	let r = S(t), i = S(new O(n || 10)), a = S(), o = S(), c = S(!1), l = s();
+	async function u(t) {
+		c.value = !0;
+		try {
+			l.reset();
+			let { saved: n, isNew: r } = await e.save(t);
+			return l.success(`Saved ${t.$title}`), {
+				saved: n,
+				isNew: r
+			};
+		} catch (e) {
+			console.error("saving failed", {
+				ex: e,
+				item: t
+			});
+			let n = e;
+			l.fail(`Saving ${t.$title} failed`, n.response?.data?.errors);
+		} finally {
+			c.value = !1;
+		}
+		return null;
+	}
+	async function d(t) {
+		c.value = !0;
+		try {
+			l.reset(), await e.remove(t);
+		} catch (e) {
+			console.error("removing failed", {
+				ex: e,
+				item: t
+			});
+			let n = e;
+			l.fail(`Removing ${t.$title} failed`, n.response?.data?.errors);
+		} finally {
+			c.value = !1;
+		}
+	}
+	function f({ saved: e, isNew: t }) {
+		if (o.value != null) if (t) o.value.push(e);
+		else {
+			let t = o.value.findIndex((t) => t.$id === e.$id);
+			t !== -1 && o.value.splice(t, 1, e);
+		}
+	}
+	function p(e) {
+		if (o.value == null) return;
+		let t = o.value.findIndex((t) => t.$id === e.$id);
+		t !== -1 && o.value.splice(t, 1);
+	}
+	function m() {
+		i.value = {
+			...i?.value,
+			page: 1
+		};
+	}
+	return {
+		searchObject: r,
+		pagingInfo: i,
+		items: o,
+		itemsCount: a,
+		isLoading: c,
+		feedback: l,
+		applySave: u,
+		applyRemove: d,
+		handleSave: f,
+		handleRemove: p,
+		resetPage: m
+	};
+}
+//#endregion
+//#region src/vue/entities/overview/search-view.ts
+function Ee({ service: e, searchObject: t, defaultPageSize: n = 10, debounceDelay: r = 250 }) {
+	let { searchObject: a, pagingInfo: o, items: s, itemsCount: c, isLoading: l, feedback: u, applySave: d, applyRemove: f, handleSave: p, handleRemove: m, resetPage: h } = W({
+		service: e,
+		searchObject: t,
+		defaultPageSize: n
+	});
+	async function g(t = !1) {
+		l.value = !0;
+		try {
+			u.reset();
+			let n = {
+				...a.value || {},
+				...o.value || {}
+			};
+			t && (n.page = 1);
+			let { items: r, count: i } = await e.search(n);
+			s.value = r, c.value = i;
+		} catch (e) {
+			console.error("fetching failed", { ex: e });
+			let t = e;
+			u.fail("fetching data failed", t.response?.data?.errors);
+		} finally {
+			l.value = !1;
+		}
+	}
+	return {
+		searchObject: a,
+		pagingInfo: o,
+		items: s,
+		itemsCount: c,
+		isLoading: l,
+		feedback: u,
+		applySave: d,
+		applyRemove: f,
+		handleSave: p,
+		handleRemove: m,
+		resetPage: h,
+		searchHandler: g,
+		debouncedSearchHandler: i(g, r)
+	};
+}
+//#endregion
+//#region src/vue/entities/overview/list-view.ts
+function De({ service: e, searchObject: t, defaultPageSize: n = 10, debounceDelay: r = 250 }) {
+	let { searchObject: a, pagingInfo: o, items: s, itemsCount: c, isLoading: l, feedback: u, applySave: d, applyRemove: f, handleSave: p, handleRemove: m, resetPage: h } = W({
+		service: e,
+		searchObject: t,
+		defaultPageSize: n
+	});
+	async function g() {
+		l.value = !0;
+		try {
+			u.reset(), s.value = await e.list({
+				...t.value || {},
+				...o.value || {}
+			}), c.value = s.value.length;
+		} catch (e) {
+			console.error("fetching failed", { ex: e });
+			let t = e;
+			u.fail("fetching data failed", t.response?.data?.errors);
+		} finally {
+			l.value = !1;
+		}
+	}
+	return {
+		searchObject: a,
+		pagingInfo: o,
+		items: s,
+		itemsCount: c,
+		isLoading: l,
+		feedback: u,
+		applySave: d,
+		applyRemove: f,
+		handleSave: p,
+		handleRemove: m,
+		resetPage: h,
+		listHandler: g,
+		debouncedListHandler: i(g, r)
+	};
+}
+//#endregion
+//#region src/vue/entities/overview/route-overview.ts
+function Oe({ pagingInfo: e, searchObject: t, defaultPageSize: n = 10, handler: r }) {
+	let i = E();
+	function a(r = !1) {
+		r && e != null && (e.value = {
+			...e?.value,
+			page: 1
+		});
+		let a = i.currentRoute.value, o = k({
+			...a.query,
+			...t.value,
+			...e.value || {}
+		}, n), s = {
+			...a,
+			query: o
+		};
+		i.push(s);
+	}
+	async function o() {
+		let { searchObject: a, pagingInfo: o } = A(i.currentRoute.value.query);
+		o.page ||= 1, !o.pageSize && n > 0 && (o.pageSize = n), t.value != null && (t.value = a), e.value != null && (e.value = o), await r();
+	}
+	let s = pe(i.currentRoute, async (e, t) => {
+		e.name === t.name && await o();
+	});
+	return se(o), {
+		updateOverviewRoute: a,
+		routeSearchHandler: o,
+		routeWatcher: s
+	};
+}
+//#endregion
+//#region src/vue/entities/pooling/PoolService.ts
+var G = class {
+	constructor(e, t, n) {
+		this.service = e, this.cache = t, this.type = n;
+	}
+	async details(e) {
+		let t = await this.service.details(e);
+		return t == null ? null : (this.cache.set(this.toEntity({ ...t })), this.toEntity({ ...t }));
+	}
+	async list(e) {
+		let t = await this.service.list(e);
+		return t.forEach((e) => this.cache.set(this.toEntity({ ...e }))), t;
+	}
+	async search(e) {
+		let { items: t, count: n } = await this.service.search(e);
+		return t.forEach((e) => this.cache.set(this.toEntity({ ...e }))), {
+			items: t,
+			count: n
+		};
+	}
+	async searchUnion(e, t) {
+		let { items: n, count: r } = await this.service.searchUnion(e, t);
+		return n.forEach((e) => this.cache.set(this.toEntity({ ...e }))), {
+			items: n,
+			count: r
+		};
+	}
+	async save(e) {
+		let { saved: t, isNew: n } = await this.service.save(e);
+		return this.cache.set(this.toEntity({ ...t })), {
+			saved: t,
+			isNew: n
+		};
+	}
+	async remove(e) {
+		await this.service.remove(e), this.cache.remove(e);
+	}
+	get(e) {
+		let t = this.toEntity(e);
+		return this.cache.get(this.type, t.$id) || this.cache.set(t);
+	}
+	getMany(e) {
+		return e.map((e) => this.get(e)).filter((e) => e != null);
+	}
+	set(e) {
+		return e = this.toEntity(e), this.cache.set(e);
+	}
+	setMany(e) {
+		return e.map((e) => this.set(e));
+	}
+	toEntity(e) {
+		return this.service.toEntity(e);
+	}
+	newEntity(e) {
+		return this.service.newEntity(e);
+	}
+}, K = {
+	INTERVAL: 60,
+	EXPIRES: 600,
+	MAX_ITEMS: 1e3
+}, q = class {
+	_cache = /* @__PURE__ */ new Map();
+	_expires;
+	_maxItems;
+	persistentTypes = [];
+	constructor({ interval: e = K.INTERVAL, expires: t = K.EXPIRES, maxItems: n = K.MAX_ITEMS } = {}) {
+		e > 0 && setInterval(() => this.cleanup(), e * 1e3), this._expires = t, this._maxItems = n;
+	}
+	set(e) {
+		let t = this.getEntityMap(e.constructor.name), n = this.get(e.constructor.name, e.$id);
+		return n == null ? n = S(e) : n.value = e, n.timestamp = +/* @__PURE__ */ new Date(), t.set(e.$id, n), n;
+	}
+	get(e, t) {
+		return this.getEntityMap(e).get(t);
+	}
+	remove(e) {
+		return this.getEntityMap(e.constructor.name).delete(e.$id);
+	}
+	hasType(e) {
+		return this._cache.has(e);
+	}
+	getAll(e) {
+		return e == null ? [...this._cache].flatMap(([, e]) => [...e].map(([, e]) => e)) : [...this.getEntityMap(e)].map(([, e]) => e);
+	}
+	findReferences(e) {
+		return this.getAll().filter((t) => {
+			function n(t) {
+				return Array.isArray(t) ? t.some((e) => n(e)) : t instanceof P ? t?.constructor?.name === e.constructor.name ? t.$id === e.$id : n(Object.entries(t).map(([, e]) => e).filter((e) => e instanceof P || Array.isArray(e) && e.some((e) => e instanceof P))) : !1;
+			}
+			return n(t.value);
+		});
+	}
+	getEntityMap(e) {
+		return this._cache.has(e) || this._cache.set(e, /* @__PURE__ */ new Map()), this._cache.get(e);
+	}
+	cleanup() {
+		if (this._expires > 0) {
+			let e = /* @__PURE__ */ new Date() - this._expires * 1e3;
+			for (let [t, n] of this._cache) if (!this.persistentTypes.includes(t)) for (let [r, i] of n) i.timestamp < e && (console.debug("removing", t, r), n.delete(r));
+		}
+		let e = t([...this._cache].flatMap(([, e]) => [...e].map(([, e]) => e)), (e) => e.timestamp);
+		e.length > this._maxItems && e.slice(this._maxItems).forEach((e) => {
+			let t = e.value.constructor.name;
+			if (!this.persistentTypes.includes(t)) {
+				let n = this.getEntityMap(t);
+				console.debug("removing", t, e.value.$id), n.delete(e.value.$id);
+			}
+		});
+	}
+}, J = new q();
+function Y(e, t, n = J, r = !1) {
+	let i = e instanceof G ? e : new G(e, n, t);
+	r && !n.persistentTypes.includes(t) && n.persistentTypes.push(t);
+	function a(t) {
+		if (t == null) return t;
+		if (!Array.isArray(t)) {
+			let n = e.toEntity(t);
+			if ([
+				"new",
+				null,
+				void 0,
+				"",
+				0
+			].includes(n?.$id)) return n;
+		}
+		return Array.isArray(t) ? i.getMany(t || []).map((e) => e.value) : i.get(t)?.value;
+	}
+	return {
+		service: i,
+		cache: n,
+		details: i.details.bind(i),
+		list: i.list.bind(i),
+		search: i.search.bind(i),
+		searchUnion: i.searchUnion.bind(i),
+		save: i.save.bind(i),
+		remove: i.remove.bind(i),
+		toEntity: i.toEntity.bind(i),
+		newEntity: i.newEntity.bind(i),
+		get: (e) => i.get(e),
+		getMany: (e) => i.getMany(e),
+		set: (e) => n.set(i.toEntity(e)),
+		setMany: (e) => e.map((e) => n.set(i.toEntity(e))),
+		fromPool: a,
+		fromCache: (e) => e ? n.get(t, e) : n.getAll(t)
+	};
+}
+//#endregion
+//#region src/vue/entities/pooling/store.ts
+function ke(e, t) {
+	return Y(e, t);
+}
+//#endregion
+//#region src/vue/entities/preloading/preloader.ts
+var X = [], Z = [];
+function Q(e) {
+	Z.length = 0, X.length = 0;
+	for (let t of e) {
+		X.push(t.name);
+		let { list: e } = Y(te(t.name), t.name, void 0, !0), n = e({ pageSize: 0 });
+		Z.push(n);
+	}
+	return $();
+}
+async function $() {
+	return await new Promise((e) => {
+		async function t() {
+			if (X.length > Z.length) {
+				setTimeout(t, 50);
+				return;
+			}
+			e(await Promise.allSettled(Z));
+		}
+		t();
+	});
+}
+var Ae = {
+	install(e) {},
+	preload: Q,
+	ready: $
 };
-function st() {
-  return { preload: H, ready: T };
+function je() {
+	return {
+		preload: Q,
+		ready: $
+	};
 }
-function Re(a, e) {
-  return a.$id != null && a.$id == e.$id && a.constructor == e.constructor;
+//#endregion
+//#region src/vue/entities/tree/tree.ts
+function Me(e, t) {
+	return e.$id != null && e.$id == t.$id && e.constructor == t.constructor;
 }
-function nt(a) {
-  const e = m(), t = m(), s = a?.equals || Re, n = S(() => e.value?.filter((c) => t.value?.some((f) => s(c.value, f))) || []), i = S(() => n.value.flatMap((c) => c.getAncestors())), r = S(() => n.value.flatMap((c) => c.getOffspring())), o = S(() => [
-    ...new Set(
-      n.value.flatMap((c) => c.getAncestors()).concat(n.value).concat(n.value.flatMap((c) => c.getOffspring()))
-    )
-  ]);
-  function l(c, f, v) {
-    t.value = c, e.value = new q().init(
-      f.map((h) => fe(h)),
-      v
-    ), e.value.filter((h) => h.parent == null ? !1 : h.parent.getOffspring().some((u) => u != h && u.value == h.value)).forEach((h) => e.value.remove(h));
-  }
-  return {
-    tree: e,
-    nodes: n,
-    ancestors: i,
-    offspring: r,
-    family: o,
-    init: l
-  };
+function Ne(e) {
+	let t = S(), n = S(), r = e?.equals || Me, i = y(() => t.value?.filter((e) => n.value?.some((t) => r(e.value, t))) || []), o = y(() => i.value.flatMap((e) => e.getAncestors())), s = y(() => i.value.flatMap((e) => e.getOffspring())), c = y(() => [...new Set(i.value.flatMap((e) => e.getAncestors()).concat(i.value).concat(i.value.flatMap((e) => e.getOffspring())))]);
+	function l(e, r, i) {
+		n.value = e, t.value = new a().init(r.map((e) => ue(e)), i), t.value.filter((e) => e.parent == null ? !1 : e.parent.getOffspring().some((t) => t != e && t.value == e.value)).forEach((e) => t.value.remove(e));
+	}
+	return {
+		tree: t,
+		nodes: i,
+		ancestors: o,
+		offspring: s,
+		family: c,
+		init: l
+	};
 }
-function at({ emit: a }) {
-  const e = m();
-  function t(i) {
-    i != null && (e.value = i, a("drag", i));
-  }
-  function s() {
-    e.value = void 0, a("dragend");
-  }
-  function n(i) {
-    i == null || e.value == null || e.value == i || e.value?.getOffspring()?.includes(i) || (a("drop", i), a("move", { child: e.value, parent: i }), e.value = void 0);
-  }
-  return {
-    draggingNode: e,
-    handleDrag: t,
-    handleDragEnd: s,
-    handleDrop: n
-  };
+function Pe({ emit: e }) {
+	let t = S();
+	function n(n) {
+		n != null && (t.value = n, e("drag", n));
+	}
+	function r() {
+		t.value = void 0, e("dragend");
+	}
+	function i(n) {
+		n == null || t.value == null || t.value == n || (t.value?.getOffspring())?.includes(n) || (e("drop", n), e("move", {
+			child: t.value,
+			parent: n
+		}), t.value = void 0);
+	}
+	return {
+		draggingNode: t,
+		handleDrag: n,
+		handleDragEnd: r,
+		handleDrop: i
+	};
 }
-export {
-  g as DEFAULT_PAGESIZE,
-  Ee as DefaultSearchObject,
-  ot as DetailsSummary,
-  b as EntityBase,
-  Ce as EntityDescriptor,
-  ye as EntityServiceBase,
-  ut as FormStates,
-  Ve as JSONService,
-  Oe as NavGroup,
-  V as NavItem,
-  me as NavTypes,
-  ve as PagingInfo,
-  $e as PoolCache,
-  k as PoolService,
-  we as SearchObjectBase,
-  Be as Selector,
-  Le as SortByInfo,
-  Xe as buildNavigationTree,
-  x as cleanQueryParams,
-  C as createNavGroup,
-  A as createNavItem,
-  et as createStore,
-  Me as defaultPoolCache,
-  ft as formDefaults,
-  dt as formModalDefaults,
-  He as importDashboard,
-  Je as importNavbar,
-  We as isNavItem,
-  ge as parseQueryParams,
-  tt as preloaderPlugin,
-  ct as useDetails,
-  at as useDragDrop,
-  Qe as useEntityDescribers,
-  Ge as useFilter,
-  ht as useForm,
-  pt as useListInput,
-  mt as useListItemInput,
-  Ze as useListView,
-  vt as useModal,
-  B as useOverviewCore,
-  gt as useOwnedCollection,
-  yt as useOwnedModal,
-  G as usePooling,
-  st as usePreloader,
-  Ye as useRouteOverview,
-  Ke as useSearchView,
-  nt as useTree
-};
+//#endregion
+export { he as DEFAULT_PAGESIZE, I as DefaultSearchObject, l as DetailsSummary, P as EntityBase, L as EntityDescriptor, j as EntityServiceBase, _ as FormStates, N as JSONService, V as NavGroup, B as NavItem, D as NavTypes, O as PagingInfo, q as PoolCache, G as PoolService, F as SearchObjectBase, ye as Selector, ge as SortByInfo, we as buildNavigationTree, k as cleanQueryParams, H as createNavGroup, U as createNavItem, ke as createStore, J as defaultPoolCache, d as formDefaults, u as formModalDefaults, Se as importDashboard, Ce as importNavbar, Te as isNavItem, A as parseQueryParams, Ae as preloaderPlugin, c as useDetails, Pe as useDragDrop, be as useEntityDescribers, xe as useFilter, p as useForm, g as useListInput, f as useListItemInput, De as useListView, h as useModal, W as useOverviewCore, m as useOwnedCollection, ee as useOwnedModal, Y as usePooling, je as usePreloader, Oe as useRouteOverview, Ee as useSearchView, Ne as useTree };

@@ -1,31 +1,25 @@
-import { defineComponent as c, getCurrentInstance as i, computed as s, openBlock as a, createElementBlock as g, toDisplayString as b, createCommentVNode as p, ref as l } from "vue";
-const d = {
-  key: 0,
-  class: "debug pre text-muted"
-}, m = /* @__PURE__ */ c({
-  __name: "Display",
-  props: {
-    modelValue: {}
-  },
-  setup(e) {
-    const u = e, r = i(), t = s(() => !!r?.proxy?.$isDebug), o = s(() => JSON.stringify(u.modelValue || {}, null, 2));
-    return (n, f) => t.value ? (a(), g("div", d, b(o.value), 1)) : p("", !0);
-  }
-}), y = {
-  install(e, u) {
-    const r = l(!!u?.isDebug), t = l(!0);
-    e.component("Debug", m), Object.defineProperty(e.config.globalProperties, "$isDebug", {
-      get() {
-        const n = e.config.globalProperties.$router.currentRoute.value.query?.debug;
-        return t.value && (typeof n < "u" ? n === "1" : r.value);
-      },
-      enumerable: !0,
-      configurable: !0
-    }), e.config.globalProperties.$setDebug = (o = !0) => t.value = o;
-  }
-};
-export {
-  m as Debug,
-  y as default,
-  y as plugin
-};
+import { computed as e, createCommentVNode as t, createElementBlock as n, defineComponent as r, getCurrentInstance as i, openBlock as a, ref as o, toDisplayString as s } from "vue";
+//#region src/vue/debug/Display.vue?vue&type=script&setup=true&lang.ts
+var c = {
+	key: 0,
+	class: "debug pre text-muted"
+}, l = /* @__PURE__ */ r({
+	__name: "Display",
+	props: { modelValue: {} },
+	setup(r) {
+		let o = r, l = i(), u = e(() => !!l?.proxy?.$isDebug), d = e(() => JSON.stringify(o.modelValue || {}, null, 2));
+		return (e, r) => u.value ? (a(), n("div", c, s(d.value), 1)) : t("", !0);
+	}
+}), u = { install(e, t) {
+	let n = o(!!t?.isDebug), r = o(!0);
+	e.component("Debug", l), Object.defineProperty(e.config.globalProperties, "$isDebug", {
+		get() {
+			let t = e.config.globalProperties.$router.currentRoute.value.query?.debug;
+			return r.value && (t === void 0 ? n.value : t === "1");
+		},
+		enumerable: !0,
+		configurable: !0
+	}), e.config.globalProperties.$setDebug = (e = !0) => r.value = e;
+} };
+//#endregion
+export { l as Debug, u as default, u as plugin };

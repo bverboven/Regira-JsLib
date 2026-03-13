@@ -1,13 +1,2 @@
-import { d as e } from "../../_chunks/ServiceProvider-3.0.2.js";
-import { S as l, g as v } from "../../_chunks/ServiceProvider-3.0.2.js";
-const s = {
-  install(r, { configure: i } = {}) {
-    r.config.globalProperties.$services = e, r.provide("services", e), i && i(e);
-  }
-};
-export {
-  l as ServiceProvider,
-  e as default,
-  v as get,
-  s as plugin
-};
+import { i as e, n as t, r as n, t as r } from "../../_chunks/ioc-3.0.3.js";
+export { t as ServiceProvider, n as default, e as get, r as plugin };

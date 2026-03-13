@@ -1,6 +1,2 @@
-import { createFromComputedPool as r, useEventListener as t, useVModelField as d } from "./vue-helper.js";
-export {
-  r as createFromComputedPool,
-  t as useEventListener,
-  d as useVModelField
-};
+import { createFromComputedPool as e, useEventListener as t, useVModelField as n } from "./vue-helper.js";
+export { e as createFromComputedPool, t as useEventListener, n as useVModelField };

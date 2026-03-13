@@ -1,6 +1,4 @@
-import { _ as e, u, u as t } from "../../../_chunks/DetailsSummary-3.0.2.js";
-export {
-  e as DetailsSummary,
-  u as default,
-  t as useDetails
-};
+import "../../../_chunks/feedback-3.0.3.js";
+import "../../../_chunks/modal-3.0.3.js";
+import { n as e, t } from "../../../_chunks/details-3.0.3.js";
+export { t as DetailsSummary, e as default, e as useDetails };

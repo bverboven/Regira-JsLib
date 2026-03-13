@@ -1,11 +1,9 @@
-import { s as t } from "../_chunks/datetime-utility-3.0.2.js";
-const o = {
-  use() {
-    Date.prototype.toJSON = function() {
-      return t(this) ?? "";
-    };
-  }
-};
-export {
-  o as default
-};
+import { n as e } from "../_chunks/datetime-utility-3.0.3.js";
+//#region src/extensions/date-extensions.ts
+var t = { use() {
+	Date.prototype.toJSON = function() {
+		return e(this) ?? "";
+	};
+} };
+//#endregion
+export { t as default };

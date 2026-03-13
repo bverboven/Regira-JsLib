@@ -1,193 +1,178 @@
-import { t as I, f as D, a as C, s as j, l as T } from "../_chunks/array-utility-3.0.2.js";
-function M(t, n, o) {
-  const e = new ArrayBuffer(t.length), i = new Uint8Array(e);
-  for (let s = 0; s < t.length; s++)
-    i[s] = t.charCodeAt(s);
-  const a = new Blob([e], { type: o });
-  return a.name = n, a;
+import { A as e, I as t, O as n, h as r, j as i } from "../_chunks/array-utility-3.0.3.js";
+//#region src/utilities/file-utility.ts
+function a(e, t, n) {
+	let r = new ArrayBuffer(e.length), i = new Uint8Array(r);
+	for (let t = 0; t < e.length; t++) i[t] = e.charCodeAt(t);
+	let a = new Blob([r], { type: n });
+	return a.name = t, a;
 }
-function P(t, n, o = 512) {
-  const e = [];
-  for (let a = 0; a < t.length; a += o) {
-    const s = t.slice(a, a + o), w = new Array(s.length);
-    for (let u = 0; u < s.length; u++)
-      w[u] = s.charCodeAt(u);
-    const B = new Uint8Array(w);
-    e.push(B);
-  }
-  return new Blob(e, { type: n });
+function o(e, t, n = 512) {
+	let r = [];
+	for (let t = 0; t < e.length; t += n) {
+		let i = e.slice(t, t + n), a = Array(i.length);
+		for (let e = 0; e < i.length; e++) a[e] = i.charCodeAt(e);
+		let o = new Uint8Array(a);
+		r.push(o);
+	}
+	return new Blob(r, { type: t });
 }
-const te = ({ multiple: t, accept: n } = {}) => new Promise(function(o) {
-  const e = document.createElement("input");
-  e.setAttribute("type", "file"), (t == null || t) && e.setAttribute("multiple", "true"), n != null && e.setAttribute("accept", Array.isArray(n) ? n.join(",") : n), e.value = "", e.setAttribute("style", "display: none;");
-  function i() {
-    const a = [...e.files];
-    e.removeEventListener("change", i), document.body.removeChild(e), o(a);
-  }
-  e.addEventListener("change", i), e.addEventListener("cancel", () => o([])), document.body.appendChild(e), e.click();
-}), N = (t) => t != null && t instanceof Blob, _ = (t) => URL.createObjectURL(t), W = (t) => URL.revokeObjectURL(t), O = (t) => {
-  if (!t || !t.includes("/"))
-    return t;
-  if (t.endsWith("/"))
-    throw new Error("filename cannot end with a '/'");
-  return T(t.split("/").filter((n) => !!n));
-}, G = (t) => {
-  const n = t.split("."), o = j(n, 1), e = T(o);
-  return e ? "." + e : "";
-}, Y = (t) => {
-  if (!t)
-    return null;
-  const n = O(t);
-  if (!n || !n.includes("."))
-    return n;
-  const o = n.split(".");
-  return C(o, o.length - 1 || 1).join(".");
-}, H = (t, n, { filesParameterName: o = "files" } = {}) => {
-  const e = I(t).reduce((a, s) => (a.append(o, s, s.name), a), new FormData()), i = D(n);
-  return Object.entries(i).reduce((a, s) => (a.append(s[0], s[1]), a), e);
-}, K = async (t, n, o) => new Promise((e) => {
-  const i = new FileReader();
-  i.onload = () => e(M(i.result, n ?? t.name, o ?? t.type)), i.readAsBinaryString(t);
-}), Z = (t, n, o) => {
-  const e = t.substr(0, 100).includes(","), i = e ? t.substr(t.indexOf(",") + 1) : t;
-  !o && e && (o = t.substr(0, t.indexOf(",")).split(":")[1].split(";")[0]);
-  const a = atob(i), s = P(a, o ?? "");
-  return s.name = n, s;
-}, V = async (t, n) => {
-  const o = await fetch(t), e = o.headers.get("content-disposition");
-  if (e && e.indexOf("attachment") !== -1) {
-    const s = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(e);
-    s != null && s[1] && (n = s[1].replace(/['"]/g, ""));
-  }
-  const i = await o.blob();
-  return n && (i.name = n), i;
-}, q = async (t) => new Promise(function(n) {
-  const o = new FileReader();
-  o.onload = (e) => n(e.target.result), o.readAsDataURL(t);
-}), z = async (t) => new Promise(function(n) {
-  const o = new FileReader();
-  o.onload = (e) => n(e.target.result), o.readAsText(t);
-}), J = (t, n, o) => {
-  const e = new Blob([t], { type: o });
-  return n && (e.name = n), e;
-}, Q = (t, n) => {
-  (function(e) {
-    if (e == null || typeof navigator < "u" && /MSIE [1-9]\./.test(navigator.userAgent))
-      return null;
-    const i = e.document, a = () => e.URL ?? e.webkitURL ?? e, s = i.createElementNS("http://www.w3.org/1999/xhtml", "a"), w = "download" in s, B = (r) => {
-      r.dispatchEvent(new MouseEvent("click"));
-    }, u = /constructor/i.test(String(e.HTMLElement ?? "")) || !!e.safari, b = /CriOS\/[\d]+/.test(navigator.userAgent), R = (r) => {
-      e.setImmediate ? e.setImmediate(() => {
-        throw r;
-      }) : e.setTimeout(() => {
-        throw r;
-      }, 0);
-    }, L = "application/octet-stream", U = 1e3 * 40, g = (r) => {
-      setTimeout(() => {
-        typeof r == "string" ? a().revokeObjectURL(r) : r.remove();
-      }, U);
-    }, x = (r, f, p) => {
-      const c = [].concat(f);
-      let m = c.length;
-      for (; m--; ) {
-        const d = r["on" + c[m]];
-        if (typeof d == "function")
-          try {
-            d.call(r, p ?? r);
-          } catch (h) {
-            R(h);
-          }
-      }
-    }, v = (r) => /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(r.type) ? new Blob(["\uFEFF", r], { type: r.type }) : r;
-    function S(r, f, p) {
-      p || (r = v(r));
-      const c = this, m = r.type === L;
-      let d;
-      const h = () => {
-        x(c, "writestart progress write writeend".split(" "));
-      }, F = () => {
-        if ((b || m && u) && e.FileReader) {
-          const y = new FileReader();
-          y.onloadend = function() {
-            const E = b ? y.result : y.result.replace(/^data:[^;]*;/, "data:attachment/file;");
-            e.open(E, "_blank") || (e.location.href = E), c.readyState = c.DONE, h();
-          }, y.readAsDataURL(r), c.readyState = c.INIT;
-          return;
-        }
-        d || (d = a().createObjectURL(r)), m ? e.location.href = d : e.open(d, "_blank") || (e.location.href = d), c.readyState = c.DONE, h(), g(d);
-      };
-      if (c.readyState = c.INIT, w) {
-        d = a().createObjectURL(r), setTimeout(function() {
-          s.href = d, s.download = f, B(s), h(), g(d), c.readyState = c.DONE;
-        });
-        return;
-      }
-      F();
-    }
-    const l = S.prototype, k = function(r, f, p) {
-      new S(r, f || r.name || "download", p);
-    }, A = navigator;
-    return typeof navigator < "u" && A.msSaveOrOpenBlob ? function(r, f) {
-      f = f || r.name || "download", A.msSaveOrOpenBlob(v(r), f);
-    } : (l.abort = function() {
-    }, l.readyState = l.INIT = 0, l.WRITING = 1, l.DONE = 2, l.error = l.onwritestart = l.onprogress = l.onwrite = l.onabort = l.onerror = l.onwriteend = null, k);
-  })(typeof self < "u" ? self : typeof window < "u" ? window : null)?.(t, n ?? t.name ?? "file");
-}, X = (t, n = !0, o = 1) => {
-  const e = n ? 1e3 : 1024;
-  if (Math.abs(t) < e)
-    return t + " B";
-  const i = n ? ["kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"] : ["KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"];
-  let a = -1;
-  const s = 10 ** o;
-  do
-    t /= e, ++a;
-  while (Math.round(Math.abs(t) * s) / s >= e && a < i.length - 1);
-  return t.toFixed(o) + " " + i[a];
-}, ne = (t) => {
-  t.preventDefault();
-  const { dataTransfer: n } = t, o = [];
-  if (n?.items) {
-    for (let e = 0; e < n.items.length; e++)
-      if (n.items[e].kind === "file") {
-        const i = n.items[e].getAsFile();
-        i && o.push(i);
-      }
-  } else n?.files && o.push(...Array.from(n.files));
-  return o;
-}, oe = {
-  isFile: N,
-  createUrl: _,
-  revokeUrl: W,
-  getFilename: O,
-  getExtension: G,
-  getFilenameWithoutExtension: Y,
-  toFormData: H,
-  fileToBlob: K,
-  base64ToBlob: Z,
-  urlToBlob: V,
-  blobToBase64: q,
-  readAllText: z,
-  writeAllText: J,
-  saveAs: Q,
-  formatFileSize: X
+var s = ({ multiple: e, accept: t } = {}) => new Promise(function(n) {
+	let r = document.createElement("input");
+	r.setAttribute("type", "file"), (e == null || e) && r.setAttribute("multiple", "true"), t != null && r.setAttribute("accept", Array.isArray(t) ? t.join(",") : t), r.value = "", r.setAttribute("style", "display: none;");
+	function i() {
+		let e = [...r.files];
+		r.removeEventListener("change", i), document.body.removeChild(r), n(e);
+	}
+	r.addEventListener("change", i), r.addEventListener("cancel", () => n([])), document.body.appendChild(r), r.click();
+}), c = (e) => e != null && e instanceof Blob, l = (e) => URL.createObjectURL(e), u = (e) => URL.revokeObjectURL(e), d = (e) => {
+	if (!e || !e.includes("/")) return e;
+	if (e.endsWith("/")) throw Error("filename cannot end with a '/'");
+	return r(e.split("/").filter((e) => !!e));
+}, f = (e) => {
+	let t = r(n(e.split("."), 1));
+	return t ? "." + t : "";
+}, p = (t) => {
+	if (!t) return null;
+	let n = d(t);
+	if (!n || !n.includes(".")) return n;
+	let r = n.split(".");
+	return e(r, r.length - 1 || 1).join(".");
+}, m = (e, n, { filesParameterName: r = "files" } = {}) => {
+	let a = i(e).reduce((e, t) => (e.append(r, t, t.name), e), new FormData()), o = t(n);
+	return Object.entries(o).reduce((e, t) => (e.append(t[0], t[1]), e), a);
+}, h = async (e, t, n) => new Promise((r) => {
+	let i = new FileReader();
+	i.onload = () => r(a(i.result, t ?? e.name, n ?? e.type)), i.readAsBinaryString(e);
+}), g = (e, t, n) => {
+	let r = e.substr(0, 100).includes(","), i = r ? e.substr(e.indexOf(",") + 1) : e;
+	!n && r && (n = e.substr(0, e.indexOf(",")).split(":")[1].split(";")[0]);
+	let a = o(atob(i), n ?? "");
+	return a.name = t, a;
+}, _ = async (e, t) => {
+	let n = await fetch(e), r = n.headers.get("content-disposition");
+	if (r && r.indexOf("attachment") !== -1) {
+		let e = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(r);
+		e != null && e[1] && (t = e[1].replace(/['"]/g, ""));
+	}
+	let i = await n.blob();
+	return t && (i.name = t), i;
+}, v = async (e) => new Promise(function(t) {
+	let n = new FileReader();
+	n.onload = (e) => t(e.target.result), n.readAsDataURL(e);
+}), y = async (e) => new Promise(function(t) {
+	let n = new FileReader();
+	n.onload = (e) => t(e.target.result), n.readAsText(e);
+}), b = (e, t, n) => {
+	let r = new Blob([e], { type: n });
+	return t && (r.name = t), r;
+}, x = (e, t) => {
+	(function(e) {
+		if (e == null || typeof navigator < "u" && /MSIE [1-9]\./.test(navigator.userAgent)) return null;
+		let t = e.document, n = () => e.URL ?? e.webkitURL ?? e, r = t.createElementNS("http://www.w3.org/1999/xhtml", "a"), i = "download" in r, a = (e) => {
+			e.dispatchEvent(new MouseEvent("click"));
+		}, o = /constructor/i.test(String(e.HTMLElement ?? "")) || !!e.safari, s = /CriOS\/[\d]+/.test(navigator.userAgent), c = (t) => {
+			e.setImmediate ? e.setImmediate(() => {
+				throw t;
+			}) : e.setTimeout(() => {
+				throw t;
+			}, 0);
+		}, l = (e) => {
+			setTimeout(() => {
+				typeof e == "string" ? n().revokeObjectURL(e) : e.remove();
+			}, 4e4);
+		}, u = (e, t, n) => {
+			let r = [].concat(t), i = r.length;
+			for (; i--;) {
+				let t = e["on" + r[i]];
+				if (typeof t == "function") try {
+					t.call(e, n ?? e);
+				} catch (e) {
+					c(e);
+				}
+			}
+		}, d = (e) => /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type) ? new Blob(["﻿", e], { type: e.type }) : e;
+		function f(t, c, f) {
+			f || (t = d(t));
+			let p = this, m = t.type === "application/octet-stream", h, g = () => {
+				u(p, "writestart progress write writeend".split(" "));
+			}, _ = () => {
+				if ((s || m && o) && e.FileReader) {
+					let n = new FileReader();
+					n.onloadend = function() {
+						let t = s ? n.result : n.result.replace(/^data:[^;]*;/, "data:attachment/file;");
+						e.open(t, "_blank") || (e.location.href = t), p.readyState = p.DONE, g();
+					}, n.readAsDataURL(t), p.readyState = p.INIT;
+					return;
+				}
+				h ||= n().createObjectURL(t), m ? e.location.href = h : e.open(h, "_blank") || (e.location.href = h), p.readyState = p.DONE, g(), l(h);
+			};
+			if (p.readyState = p.INIT, i) {
+				h = n().createObjectURL(t), setTimeout(function() {
+					r.href = h, r.download = c, a(r), g(), l(h), p.readyState = p.DONE;
+				});
+				return;
+			}
+			_();
+		}
+		let p = f.prototype, m = function(e, t, n) {
+			new f(e, t || e.name || "download", n);
+		}, h = navigator;
+		return typeof navigator < "u" && h.msSaveOrOpenBlob ? function(e, t) {
+			t = t || e.name || "download", h.msSaveOrOpenBlob(d(e), t);
+		} : (p.abort = function() {}, p.readyState = p.INIT = 0, p.WRITING = 1, p.DONE = 2, p.error = p.onwritestart = p.onprogress = p.onwrite = p.onabort = p.onerror = p.onwriteend = null, m);
+	})(typeof self < "u" ? self : typeof window < "u" ? window : null)?.(e, t ?? e.name ?? "file");
+}, S = (e, t = !0, n = 1) => {
+	let r = t ? 1e3 : 1024;
+	if (Math.abs(e) < r) return e + " B";
+	let i = t ? [
+		"kB",
+		"MB",
+		"GB",
+		"TB",
+		"PB",
+		"EB",
+		"ZB",
+		"YB"
+	] : [
+		"KiB",
+		"MiB",
+		"GiB",
+		"TiB",
+		"PiB",
+		"EiB",
+		"ZiB",
+		"YiB"
+	], a = -1, o = 10 ** n;
+	do
+		e /= r, ++a;
+	while (Math.round(Math.abs(e) * o) / o >= r && a < i.length - 1);
+	return e.toFixed(n) + " " + i[a];
+}, C = (e) => {
+	e.preventDefault();
+	let { dataTransfer: t } = e, n = [];
+	if (t?.items) {
+		for (let e = 0; e < t.items.length; e++) if (t.items[e].kind === "file") {
+			let r = t.items[e].getAsFile();
+			r && n.push(r);
+		}
+	} else t?.files && n.push(...Array.from(t.files));
+	return n;
+}, w = {
+	isFile: c,
+	createUrl: l,
+	revokeUrl: u,
+	getFilename: d,
+	getExtension: f,
+	getFilenameWithoutExtension: p,
+	toFormData: m,
+	fileToBlob: h,
+	base64ToBlob: g,
+	urlToBlob: _,
+	blobToBase64: v,
+	readAllText: y,
+	writeAllText: b,
+	saveAs: x,
+	formatFileSize: S
 };
-export {
-  Z as base64ToBlob,
-  q as blobToBase64,
-  te as browse,
-  _ as createUrl,
-  oe as default,
-  ne as dropHandler,
-  K as fileToBlob,
-  X as formatFileSize,
-  G as getExtension,
-  O as getFilename,
-  Y as getFilenameWithoutExtension,
-  N as isFile,
-  z as readAllText,
-  W as revokeUrl,
-  Q as saveAs,
-  H as toFormData,
-  V as urlToBlob,
-  J as writeAllText
-};
+//#endregion
+export { g as base64ToBlob, v as blobToBase64, s as browse, l as createUrl, w as default, C as dropHandler, h as fileToBlob, S as formatFileSize, f as getExtension, d as getFilename, p as getFilenameWithoutExtension, c as isFile, y as readAllText, u as revokeUrl, x as saveAs, m as toFormData, _ as urlToBlob, b as writeAllText };

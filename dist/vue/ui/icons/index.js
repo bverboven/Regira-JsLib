@@ -1,11 +1,2 @@
-import { _ as o, a as c, b as n, c as l, p, i as t, l as e, p as i } from "../../../_chunks/plugin-3.0.22.js";
-export {
-  o as BsIcon,
-  c as FaIcon,
-  n as IconButton,
-  l as clear,
-  p as default,
-  t as iconMap,
-  e as load,
-  i as plugin
-};
+import { a as e, i as t, n, o as r, r as i, s as a, t as o } from "../../../_chunks/icons-3.0.3.js";
+export { t as BsIcon, i as FaIcon, n as IconButton, e as clear, o as default, o as plugin, r as iconMap, a as load };
