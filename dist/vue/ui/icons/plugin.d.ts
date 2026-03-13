@@ -6,6 +6,8 @@ type Options = {
 };
 export type IIconProvider = {
     add: (key: string, icon: string) => void;
+    source: "bs" | "fa";
+    map: Map<string, string>;
 };
 declare const _default: {
     install(app: App<Element>, { icons, clearFirst, source }?: Options): void;

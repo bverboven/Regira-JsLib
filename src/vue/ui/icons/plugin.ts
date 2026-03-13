@@ -12,7 +12,9 @@ type Options = {
     source?: "bs" | "fa"
 }
 export type IIconProvider = {
-    add: (key: string, icon: string) => void
+    add: (key: string, icon: string) => void,
+    source: "bs" | "fa",
+    map: Map<string, string>
 }
 
 export default {
