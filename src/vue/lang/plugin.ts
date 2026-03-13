@@ -31,10 +31,10 @@ export const plugin = {
         }
 
         app.config.globalProperties.$t = (key: string, formatArgs?: IFormatInput) => {
-            return messagesLoaded.value && translate(key, formatArgs)
+            return messagesLoaded.value ? translate(key, formatArgs) : ""
         }
         app.config.globalProperties.$tm = (message: ITranslationMessage, formatArgs?: IFormatInput) => {
             return translateMessage(message, formatArgs)
         }
-    },
+    }
 }

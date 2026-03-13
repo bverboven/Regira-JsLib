@@ -1,3 +1,5 @@
+import { type IAuthData } from "./AuthData"
+
 export { AuthService, type IAuthenticateInput, type IChangePasswordInput, type IForgotPasswordInput, type IResetPasswordInput } from "./auth-service"
 export { default as routeGuard } from "./route-guard"
 export { type ITokenManager, CookieTokenManager, MemoryTokenManager, LocalStorageTokenManager } from "./token-manager"
@@ -15,6 +17,6 @@ export { default as ForgotPasswordModal } from "./ForgotPasswordModal.vue"
 
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
-        $auth: import("./auth").IGlobalAuth | { enabled: false }
+        $auth: import("./auth").IGlobalAuth | { enabled: false, authData?: IAuthData }
     }
 }
