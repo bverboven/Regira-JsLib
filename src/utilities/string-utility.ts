@@ -29,7 +29,7 @@ export const endsWith = (s: string, searchString: string, ignoreCase: boolean = 
 export const trimLeft = (s: string, chars = WHITESPACE_CHARS) => {
     let s2 = "" + s
     for (let i = 0; i < s.length; i++) {
-        if (chars.includes(s[i])) {
+        if (chars.includes(s[i]!)) {
             s2 = s2.substring(1)
         } else {
             return s2
@@ -40,7 +40,7 @@ export const trimLeft = (s: string, chars = WHITESPACE_CHARS) => {
 export const trimRight = (s: string, chars = WHITESPACE_CHARS) => {
     let s2 = "" + s
     for (let i = s.length - 1; i >= 0; i--) {
-        if (chars.includes(s[i])) {
+        if (chars.includes(s[i]!)) {
             s2 = s2.substring(0, i)
         } else {
             return s2
@@ -66,7 +66,7 @@ export function randomize(length = 10) {
         .join("")
 }
 export function newGuid() {
-    return ("" + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c: any) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16))
+    return ("" + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c: any) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0]! & (15 >> (c / 4)))).toString(16))
 }
 // random pasword from 8 to 32 characters
 export const newPassword = (length = Math.floor(Math.random() * 24) + 8) => randomize(length)
@@ -118,12 +118,12 @@ export function formatBelgianPhone(phone: string) {
     if (phone.length === 12 && phone.indexOf("00323") === 0) {
         const s = phone.match(/(\d{4})(\d{1})(\d{3})(\d{2})(\d{2})/)
         if (s != null && s.length == 6) {
-            return `+${s[1].substring(2)} ${s[2]} ${s[3]} ${s[4]} ${s[5]}`
+            return `+${s[1]!.substring(2)} ${s[2]!} ${s[3]!} ${s[4]!} ${s[5]!}`
         }
     } else if (phone.length === 13 && phone.indexOf("00324") === 0) {
         const s = phone.match(/(\d{4})(\d{3})(\d{2})(\d{2})(\d{2})/)
         if (s != null && s.length == 6) {
-            return `+${s[1].substring(2)} ${s[2]} ${s[3]} ${s[4]} ${s[5]}`
+            return `+${s[1]!.substring(2)} ${s[2]!} ${s[3]!} ${s[4]!} ${s[5]!}`
         }
     }
     return phone
@@ -374,14 +374,14 @@ export function normalizeDiacritics(s: string) {
     ]
 
     for (let i = 0; i < defaultDiacriticsRemovalMap.length; i++) {
-        s = s.replace(defaultDiacriticsRemovalMap[i].letters, defaultDiacriticsRemovalMap[i].base)
+        s = s.replace(defaultDiacriticsRemovalMap[i]!.letters, defaultDiacriticsRemovalMap[i]!.base)
     }
 
     return s
 }
 
 // capitalizes every word
-export const capitalize = (s: string) => (!s ? "" : s[0].toUpperCase() + s.substring(1).replace(/\s(.)/g, (m) => m.toUpperCase()))
+export const capitalize = (s: string) => (!s ? "" : s[0]!.toUpperCase() + s.substring(1).replace(/\s(.)/g, (m) => m.toUpperCase()))
 // e.g. this-is-kebab-case
 export const toKebabCase = (s: string) =>
     !s

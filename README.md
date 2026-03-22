@@ -46,6 +46,16 @@ https://github.com/bverboven/Regira-JsLib
   }
 ```
 
+*tsconfig.app.json*
+```json
+  "compilerOptions": {
+    "paths": {
+      "@/regira_modules/*": ["./node_modules/regira_modules/dist/*"],
+      "@/*": ["./src/*"]
+    },
+  }
+```
+
 ## symlinks (legacy)
 
 ```bash

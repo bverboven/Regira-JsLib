@@ -43,7 +43,7 @@ export const shuffle = <T>(items: Iterable<T>): T[] => {
   const source = [...items]; // copy array
   return [...Array(source.length)].map(() => {
     const index = getRandom(source.length - 1);
-    return source.splice(index, 1)[0];
+    return source.splice(index, 1)[0] as T;
   });
 };
 export const innerJoin = <T, U = T, R = T>(
@@ -121,7 +121,7 @@ export const last = <T>(items: Iterable<T>, predicate?: (x: T) => boolean): T | 
     return arr.length ? arr[arr.length - 1] : undefined;
   }
   for (let i = arr.length - 1; i >= 0; i--) {
-    if (predicate(arr[i])) {
+    if (predicate(arr[i]!)) {
       return arr[i];
     }
   }
@@ -248,7 +248,7 @@ export const getEnumerator = <T>(arr: T[]) => {
     },
     get current(): T | null {
       if (index >= 0 && index < arr.length) {
-        return arr[index];
+        return arr[index] ?? null;
       }
       return null;
     },

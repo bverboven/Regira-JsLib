@@ -36,7 +36,7 @@ export class TreeList<T = any> extends Array<TreeNode<T>> {
         return this
     }
     addValue(value: T, parentNode?: IParentNode<T>): TreeNode<T> {
-        return this.addValues([value], parentNode)[0]
+        return this.addValues([value], parentNode)[0]!
     }
     addValues(values: Array<T>, parentNode?: IParentNode<T>): Array<TreeNode<T>> {
         if (!parentNode) {

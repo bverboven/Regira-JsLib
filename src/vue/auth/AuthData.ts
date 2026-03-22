@@ -27,7 +27,7 @@ export class AuthData implements IAuthData {
     role?: string | undefined
 
     constructor(token?: string, options: { isAuthenticated: boolean } = { isAuthenticated: false }) {
-        this._decodedToken = token != null ? JSON.parse(window.atob(token.split(".")[1])) : {}
+        this._decodedToken = token != null ? JSON.parse(window.atob(token.split(".")[1]!)) : {}
         this.isAuthenticated = options.isAuthenticated
         this.expires = (this._decodedToken.exp ?? 0) - (this._decodedToken.nbf ?? 0)
         this.userId = this.get("sub") as string

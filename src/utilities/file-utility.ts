@@ -121,7 +121,7 @@ export const base64ToBlob = (base64: string, filename: string, type?: string): N
     const input = hasType ? base64.substr(base64.indexOf(",") + 1) : base64
 
     if (!type && hasType) {
-        type = base64.substr(0, base64.indexOf(",")).split(":")[1].split(";")[0]
+        type = base64.substr(0, base64.indexOf(",")).split(":")[1]!.split(";")[0]
     }
 
     const decodedInput = atob(input)
@@ -371,8 +371,8 @@ export const dropHandler = (e: DragEvent): File[] => {
         // Use DataTransferItemList interface to access the file(s)
         for (let i = 0; i < dataTransfer.items.length; i++) {
             // If dropped items aren't files, reject them
-            if (dataTransfer.items[i].kind === "file") {
-                const file = dataTransfer.items[i].getAsFile()
+            if (dataTransfer.items[i]!.kind === "file") {
+                const file = dataTransfer.items[i]!.getAsFile()
                 if (file) droppedFiles.push(file)
             }
         }

@@ -114,7 +114,7 @@ export const filterObject = (obj: Record<string, unknown>, filter: Record<string
             }
             if (filterValue instanceof Date || typeof filterValue === "number") {
                 if (!(key in obj)) {
-                    const objKey = key[3].toLowerCase() + (key.length > 4 ? key.substring(4) : "")
+                    const objKey = key[3]!.toLowerCase() + (key.length > 4 ? key.substring(4) : "")
                     const objValue = obj[objKey]
                     if (key.startsWith("min")) {
                         return (objValue as number) >= (filterValue as number)

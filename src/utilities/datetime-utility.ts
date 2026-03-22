@@ -84,7 +84,7 @@ export const stringifyDate = function(date: Date | number): string | null {
   const inputDate = date instanceof Date ? date : new Date(date);
   const correctedDate = new Date(date instanceof Date ? date.getTime() : date);
   const timezoneOffset = getTimezoneOffset(inputDate);
-  correctedDate.setHours(inputDate.getHours() + parseInt(timezoneOffset.split(":")[0]));
+  correctedDate.setHours(inputDate.getHours() + parseInt(timezoneOffset.split(":")[0]!));
   const iso = correctedDate.toISOString().replace("Z", "");
   return `${iso}${timezoneOffset}`;
 };

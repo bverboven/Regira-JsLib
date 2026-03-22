@@ -17,8 +17,8 @@ export const naturalCompare = <T>(as: T, bs: T, f: (x: T) => string | number) =>
     const bMatches = b.match(rx) ?? [];
     const length = aMatches.length > bMatches.length ? bMatches.length : aMatches.length;
     while (i < length) {
-        a1 = aMatches[i];
-        b1 = bMatches[i++];
+        a1 = aMatches[i]!;
+        b1 = bMatches[i++]!;
         if (a1 !== b1) {
             if (isFinite(Number(a1)) && isFinite(Number(b1))) {
                 const na = a1.charAt(0) === "0" ? Number("." + a1) : Number(a1);

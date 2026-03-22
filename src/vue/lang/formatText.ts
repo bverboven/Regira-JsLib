@@ -25,7 +25,7 @@ function extractParams(input: string): Array<string> {
     const formatArgs = []
     let match
     while ((match = regex.exec(input)) !== null) {
-        formatArgs.push(match[1])
+        formatArgs.push(match[1]!)
     }
 
     return formatArgs

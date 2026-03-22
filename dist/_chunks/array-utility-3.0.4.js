@@ -194,7 +194,7 @@ var t = (e) => typeof e == "object" && !!e && Object.prototype.toString.call(e) 
 			return e.length;
 		},
 		get current() {
-			return t >= 0 && t < e.length ? e[t] : null;
+			return t >= 0 && t < e.length ? e[t] ?? null : null;
 		},
 		first() {
 			t = 0;
