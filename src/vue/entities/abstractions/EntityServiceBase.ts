@@ -17,7 +17,7 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
         protected axios: AxiosInstance,
         protected config: IConfig
     ) {
-        this.defaultPageSize = config.defaultPageSize || DEFAULT_PAGESIZE
+        this.defaultPageSize = config.defaultPageSize ?? DEFAULT_PAGESIZE
     }
 
     public async details(id: string | number): Promise<T | null> {

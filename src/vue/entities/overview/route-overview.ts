@@ -32,9 +32,9 @@ export function useRouteOverview({ pagingInfo, searchObject, defaultPageSize = D
         // remove empty parameters (null) from query
         const query = cleanQueryParams(
             {
-                ...currentRoute.query, // values that should be removed should explicitly be overwritten by <<null>> in searchObject
+                ...currentRoute.query, // values that should be removed should explicitly be overwritten by <<null|undefined>> in searchObject
                 ...searchObject.value,
-                ...(pagingInfo.value || {}),
+                ...(pagingInfo.value ?? {}),
             },
             defaultPageSize
         )
@@ -51,7 +51,7 @@ export function useRouteOverview({ pagingInfo, searchObject, defaultPageSize = D
         if (!pi.page) {
             pi.page = 1
         }
-        if (!pi.pageSize && defaultPageSize > 0) {
+        if (pi.pageSize == null && defaultPageSize > 0) {
             pi.pageSize = defaultPageSize
         }
         if (searchObject.value != null) {
