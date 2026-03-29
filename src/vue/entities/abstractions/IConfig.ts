@@ -6,6 +6,8 @@ export enum NavTypes {
 export interface IConfig extends Record<string, any> {
     name?: string
     key: string
+    requires?: Array<string>
+    isComplex?: boolean
 
     routePrefix: string
     baseQueryParams?: Record<string, any>
