@@ -11,8 +11,8 @@ export function createNavItem(input: IConfig, parentId?: string): INavItem {
     return Object.assign(new NavItem(), {
         id: input.key,
         parentId: parentId,
-        icon: input.name,
-        routeName: `${input.name}Overview`,
+        icon: input.key ?? input.name,
+        routeName: `${input.key ?? input.name}Overview`,
         title: input.overviewTitle,
         description: input.description,
         initialQuery: input.initialQuery ?? {},
