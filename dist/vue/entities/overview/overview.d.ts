@@ -3,13 +3,13 @@ import type { FeedbackOut, FeedbackError } from "../../ui/feedback";
 import type { Ref } from "vue";
 export declare const DEFAULT_DEBOUNCE = 250;
 export interface OverviewEmits<T extends IEntity, SO extends ISearchObject = ISearchObject> {
-    (e: "update:modelValue", args: Array<T>): void;
-    (e: "update:searchObject", args: SO): void;
-    (e: "update:pagingInfo", args: IPagingInfo): void;
-    (e: "save", args: SaveResult<T>): void | Promise<void>;
-    (e: "remove", item: T): void | Promise<void>;
-    (e: "request-save", item: T): void | Promise<void>;
-    (e: "request-remove", item: T): void | Promise<void>;
+    "update:modelValue": [Array<T>];
+    "update:searchObject": [SO];
+    "update:pagingInfo": [IPagingInfo];
+    save: [SaveResult<T>];
+    remove: [T];
+    "request-save": [T];
+    "request-remove": [T];
 }
 export interface OverviewProps<T extends IEntity> {
     modelValue: Array<T>;

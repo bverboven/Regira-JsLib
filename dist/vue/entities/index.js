@@ -3,11 +3,9 @@ import { debounceToPromise as i } from "../../utilities/promise-utility.js";
 import { t as a } from "../../_chunks/treelist-3.0.4.js";
 import { t as o } from "../../_chunks/query-3.0.4.js";
 import { i as s } from "../../_chunks/feedback-3.0.4.js";
-import "../../_chunks/modal-3.0.4.js";
 import { n as c, t as l } from "../../_chunks/details-3.0.4.js";
 import { a as u, c as d, i as f, l as p, n as m, o as h, r as g, s as _, t as ee } from "../../_chunks/form-3.0.4.js";
 import "../../_chunks/ui-3.0.4.js";
-import "../../_chunks/icons-3.0.4.js";
 import { i as te } from "../../_chunks/ioc-3.0.4.js";
 import { AxiosError as v } from "axios";
 import { Fragment as ne, computed as y, createCommentVNode as re, createElementBlock as b, createElementVNode as ie, defineComponent as ae, isRef as oe, onMounted as se, openBlock as x, ref as S, renderList as ce, renderSlot as le, toDisplayString as C, toRaw as ue, toRefs as de, unref as w, vModelSelect as fe, watch as pe, withAsyncContext as me, withDirectives as T } from "vue";
@@ -44,7 +42,7 @@ function A(e) {
 var j = class {
 	defaultPageSize = 10;
 	constructor(e, t) {
-		this.axios = e, this.config = t, this.defaultPageSize = t.defaultPageSize || 10;
+		this.axios = e, this.config = t, this.defaultPageSize = t.defaultPageSize ?? 10;
 	}
 	async details(e) {
 		let t = await this.axios.get(`${this.config.detailsUrl}/${e}`);
@@ -293,7 +291,7 @@ function xe({ searchObject: e, emit: t, Constructor: n }) {
 			r(), i();
 		},
 		handleReset: () => {
-			t("update:modelValue", Object.fromEntries(Object.entries({ ...e.value }).map(([e, t]) => [e, null]))), i();
+			t("update:modelValue", Object.fromEntries(Object.entries({ ...e.value }).map(([e, t]) => [e, void 0]))), i();
 		}
 	};
 }
@@ -323,8 +321,8 @@ function U(e, t) {
 	return Object.assign(new B(), {
 		id: e.key,
 		parentId: t,
-		icon: e.name,
-		routeName: `${e.name}Overview`,
+		icon: e.key ?? e.name,
+		routeName: `${e.key ?? e.name}Overview`,
 		title: e.overviewTitle,
 		description: e.description,
 		initialQuery: e.initialQuery ?? {}
@@ -523,7 +521,7 @@ function Oe({ pagingInfo: e, searchObject: t, defaultPageSize: n = 10, handler: 
 		let a = i.currentRoute.value, o = k({
 			...a.query,
 			...t.value,
-			...e.value || {}
+			...e.value ?? {}
 		}, n), s = {
 			...a,
 			query: o
@@ -532,7 +530,7 @@ function Oe({ pagingInfo: e, searchObject: t, defaultPageSize: n = 10, handler: 
 	}
 	async function o() {
 		let { searchObject: a, pagingInfo: o } = A(i.currentRoute.value.query);
-		o.page ||= 1, !o.pageSize && n > 0 && (o.pageSize = n), t.value != null && (t.value = a), e.value != null && (e.value = o), await r();
+		o.page ||= 1, (isNaN(o.pageSize) || o.pageSize == null) && n > 0 && (o.pageSize = n), t.value != null && (t.value = a), e.value != null && (e.value = o), await r();
 	}
 	let s = pe(i.currentRoute, async (e, t) => {
 		e.name === t.name && await o();
