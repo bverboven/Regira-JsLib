@@ -87,7 +87,7 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
         if (response instanceof AxiosError) {
             throw response
         }
-        const { item: saved } = response.data;
+        const { item: saved } = response.data
         if ("id" in saved) {
             // quickfix to set id in original item
             Object.defineProperty(item, "id", { value: saved.id, writable: true, configurable: true, enumerable: true })
@@ -129,13 +129,13 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
         if ("created" in item) {
             const itemWithCreated = entity as T & { created: string }
             if (itemWithCreated.created != null) {
-                ; (entity as T & { created: Date }).created = new Date(Date.parse(itemWithCreated.created))
+                ;(entity as T & { created: Date }).created = new Date(Date.parse(itemWithCreated.created))
             }
         }
         if ("lastModified" in item) {
             const itemWithLastModified = entity as T & { lastModified: string }
             if (itemWithLastModified.lastModified != null) {
-                ; (entity as T & { lastModified: Date }).lastModified = new Date(Date.parse(itemWithLastModified.lastModified))
+                ;(entity as T & { lastModified: Date }).lastModified = new Date(Date.parse(itemWithLastModified.lastModified))
             }
         }
         return entity
@@ -149,7 +149,7 @@ export abstract class EntityServiceBase<T extends IEntity> implements IEntitySer
         })
         return item
     }
-    protected createInstance<T>(type: { new(): T }): T {
+    protected createInstance<T>(type: { new (): T }): T {
         return new type()
     }
 

@@ -4,7 +4,7 @@
 //         this._details = new Map();
 //         this._items = null;
 //     }
-    
+
 //     async details(id) {
 //         const item = this._details.get(id);
 //         if (item == null) {

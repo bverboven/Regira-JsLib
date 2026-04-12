@@ -1,14 +1,14 @@
 <template>
-  <div class="bg-light text-info">
-    <slot name="message">{{ msg }}</slot>
-  </div>
+    <div class="bg-light text-info">
+        <slot name="message">{{ msg }}</slot>
+    </div>
 </template>
 
 <script setup lang="ts">
-  withDefaults(
+withDefaults(
     defineProps<{
-      msg: string;
+        msg: string
     }>(),
     { msg: "Loading..." }
-  );
+)
 </script>

@@ -1,7 +1,7 @@
-export * from "./plugin";
-export * from "./culture";
-export * from "./store";
-export * from "./functions";
+export * from "./plugin"
+export * from "./culture"
+export * from "./store"
+export * from "./functions"
 
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {

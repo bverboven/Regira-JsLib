@@ -1,4 +1,3 @@
-
 /**
  * const ctx = require.context('.', true, /\.ANY_EXTENSION$/);
  * returns an array of entries [filename, module]
@@ -6,8 +5,8 @@
  * @returns {Array} entries
  */
 interface RequireContext {
-    keys(): string[];
-    (id: string): unknown;
+    keys(): string[]
+    (id: string): unknown
 }
 
-export const getModuleEntries = (ctx: RequireContext) => ctx.keys().map((filename: string) => ([filename, ctx(filename)]));
+export const getModuleEntries = (ctx: RequireContext) => ctx.keys().map((filename: string) => [filename, ctx(filename)])

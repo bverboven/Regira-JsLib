@@ -93,11 +93,7 @@ export const getFilenameWithoutExtension = (uri: string | null | undefined): str
     const filenameSegments = filename.split(".")
     return take(filenameSegments, filenameSegments.length - 1 || 1).join(".")
 }
-export const toFormData = (
-    files: Blob[],
-    data: Record<string, unknown>,
-    { filesParameterName = "files" }: { filesParameterName?: string } = {}
-): FormData => {
+export const toFormData = (files: Blob[], data: Record<string, unknown>, { filesParameterName = "files" }: { filesParameterName?: string } = {}): FormData => {
     const formData = toArray(files).reduce((r: FormData, f: Blob) => {
         r.append(filesParameterName, f, (f as File).name)
         return r
@@ -160,7 +156,7 @@ export const urlToBlob = async (url: string, filename?: string): Promise<NamedBl
         }
     }
 
-    const blob = await response.blob() as NamedBlob
+    const blob = (await response.blob()) as NamedBlob
 
     if (filename) {
         blob.name = filename
@@ -192,12 +188,13 @@ export const writeAllText = (content: string, filename?: string, type?: string):
 
 export const saveAs = (blob: Blob & { name?: string }, filename?: string): void => {
     // http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js
-    type WindowLike = Window & typeof globalThis & {
-        webkitURL?: typeof URL
-        setImmediate?: (fn: () => void) => void
-        safari?: boolean
-        FileReader?: typeof FileReader
-    }
+    type WindowLike = Window &
+        typeof globalThis & {
+            webkitURL?: typeof URL
+            setImmediate?: (fn: () => void) => void
+            safari?: boolean
+            FileReader?: typeof FileReader
+        }
     type SaverFn = (blob: Blob & { name?: string }, name: string) => void
     const saveAsImpl = (function (win: WindowLike | null): SaverFn | null {
         "use strict"
@@ -205,17 +202,23 @@ export const saveAs = (blob: Blob & { name?: string }, filename?: string): void 
             return null
         }
         const doc = win.document
-        const getURLAPI = (): typeof URL => (win.URL ?? win.webkitURL ?? (win as unknown as typeof URL))
+        const getURLAPI = (): typeof URL => win.URL ?? win.webkitURL ?? (win as unknown as typeof URL)
         const linkEl = doc.createElementNS("http://www.w3.org/1999/xhtml", "a") as HTMLAnchorElement
         const supportsDownload = "download" in linkEl
-        const dispatchClick = (el: Element): void => { el.dispatchEvent(new MouseEvent("click")) }
+        const dispatchClick = (el: Element): void => {
+            el.dispatchEvent(new MouseEvent("click"))
+        }
         const isIOS = /constructor/i.test(String(win.HTMLElement ?? "")) || !!win.safari
         const isCriOS = /CriOS\/[\d]+/.test(navigator.userAgent)
         const throwAsync = (err: Error): void => {
             if (win.setImmediate) {
-                win.setImmediate(() => { throw err })
+                win.setImmediate(() => {
+                    throw err
+                })
             } else {
-                win.setTimeout(() => { throw err }, 0)
+                win.setTimeout(() => {
+                    throw err
+                }, 0)
             }
         }
         const APP_OCTET_STREAM = "application/octet-stream"
@@ -225,7 +228,7 @@ export const saveAs = (blob: Blob & { name?: string }, filename?: string): void 
                 if (typeof urlOrEl === "string") {
                     getURLAPI().revokeObjectURL(urlOrEl)
                 } else {
-                    (urlOrEl as Element & { remove(): void }).remove()
+                    ;(urlOrEl as Element & { remove(): void }).remove()
                 }
             }, REVOKE_DELAY)
         }
@@ -236,7 +239,7 @@ export const saveAs = (blob: Blob & { name?: string }, filename?: string): void 
                 const handler = target["on" + names[remaining]]
                 if (typeof handler === "function") {
                     try {
-                        (handler as (e: unknown) => void).call(target, evt ?? target)
+                        ;(handler as (e: unknown) => void).call(target, evt ?? target)
                     } catch (err) {
                         throwAsync(err as Error)
                     }
@@ -275,9 +278,7 @@ export const saveAs = (blob: Blob & { name?: string }, filename?: string): void 
                 if ((isCriOS || (isOctetStream && isIOS)) && win!.FileReader) {
                     const reader = new FileReader()
                     reader.onloadend = function () {
-                        const dataUrl = isCriOS
-                            ? (reader.result as string)
-                            : (reader.result as string).replace(/^data:[^;]*;/, "data:attachment/file;")
+                        const dataUrl = isCriOS ? (reader.result as string) : (reader.result as string).replace(/^data:[^;]*;/, "data:attachment/file;")
                         const opened = win!.open(dataUrl, "_blank")
                         if (!opened) win!.location.href = dataUrl
                         saver.readyState = saver.DONE
@@ -328,7 +329,7 @@ export const saveAs = (blob: Blob & { name?: string }, filename?: string): void 
                 nav.msSaveOrOpenBlob!(prependBOM(blobArg), saveName)
             }
         }
-        proto.abort = function (): void { }
+        proto.abort = function (): void {}
         proto.readyState = proto.INIT = 0
         proto.WRITING = 1
         proto.DONE = 2

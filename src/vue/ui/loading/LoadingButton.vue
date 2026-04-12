@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import LoadingImg from "./Loading.vue"
 defineProps<{
-    isLoading: boolean;
+    isLoading: boolean
     disabled?: boolean
 }>()
 </script>

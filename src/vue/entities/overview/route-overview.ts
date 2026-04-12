@@ -73,7 +73,7 @@ export function useRouteOverview({ pagingInfo, searchObject, defaultPageSize = D
     onMounted(routeSearchHandler)
 
     return {
-        updateOverviewRoute,//: debounce(updateOverviewRoute, 50),
+        updateOverviewRoute, //: debounce(updateOverviewRoute, 50),
         routeSearchHandler,
         routeWatcher,
     }

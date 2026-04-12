@@ -36,5 +36,5 @@ export const plugin = {
         app.config.globalProperties.$tm = (message: ITranslationMessage, formatArgs?: IFormatInput) => {
             return translateMessage(message, formatArgs)
         }
-    }
+    },
 }

@@ -8,7 +8,11 @@ export interface IPoolService<T extends IEntity> extends IEntityService<T> {
 }
 
 export class PoolService<T extends IEntity> implements IPoolService<T> {
-    constructor(private service: IEntityService<T>, private cache: IPoolCache, private type: string) {}
+    constructor(
+        private service: IEntityService<T>,
+        private cache: IPoolCache,
+        private type: string
+    ) {}
 
     async details(id: string | number): Promise<T | null> {
         const item = await this.service.details(id)

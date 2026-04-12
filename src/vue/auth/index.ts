@@ -17,6 +17,6 @@ export { default as ForgotPasswordModal } from "./ForgotPasswordModal.vue"
 
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
-        $auth: import("./auth").IGlobalAuth | { enabled: false, authData?: IAuthData }
+        $auth: import("./auth").IGlobalAuth | { enabled: false; authData?: IAuthData }
     }
 }

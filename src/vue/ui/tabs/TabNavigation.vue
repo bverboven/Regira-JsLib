@@ -24,5 +24,5 @@ defineProps<{
     activeTab: string
 }>()
 
-const isVisible = computed(() => (tab: ITab) => typeof tab.isVisible == "function" ? tab.isVisible() : tab.isVisible)
+const isVisible = computed(() => (tab: ITab) => (typeof tab.isVisible == "function" ? tab.isVisible() : tab.isVisible))
 </script>

@@ -68,8 +68,8 @@ export const toQueryString = (obj: Record<string, unknown>, includeNulls = false
                 return Array.isArray(value)
                     ? value.map((v) => getUriComponent(fullKey, v)) // array
                     : typeof value === "object" && value !== null
-                    ? serialize(value as Record<string, unknown>, fullKey) // object
-                    : [getUriComponent(fullKey, value)] // normal key-value
+                      ? serialize(value as Record<string, unknown>, fullKey) // object
+                      : [getUriComponent(fullKey, value)] // normal key-value
             })
     }
     return serialize(obj).join("&")

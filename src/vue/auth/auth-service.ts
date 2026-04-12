@@ -25,7 +25,11 @@ export const emptyAuthData = (): IAuthData => new AuthData()
 export class AuthService implements IAuthService {
     options: IAuthOptions
 
-    constructor(private axios: AxiosInstance, private tokenManager: ITokenManager, options?: IAuthOptions) {
+    constructor(
+        private axios: AxiosInstance,
+        private tokenManager: ITokenManager,
+        options?: IAuthOptions
+    ) {
         this.options = options || {}
     }
 

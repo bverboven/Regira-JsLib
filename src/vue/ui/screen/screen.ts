@@ -1,6 +1,6 @@
 import { ref, type Ref } from "vue"
 
-export interface IScreenSize extends Array<number> { }
+export interface IScreenSize extends Array<number> {}
 export interface IScreen {
     get size(): number[]
     get isExtraSmall(): boolean

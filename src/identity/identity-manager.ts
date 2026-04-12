@@ -1,90 +1,86 @@
-import EventHandler from '../events/event-handler';
+import EventHandler from "../events/event-handler"
 
 type AuthService = {
-    login(email: string, password: string): Promise<unknown>;
-    refresh(refreshToken: string): Promise<unknown>;
-};
+    login(email: string, password: string): Promise<unknown>
+    refresh(refreshToken: string): Promise<unknown>
+}
 
 type IdentityState = {
-    isAuthenticated: boolean;
-    refreshToken?: string;
-    expiresAt?: Date;
-    expiresIn?: number;
-    [key: string]: unknown;
-};
+    isAuthenticated: boolean
+    refreshToken?: string
+    expiresAt?: Date
+    expiresIn?: number
+    [key: string]: unknown
+}
 
 /**
  * Handles login/logoff and saves state of current identity
  * automatically refreshes token when autoRefresh is enabled
  */
 class IdentityManager {
-    private _service: AuthService;
-    private _autoRefreshTimer: ReturnType<typeof setTimeout> | null;
-    private _autoRefresh: boolean;
-    state!: IdentityState;
+    private _service: AuthService
+    private _autoRefreshTimer: ReturnType<typeof setTimeout> | null
+    private _autoRefresh: boolean
+    state!: IdentityState
 
     constructor({ authenticationService, autoRefresh = false }: { authenticationService: AuthService; autoRefresh?: boolean }) {
-        this._service = authenticationService;
-        this._autoRefreshTimer = null;
-        this._autoRefresh = autoRefresh;
+        this._service = authenticationService
+        this._autoRefreshTimer = null
+        this._autoRefresh = autoRefresh
 
-        this._setState();
+        this._setState()
     }
-
 
     get autoRefresh() {
-        return this._autoRefresh;
+        return this._autoRefresh
     }
     set autoRefresh(value) {
-        this._autoRefresh = !!value;
-        this._checkAutoRefresh();
+        this._autoRefresh = !!value
+        this._checkAutoRefresh()
     }
-
 
     async login(email: string, password: string) {
-        const identityResponse = await this._service.login(email, password);
-        this._setState(identityResponse);
-        this._checkAutoRefresh();
-        return (this as unknown as { trigger(e: string, arg?: unknown): Promise<unknown[]> }).trigger('login', { ...this.state });
+        const identityResponse = await this._service.login(email, password)
+        this._setState(identityResponse)
+        this._checkAutoRefresh()
+        return (this as unknown as { trigger(e: string, arg?: unknown): Promise<unknown[]> }).trigger("login", { ...this.state })
     }
     async refresh() {
-        const identityResponse = await this._service.refresh(this.state.refreshToken!);
-        this._setState(identityResponse);
-        this._checkAutoRefresh();
-        return (this as unknown as { trigger(e: string, arg?: unknown): Promise<unknown[]> }).trigger('refresh', { ...this.state });
+        const identityResponse = await this._service.refresh(this.state.refreshToken!)
+        this._setState(identityResponse)
+        this._checkAutoRefresh()
+        return (this as unknown as { trigger(e: string, arg?: unknown): Promise<unknown[]> }).trigger("refresh", { ...this.state })
     }
     async logoff() {
-        const oldState = { ...this.state };
-        this._setState();
-        return (this as unknown as { trigger(e: string, arg?: unknown): Promise<unknown[]> }).trigger('logoff', oldState);
+        const oldState = { ...this.state }
+        this._setState()
+        return (this as unknown as { trigger(e: string, arg?: unknown): Promise<unknown[]> }).trigger("logoff", oldState)
     }
-
 
     _setState(response: unknown = null) {
         if (!response) {
-            this.state = { isAuthenticated: false };
-            return;
+            this.state = { isAuthenticated: false }
+            return
         }
 
-        const r = response as IdentityState;
+        const r = response as IdentityState
         this.state = {
             ...r,
             expiresAt: new Date(new Date().getTime() + (r.expiresIn as number) * 1000),
-            isAuthenticated: true
-        };
+            isAuthenticated: true,
+        }
     }
     _checkAutoRefresh() {
-        const mgr = this;
+        const mgr = this
         if (this._autoRefreshTimer) {
-            clearTimeout(this._autoRefreshTimer);
+            clearTimeout(this._autoRefreshTimer)
         }
         if (this._autoRefresh) {
-            const refreshInMs = Math.abs(this.state.expiresAt!.getTime() - new Date().getTime()) - (60 * 1000) //1 minute to spare
-            this._autoRefreshTimer = setTimeout(() => mgr.refresh(), refreshInMs);
+            const refreshInMs = Math.abs(this.state.expiresAt!.getTime() - new Date().getTime()) - 60 * 1000 //1 minute to spare
+            this._autoRefreshTimer = setTimeout(() => mgr.refresh(), refreshInMs)
         }
     }
 }
-EventHandler.injectInto(IdentityManager.prototype);
+EventHandler.injectInto(IdentityManager.prototype)
 
-
-export default IdentityManager;
+export default IdentityManager

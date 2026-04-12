@@ -16,7 +16,7 @@ import { Tab, type ITab } from "./Tab"
 import type { IEmits } from "./tabs"
 import TabNavigation from "./TabNavigation.vue"
 
-interface Emits extends IEmits { }
+interface Emits extends IEmits {}
 
 const emit = defineEmits<Emits>()
 const props = withDefaults(
