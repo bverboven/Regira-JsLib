@@ -45,7 +45,9 @@ export default function usePaging({ pagingInfo, count, maxPages, emit }: PagingI
     //const { modelValue = { page: 1, pageSize: PAGING_DEFAULTS.PAGESIZE }, count, maxPages = 9 } = props;
     maxPages = window.innerWidth < 576 ? Math.ceil(maxPages / 2) : maxPages
 
-    const defaultPageSize = computed(() => (!isNaN(parseInt(pagingInfo.value.pageSize + "")) ? pagingInfo.value.pageSize : null) || PAGING_DEFAULTS.PAGESIZE)
+    const defaultPageSize = computed(
+        () => (!isNaN(parseInt(pagingInfo.value.pageSize + "")) ? pagingInfo.value.pageSize : null) || PAGING_DEFAULTS.PAGESIZE
+    )
 
     const router = useRouter()
     function pagedRoute(p: number): string {

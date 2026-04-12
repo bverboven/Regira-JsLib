@@ -35,7 +35,13 @@ export function useListInput<T extends IEntity & { id: number }>({ props, emit }
     }
 }
 
-export function useListItemInput<T extends IEntity & { id: number; _deleted: boolean }>({ props, emit }: { props: Readonly<Record<string, any>>; emit: any }) {
+export function useListItemInput<T extends IEntity & { id: number; _deleted: boolean }>({
+    props,
+    emit,
+}: {
+    props: Readonly<Record<string, any>>
+    emit: any
+}) {
     const item = useVModelField<T>(props, emit)
 
     function handleSave() {

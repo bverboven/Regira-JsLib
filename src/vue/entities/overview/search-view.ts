@@ -42,7 +42,10 @@ export function useSearchView<T extends IEntity, SO extends ISearchObject = ISea
             isLoading.value = false
         }
     }
-    const debouncedSearchHandler = debounceToPromise(searchHandler as (...args: unknown[]) => Promise<void>, debounceDelay) as unknown as () => Promise<void>
+    const debouncedSearchHandler = debounceToPromise(
+        searchHandler as (...args: unknown[]) => Promise<void>,
+        debounceDelay
+    ) as unknown as () => Promise<void>
 
     return {
         searchObject: searchObjectRef,

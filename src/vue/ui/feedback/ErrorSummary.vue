@@ -11,7 +11,9 @@
                     {{ msg }}
                 </div>
                 <div v-if="enablePopup && error" class="col-auto">
-                    <button type="button" class="btn btn-link p-0 m-0 text-light" :diabled="!error" @click="showSummary = !showSummary"><Icon name="info" /></button>
+                    <button type="button" class="btn btn-link p-0 m-0 text-light" :diabled="!error" @click="showSummary = !showSummary">
+                        <Icon name="info" />
+                    </button>
                 </div>
             </div>
         </slot>
@@ -32,7 +34,15 @@
             </template>
         </slot>
         <Teleport to="#modals">
-            <MyModal v-if="showSummary" :title="msg" :show-footer="false" :type="ModalType.danger" @close="showSummary = false" @cancel="showSummary = false" @submit="showSummary = false">
+            <MyModal
+                v-if="showSummary"
+                :title="msg"
+                :show-footer="false"
+                :type="ModalType.danger"
+                @close="showSummary = false"
+                @cancel="showSummary = false"
+                @submit="showSummary = false"
+            >
                 <div v-if="typeof error == 'string'" class="mt-2">{{ error }}</div>
                 <ul v-else class="list-unstyled mt-2" v-for="(msgs, code) in error" :key="code">
                     <li>

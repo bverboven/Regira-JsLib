@@ -153,7 +153,8 @@ export class TreeList<T = any> extends Array<TreeNode<T>> {
      */
     getOffspring(nodes?: TreeNode<T> | Array<TreeNode<T>>): Array<TreeNode<T>> {
         nodes = this._ensureNodeList(nodes)
-        const getChildren = (node: TreeNode<T>): Array<TreeNode<T>> => (node.children.length > 0 ? [...node.children, ...node.children.flatMap(getChildren)] : [])
+        const getChildren = (node: TreeNode<T>): Array<TreeNode<T>> =>
+            node.children.length > 0 ? [...node.children, ...node.children.flatMap(getChildren)] : []
         return nodes.flatMap(getChildren)
     }
     /**

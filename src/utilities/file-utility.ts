@@ -93,7 +93,11 @@ export const getFilenameWithoutExtension = (uri: string | null | undefined): str
     const filenameSegments = filename.split(".")
     return take(filenameSegments, filenameSegments.length - 1 || 1).join(".")
 }
-export const toFormData = (files: Blob[], data: Record<string, unknown>, { filesParameterName = "files" }: { filesParameterName?: string } = {}): FormData => {
+export const toFormData = (
+    files: Blob[],
+    data: Record<string, unknown>,
+    { filesParameterName = "files" }: { filesParameterName?: string } = {}
+): FormData => {
     const formData = toArray(files).reduce((r: FormData, f: Blob) => {
         r.append(filesParameterName, f, (f as File).name)
         return r
@@ -278,7 +282,9 @@ export const saveAs = (blob: Blob & { name?: string }, filename?: string): void 
                 if ((isCriOS || (isOctetStream && isIOS)) && win!.FileReader) {
                     const reader = new FileReader()
                     reader.onloadend = function () {
-                        const dataUrl = isCriOS ? (reader.result as string) : (reader.result as string).replace(/^data:[^;]*;/, "data:attachment/file;")
+                        const dataUrl = isCriOS
+                            ? (reader.result as string)
+                            : (reader.result as string).replace(/^data:[^;]*;/, "data:attachment/file;")
                         const opened = win!.open(dataUrl, "_blank")
                         if (!opened) win!.location.href = dataUrl
                         saver.readyState = saver.DONE
@@ -320,7 +326,11 @@ export const saveAs = (blob: Blob & { name?: string }, filename?: string): void 
         }
         const proto = SaverCtor.prototype as SaverState
         const createSaver = function (blobArg: Blob & { name?: string }, saveName: string, noAutoBOM?: boolean): void {
-            new (SaverCtor as unknown as new (b: Blob, n: string, d?: boolean) => SaverState)(blobArg, saveName || blobArg.name || "download", noAutoBOM)
+            new (SaverCtor as unknown as new (b: Blob, n: string, d?: boolean) => SaverState)(
+                blobArg,
+                saveName || blobArg.name || "download",
+                noAutoBOM
+            )
         }
         const nav = navigator as Navigator & { msSaveOrOpenBlob?: (blob: Blob, name: string) => boolean }
         if (typeof navigator !== "undefined" && nav.msSaveOrOpenBlob) {

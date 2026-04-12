@@ -13,7 +13,12 @@ export interface IPoolHandler<T extends IEntity> extends IPoolService<T> {
 }
 
 export const defaultPoolCache = new PoolCache()
-export function usePooling<T extends IEntity>(service: IEntityService<T>, type: string, cache: IPoolCache = defaultPoolCache, persistent = false): IPoolHandler<T> {
+export function usePooling<T extends IEntity>(
+    service: IEntityService<T>,
+    type: string,
+    cache: IPoolCache = defaultPoolCache,
+    persistent = false
+): IPoolHandler<T> {
     const poolService = service instanceof PoolService ? service : new PoolService(service, cache, type)
     if (persistent && !cache.persistentTypes.includes(type)) {
         cache.persistentTypes.push(type)

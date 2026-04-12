@@ -11,5 +11,7 @@ const props = defineProps<{
 }>()
 
 const address = computed<string>(() => (Array.isArray(props.modelValue) ? props.modelValue : [props.modelValue]).filter((x) => x).join(" "))
-const gmapsUrl = computed<string>(() => `https://maps.google.com/maps?q=${encodeURIComponent(address.value)}&t=&z=${props.zoom || 10}&ie=UTF8&iwloc=&output=embed`)
+const gmapsUrl = computed<string>(
+    () => `https://maps.google.com/maps?q=${encodeURIComponent(address.value)}&t=&z=${props.zoom || 10}&ie=UTF8&iwloc=&output=embed`
+)
 </script>

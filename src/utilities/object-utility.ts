@@ -1,7 +1,8 @@
 import { trim } from "./string-utility"
 
 // consider using https://www.npmjs.com/package/is-plain-object
-export const isPlainObject = (obj: unknown): obj is Record<string, unknown> => typeof obj === "object" && obj !== null && Object.prototype.toString.call(obj) === "[object Object]"
+export const isPlainObject = (obj: unknown): obj is Record<string, unknown> =>
+    typeof obj === "object" && obj !== null && Object.prototype.toString.call(obj) === "[object Object]"
 
 export const flattenObject = (obj: Record<string, unknown>): Record<string, unknown> => {
     const getKey = (key: string, prefix: string) => (prefix === "" ? key : `${prefix}.${key}`)
@@ -36,7 +37,8 @@ export const flattenObject = (obj: Record<string, unknown>): Record<string, unkn
 
     return flattenProperties(obj)
 }
-export const crawlObject = (obj: Record<string, unknown>, key: string) => key.split(".").reduce<unknown>((res, p) => (res == null ? null : (res as Record<string, unknown>)[p]), obj)
+export const crawlObject = (obj: Record<string, unknown>, key: string) =>
+    key.split(".").reduce<unknown>((res, p) => (res == null ? null : (res as Record<string, unknown>)[p]), obj)
 export const removeEmpty = (obj: Record<string, unknown>): Record<string, unknown> =>
     Object.fromEntries(
         Object.entries(obj)
@@ -99,7 +101,8 @@ export const mixin = <T extends Record<string, unknown>>(target: T, ...rest: Rec
     return rest.reduce<Record<string, unknown>>((r, obj) => merge(r, obj), target) as T
 }
 
-const getKeys = (keyFilter: Record<string, unknown> | null | undefined) => (keyFilter ? Object.keys(keyFilter).filter((x) => typeof keyFilter[x] !== "undefined") : [])
+const getKeys = (keyFilter: Record<string, unknown> | null | undefined) =>
+    keyFilter ? Object.keys(keyFilter).filter((x) => typeof keyFilter[x] !== "undefined") : []
 export const filterObject = (obj: Record<string, unknown>, filter: Record<string, unknown>): boolean => {
     const keys = getKeys(filter)
     return (

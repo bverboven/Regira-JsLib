@@ -19,7 +19,13 @@
                                         </h3>
                                     </slot>
                                     <slot name="header-close-button" :handleClose="handleClose">
-                                        <IconButton icon="close" :class="[isDanger ? 'btn-danger' : 'btn-outline-danger']" title="close" @click="handleClose" data-dismiss="modal" />
+                                        <IconButton
+                                            icon="close"
+                                            :class="[isDanger ? 'btn-danger' : 'btn-outline-danger']"
+                                            title="close"
+                                            @click="handleClose"
+                                            data-dismiss="modal"
+                                        />
                                     </slot>
                                 </div>
                             </div>
@@ -31,10 +37,16 @@
                                 <slot name="buttons">
                                     <div class="d-flex justify-content-between w-100">
                                         <slot name="footer-close-button" :handleCancel="handleCancel">
-                                            <div><IconButton icon="cancel" class="btn-outline-secondary" @click="handleCancel">Cancel</IconButton></div>
+                                            <div>
+                                                <IconButton icon="cancel" class="btn-outline-secondary" @click="handleCancel">Cancel</IconButton>
+                                            </div>
                                         </slot>
                                         <slot name="footer-submit-button" :handleClose="handleSubmit">
-                                            <div><IconButton icon="submit" :class="isDanger ? 'btn-danger' : 'btn-success'" @click="handleSubmit">Submit</IconButton></div>
+                                            <div>
+                                                <IconButton icon="submit" :class="isDanger ? 'btn-danger' : 'btn-success'" @click="handleSubmit"
+                                                    >Submit</IconButton
+                                                >
+                                            </div>
                                         </slot>
                                     </div>
                                 </slot>

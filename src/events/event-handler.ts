@@ -24,7 +24,8 @@ const getOptions = (argArray: unknown[]): ListenerOptions => {
     const key = argArray[0] as string
     const options = argArray.splice(0, 1)[0] as Record<string, unknown>
     const callback = (options["callback"] ?? argArray[argArray.length - 1]) as EventCallback
-    const constraint = (options["constraint"] ?? (argArray.length > 2 ? argArray.splice(0, 1).find((x): x is ConstraintFn => x !== callback && typeof x === "function") : undefined)) as
+    const constraint = (options["constraint"] ??
+        (argArray.length > 2 ? argArray.splice(0, 1).find((x): x is ConstraintFn => x !== callback && typeof x === "function") : undefined)) as
         | ConstraintFn
         | undefined
     const thisScope = options["scope"]

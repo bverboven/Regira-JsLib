@@ -22,7 +22,12 @@ export class EntityDescriptor<T extends IEntity = IEntity> {
     Form?: any
     Fiche?: any
 
-    constructor(Entity: { name: string; new (): T }, serviceBuilder: (sp: IServiceProvider) => IEntityService<T>, config: IConfig, { Overview, Details, Form, Fiche }: IEntityControls) {
+    constructor(
+        Entity: { name: string; new (): T },
+        serviceBuilder: (sp: IServiceProvider) => IEntityService<T>,
+        config: IConfig,
+        { Overview, Details, Form, Fiche }: IEntityControls
+    ) {
         this.Entity = Entity
         this.serviceBuilder = serviceBuilder
         this.config = config

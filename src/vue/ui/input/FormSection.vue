@@ -9,7 +9,12 @@
                         </slot>
                     </div>
                     <div class="col-auto">
-                        <button v-if="!readonly && $slots.summary" type="button" class="btn btn-default my-2 px-2 py-1 opacity-50" @click.stop="showSummary = !showSummary">
+                        <button
+                            v-if="!readonly && $slots.summary"
+                            type="button"
+                            class="btn btn-default my-2 px-2 py-1 opacity-50"
+                            @click.stop="showSummary = !showSummary"
+                        >
                             <Icon :name="showSummary ? 'look' : 'edit'" />
                         </button>
                         <button type="button" class="btn btn-default my-2 px-2 py-1 opacity-50" @click.stop="toggleCollapsed">

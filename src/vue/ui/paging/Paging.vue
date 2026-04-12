@@ -3,7 +3,9 @@
         <ul class="pagination">
             <li class="page-item">
                 <slot name="firstPage" :page="1">
-                    <component :is="PagingElement" :page="1" :to="pagedRoute(1)" @click.prevent="handleChangePage(1)" aria-label="Previous">&laquo;</component>
+                    <component :is="PagingElement" :page="1" :to="pagedRoute(1)" @click.prevent="handleChangePage(1)" aria-label="Previous"
+                        >&laquo;</component
+                    >
                 </slot>
             </li>
             <li class="page-item" v-for="p in pages" :key="p" :class="{ active: p == page }">
@@ -13,7 +15,15 @@
             </li>
             <li class="page-item">
                 <slot name="lastPage" :page="totalPages">
-                    <component :is="PagingElement" :page="totalPages" :to="pagedRoute(totalPages)" @click.prevent="handleChangePage(totalPages)" aria-label="Next"> &raquo; </component>
+                    <component
+                        :is="PagingElement"
+                        :page="totalPages"
+                        :to="pagedRoute(totalPages)"
+                        @click.prevent="handleChangePage(totalPages)"
+                        aria-label="Next"
+                    >
+                        &raquo;
+                    </component>
                 </slot>
             </li>
         </ul>

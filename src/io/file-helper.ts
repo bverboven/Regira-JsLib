@@ -80,7 +80,12 @@ class FileHelper {
         const blob = fileUtility.writeAllText(json, filename, "application/json")
         return blob
     }
-    async send(url: string, files: Blob[], data: Record<string, unknown> = {}, options: { method?: string; headers?: Record<string, string>; filesParameterName?: string } = {}) {
+    async send(
+        url: string,
+        files: Blob[],
+        data: Record<string, unknown> = {},
+        options: { method?: string; headers?: Record<string, string>; filesParameterName?: string } = {}
+    ) {
         const { method = "POST", headers: extraHeaders, filesParameterName } = options
         const formData = fileUtility.toFormData(files || [], data || {}, filesParameterName ? { filesParameterName } : {})
 

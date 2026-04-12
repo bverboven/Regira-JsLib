@@ -54,7 +54,11 @@ export function useDetails<T extends IEntity>(entityService: IEntityService<T>, 
     const overviewUrl = getOverviewUrl()
     const isForm = computed(() => !!router.currentRoute.value.name?.toString().includes("Form"))
     const isFiche = computed(() => !!router.currentRoute.value.name?.toString().includes("Fiche"))
-    const hasFiche = computed(() => router.options.routes.flatMap((r) => [r, ...(r.children || [])]).some((r) => r.name == router.currentRoute.value.name?.toString().replace("Form", "Fiche")))
+    const hasFiche = computed(() =>
+        router.options.routes
+            .flatMap((r) => [r, ...(r.children || [])])
+            .some((r) => r.name == router.currentRoute.value.name?.toString().replace("Form", "Fiche"))
+    )
 
     async function setItem() {
         if (isNew.value) {
@@ -66,7 +70,10 @@ export function useDetails<T extends IEntity>(entityService: IEntityService<T>, 
             item.value = await entityService.details(routeId.value)
         } catch (ex: any) {
             console.error(`Fetching details failed for #${routeId.value}`, { id: routeId.value, ex })
-            feedback.fail(`Fetching item #${routeId.value} failed`, ex.response.status == 403 ? "Not allowed" : ex.response.status == 404 ? "Not found" : ex.response.data)
+            feedback.fail(
+                `Fetching item #${routeId.value} failed`,
+                ex.response.status == 403 ? "Not allowed" : ex.response.status == 404 ? "Not found" : ex.response.data
+            )
         } finally {
             isLoading.value = false
         }

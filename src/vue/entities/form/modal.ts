@@ -40,7 +40,16 @@ interface FormModalOut<T extends IEntity> {
     handleCancel(e: { canceled: T; original?: T }): void
 }
 
-export function useModalForm<T extends IEntity>({ entityService, model, itemDefaults, closeOnSave, closeOnCancel, closeOnDelete, emit, feedback }: FormModalIn<T>): FormModalOut<T> {
+export function useModalForm<T extends IEntity>({
+    entityService,
+    model,
+    itemDefaults,
+    closeOnSave,
+    closeOnCancel,
+    closeOnDelete,
+    emit,
+    feedback,
+}: FormModalIn<T>): FormModalOut<T> {
     const isOpen = ref(false)
     const item = ref<T>()
     const app = getCurrentInstance()
@@ -76,7 +85,10 @@ export function useModalForm<T extends IEntity>({ entityService, model, itemDefa
         } catch (ex: any) {
             console.error("Fetching details failed", { id: itemValue?.$id, ex, app })
             feedback ||= app?.appContext.config.globalProperties.$feedback as FeedbackOut
-            feedback.fail(`Fetching ${itemValue?.$title || "item #" + itemValue?.$id} failed`, ex.response.status == 403 ? "Not allowed" : ex.response?.data)
+            feedback.fail(
+                `Fetching ${itemValue?.$title || "item #" + itemValue?.$id} failed`,
+                ex.response.status == 403 ? "Not allowed" : ex.response?.data
+            )
         }
     }
     function handleCancel(e: { canceled: T; original?: T }): void {

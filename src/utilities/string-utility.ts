@@ -66,7 +66,9 @@ export function randomize(length = 10) {
         .join("")
 }
 export function newGuid() {
-    return ("" + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c: any) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0]! & (15 >> (c / 4)))).toString(16))
+    return ("" + 1e7 + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c: any) =>
+        (c ^ (crypto.getRandomValues(new Uint8Array(1))[0]! & (15 >> (c / 4)))).toString(16)
+    )
 }
 // random pasword from 8 to 32 characters
 export const newPassword = (length = Math.floor(Math.random() * 24) + 8) => randomize(length)
@@ -75,7 +77,9 @@ export const newPassword = (length = Math.floor(Math.random() * 24) + 8) => rand
 // consider using https://github.com/validatorjs/validator.js
 export function isEmail(email: string) {
     // https://stackoverflow.com/questions/16800540/validate-email-address-in-dart#answer-16888554
-    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)
+    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        email
+    )
 }
 export function isUrl(url: string) {
     // https://www.regextester.com/94502

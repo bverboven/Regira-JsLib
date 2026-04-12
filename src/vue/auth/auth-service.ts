@@ -61,7 +61,10 @@ export class AuthService implements IAuthService {
                 if (response.status >= 200 && response.status < 300) {
                     return this.authenticate({ token: this.tokenManager.token, isAuthenticated: true })
                 } else {
-                    console.warn("validateToken: invalid statusCode", response.status, { tokenManager: this.tokenManager, token: this.tokenManager.token })
+                    console.warn("validateToken: invalid statusCode", response.status, {
+                        tokenManager: this.tokenManager,
+                        token: this.tokenManager.token,
+                    })
                 }
             } catch (ex: any) {
                 console.error("validating token failed", { ex, token: this.tokenManager.token })

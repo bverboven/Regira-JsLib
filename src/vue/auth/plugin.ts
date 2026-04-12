@@ -17,8 +17,20 @@ type Input<TStore extends IAuthStore, TTokenManager extends ITokenManager> = IAu
 }
 
 export default {
-    async install<TStore extends IAuthStore = IAuthStore, TTokenManager extends ITokenManager = ITokenManager>(app: App, options: Input<TStore, TTokenManager>) {
-        const { clientApp, loginUrl, tokenManager, authStore, axios, enableRouteGuard = true, enabled = true, onAuthenticationChange = () => {} } = options
+    async install<TStore extends IAuthStore = IAuthStore, TTokenManager extends ITokenManager = ITokenManager>(
+        app: App,
+        options: Input<TStore, TTokenManager>
+    ) {
+        const {
+            clientApp,
+            loginUrl,
+            tokenManager,
+            authStore,
+            axios,
+            enableRouteGuard = true,
+            enabled = true,
+            onAuthenticationChange = () => {},
+        } = options
         const { $router: router } = app.config.globalProperties
 
         const auth = createAuth({

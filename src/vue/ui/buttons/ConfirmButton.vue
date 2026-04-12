@@ -6,7 +6,14 @@
         </slot>
         <Teleport to="#modals">
             <slot name="modal">
-                <MyModal :is-visible="showModal" :type="modalType" :title="modalTitle" @submit="handleConfirm" @cancel="handleCancel" @close="handleClose">
+                <MyModal
+                    :is-visible="showModal"
+                    :type="modalType"
+                    :title="modalTitle"
+                    @submit="handleConfirm"
+                    @cancel="handleCancel"
+                    @close="handleClose"
+                >
                     <slot></slot>
                 </MyModal>
             </slot>

@@ -82,7 +82,10 @@ type AutocompleteOut<T = any, TKey = IDefaultKey | T> = {
     reset(): void
 }
 
-export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T, TKey>, { emit }: { emit: Emits<T, TKey> }): AutocompleteOut<T, TKey> {
+export function useAutocomplete<T = any, TKey = IDefaultKey | T>(
+    props: Props<T, TKey>,
+    { emit }: { emit: Emits<T, TKey> }
+): AutocompleteOut<T, TKey> {
     const q = ref("")
     const selectedIndex = ref(-1)
     const items = ref(props.data) as Ref<Array<T> | undefined>
@@ -138,7 +141,9 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T,
     function checkMatch(allowAutoSelect: boolean = false): void {
         // check (and set selection automatically) if the input value corresponds with a value in the results
         if (selectedItem.value == null && items.value) {
-            const matches = (items.value as Array<T>)?.filter((item) => (displayItemFormatter(item)?.toString() || "").toLowerCase() === q.value?.toLowerCase())
+            const matches = (items.value as Array<T>)?.filter(
+                (item) => (displayItemFormatter(item)?.toString() || "").toLowerCase() === q.value?.toLowerCase()
+            )
             if (matches.length == 1) {
                 setSelection(matches[0])
             } else if (allowAutoSelect && props.autoSelect) {
@@ -236,7 +241,9 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(props: Props<T,
 
     // search
     const search = props.search || (props.data && dataItemsSearch) || throwError<() => void>(new Error("prop search or data is required"))
-    const debouncedSearch = debounceToPromise(search as (...args: unknown[]) => Promise<T[] | undefined>, props.debounceTime) as unknown as (term: string) => Promise<Array<T>>
+    const debouncedSearch = debounceToPromise(search as (...args: unknown[]) => Promise<T[] | undefined>, props.debounceTime) as unknown as (
+        term: string
+    ) => Promise<Array<T>>
 
     const updateContainerOffset = () => {
         containerOffset.value = getAbsOffset(inputEl.value)

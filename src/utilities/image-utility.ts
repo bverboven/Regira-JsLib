@@ -46,7 +46,11 @@ export const getImageContentType = async (img: HTMLImageElement) => {
 }
 export const parseContentType = (type: string | undefined) => (type || contentTypes.jpg).replace("/jpg", "/jpeg")
 
-export const createCanvas = (width: number, height: number, options: Record<string, unknown> | null = { backgroundColor: "#ffffff", imageSmoothingEnabled: false }) => {
+export const createCanvas = (
+    width: number,
+    height: number,
+    options: Record<string, unknown> | null = { backgroundColor: "#ffffff", imageSmoothingEnabled: false }
+) => {
     const canvas = window.document.createElement("canvas")
     canvas.width = width
     canvas.height = height
@@ -87,7 +91,11 @@ export const clearCanvas = (canvas: HTMLCanvasElement) => {
     const ctx = get2dContext(canvas)
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 }
-export const addImageToCanvas = (canvas: HTMLCanvasElement | null | undefined, img: HTMLImageElement, { top = 0, left = 0 } = { top: 0, left: 0 }) => {
+export const addImageToCanvas = (
+    canvas: HTMLCanvasElement | null | undefined,
+    img: HTMLImageElement,
+    { top = 0, left = 0 } = { top: 0, left: 0 }
+) => {
     const c = canvas ?? createCanvas(img.width + left, img.height + top)
     const ctx = c.getContext("2d")!
     ctx.drawImage(img, left, top, img.width, img.height)
@@ -122,7 +130,11 @@ export const imageToBase64 = (img: HTMLImageElement, type = DEFAULT_CONTENTTYPE,
     return canvas.toDataURL(type, quality)
 }
 
-export const resizeByScale = async (img: HTMLImageElement, scale: number, { quality = 1, type = DEFAULT_CONTENTTYPE }: { quality?: number; type?: string } = {}) => {
+export const resizeByScale = async (
+    img: HTMLImageElement,
+    scale: number,
+    { quality = 1, type = DEFAULT_CONTENTTYPE }: { quality?: number; type?: string } = {}
+) => {
     // https://stackoverflow.com/questions/18922880/html5-canvas-resize-downscale-image-high-quality#answer-19144434
     // scales the canvas by (float) scale < 1
     // returns a new canvas containing the scaled image.
@@ -284,7 +296,11 @@ var sA = 0;  //source alpha  */
     const downScaledCanvas = downScaleImage(img, scale, contentType)
     return canvasToImage(downScaledCanvas, contentType, quality)
 }
-export const resize = async (img: HTMLImageElement, maxSize: number | [number, number], { quality = 1, type = DEFAULT_CONTENTTYPE }: { quality?: number; type?: string } = {}) => {
+export const resize = async (
+    img: HTMLImageElement,
+    maxSize: number | [number, number],
+    { quality = 1, type = DEFAULT_CONTENTTYPE }: { quality?: number; type?: string } = {}
+) => {
     const { width: sourceWidth, height: sourceHeight } = img
     let [targetWidth = 0, targetHeight = targetWidth] = isArray(maxSize) ? maxSize : [maxSize, maxSize]
 

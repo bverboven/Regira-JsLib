@@ -3,7 +3,8 @@ export const isValidDate = (date: unknown): boolean => {
     return !isNaN(+dateObj)
 }
 
-export const daysDiff = (date1: Date | number | string, date2: Date | number | string): number => Math.ceil(Math.abs(new Date(date2).getTime() - new Date(date1).getTime()) / (1000 * 60 * 60 * 24))
+export const daysDiff = (date1: Date | number | string, date2: Date | number | string): number =>
+    Math.ceil(Math.abs(new Date(date2).getTime() - new Date(date1).getTime()) / (1000 * 60 * 60 * 24))
 
 export const timer = {
     last: new Date().getTime(),

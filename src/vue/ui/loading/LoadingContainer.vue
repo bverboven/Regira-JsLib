@@ -1,7 +1,12 @@
 <template>
     <div class="position-relative" :style="{ height: isLoading ? `${getHeight()}px` : undefined }" ref="containerEl">
         <slot name="loading">
-            <Loading v-if="isLoading" class="position-absolute top-0 start-50 translate-middle-x" style="width: 20rem; max-width: 100%" ref="loadingEl" />
+            <Loading
+                v-if="isLoading"
+                class="position-absolute top-0 start-50 translate-middle-x"
+                style="width: 20rem; max-width: 100%"
+                ref="loadingEl"
+            />
         </slot>
         <div :style="{ opacity: isLoading ? '0.4' : '' }">
             <slot></slot>

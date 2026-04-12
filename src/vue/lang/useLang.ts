@@ -12,7 +12,8 @@ export function useLang() {
         fallbackLangCode,
         messages,
 
-        translate: (key: string, formatArgs?: IFormatInput) => translate(key, messages.value, langCode.value, formatArgs) || translate(key, messages.value, fallbackLangCode.value, formatArgs),
+        translate: (key: string, formatArgs?: IFormatInput) =>
+            translate(key, messages.value, langCode.value, formatArgs) || translate(key, messages.value, fallbackLangCode.value, formatArgs),
         translateMessage: (message: ITranslationMessage, formatArgs?: IFormatInput) =>
             translateMessage(message, langCode.value, formatArgs) || translateMessage(message, fallbackLangCode.value, formatArgs),
         setLangCode(newValue: string) {

@@ -16,7 +16,8 @@ const compareDesc = <T>(a: T, b: T, f: (x: T) => unknown): number => {
 }
 
 export const isArray = (items: unknown): items is unknown[] => Array.isArray(items)
-export const isIterable = (items: unknown): boolean => items != null && typeof (items as { [Symbol.iterator]?: unknown })[Symbol.iterator] === "function"
+export const isIterable = (items: unknown): boolean =>
+    items != null && typeof (items as { [Symbol.iterator]?: unknown })[Symbol.iterator] === "function"
 export const toArray = <T>(items: T[] | Iterable<T> | Record<string, T> | null | undefined): T[] => {
     if (!items) return []
     if (isArray(items)) return items as T[]
@@ -89,10 +90,18 @@ export const groupJoin = <T, U, R = [T, U[]]>(
 ) => {
     const childArr = toArray(childItems)
     return toArray(parentItems)
-        .map((x, i, parents): [T, U[]] => [x, childArr.filter((y, j, children) => parentKeySelector(x, i, parents) === childSelector(y, j, children))])
+        .map((x, i, parents): [T, U[]] => [
+            x,
+            childArr.filter((y, j, children) => parentKeySelector(x, i, parents) === childSelector(y, j, children)),
+        ])
         .map(([groupedKey, groupedValues]) => resultSelector(groupedKey, groupedValues))
 }
-export const except = <T, U = T>(items1: Iterable<T>, items2: Iterable<U>, selector1: (x: T) => unknown = selfSelector, selector2: (x: U) => unknown = selfSelector): T[] => {
+export const except = <T, U = T>(
+    items1: Iterable<T>,
+    items2: Iterable<U>,
+    selector1: (x: T) => unknown = selfSelector,
+    selector2: (x: U) => unknown = selfSelector
+): T[] => {
     const arr2 = toArray(items2)
     return toArray(items1).filter((x) => !arr2.some((y) => selector1(x) === selector2(y)))
 }
@@ -177,7 +186,11 @@ export const average = <T>(items: Iterable<T>, selector?: (x: T) => number): num
     const arr = toArray(items)
     return sum(arr, selector) / arr.length
 }
-export const toMap = <T, K, V = T>(items: Iterable<T>, keySelector: (x: T) => K, valueSelector?: (item: T, i?: number, map?: Map<K, V>) => V): Map<K, V> => {
+export const toMap = <T, K, V = T>(
+    items: Iterable<T>,
+    keySelector: (x: T) => K,
+    valueSelector?: (item: T, i?: number, map?: Map<K, V>) => V
+): Map<K, V> => {
     const sel = valueSelector ?? (selfSelector as unknown as (item: T, i?: number, map?: Map<K, V>) => V)
     const arr = toArray(items)
     return arr.reduce((map, item, i) => {
@@ -188,7 +201,11 @@ export const toMap = <T, K, V = T>(items: Iterable<T>, keySelector: (x: T) => K,
     // const entries = groupBy(items, keySelector).map(x => [x[0], x[1].map(valueSelector)]);
     // return new Map(entries);
 }
-export const sameContent = <T>(items1: Iterable<T> | null | undefined, items2: Iterable<T> | null | undefined, includeOrder: boolean = true): boolean => {
+export const sameContent = <T>(
+    items1: Iterable<T> | null | undefined,
+    items2: Iterable<T> | null | undefined,
+    includeOrder: boolean = true
+): boolean => {
     if (items1 === items2) {
         return true
     }
