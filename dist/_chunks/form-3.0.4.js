@@ -152,9 +152,10 @@ function m({ entityService: t, model: n, itemDefaults: r, closeOnSave: a, closeO
 		handleCancel: v
 	};
 }
+var h = m;
 //#endregion
 //#region src/vue/entities/form/listInput.ts
-function h({ props: e, emit: r }) {
+function g({ props: e, emit: r }) {
 	let i = n(e, r), a = o({ id: 0 }), s = (e) => {
 		r("sort", e);
 	};
@@ -168,7 +169,7 @@ function h({ props: e, emit: r }) {
 		handleSave: c
 	};
 }
-function g({ props: e, emit: t }) {
+function _({ props: e, emit: t }) {
 	let r = n(e, t);
 	function i() {
 		t("save", {
@@ -187,7 +188,7 @@ function g({ props: e, emit: t }) {
 }
 //#endregion
 //#region src/vue/entities/form/ownedCollections.ts
-function _({ props: e, emit: r }) {
+function v({ props: e, emit: r }) {
 	let i = n(e, r), s = () => ({ id: 0 }), l = o();
 	async function u() {
 		l.value = s();
@@ -210,7 +211,7 @@ function _({ props: e, emit: r }) {
 }
 //#endregion
 //#region src/vue/entities/form/ownedModal.ts
-function v(t, { props: n, emit: r }) {
+function y(t, { props: n, emit: r }) {
 	let i = o(n.modelValue || { id: 0 }), a = o(!1);
 	function c() {
 		let r = n.modelValue || {}, o = e(s(n.itemDefaults || {}));
@@ -237,4 +238,4 @@ function v(t, { props: n, emit: r }) {
 	};
 }
 //#endregion
-export { p as a, d as c, g as i, f as l, _ as n, m as o, h as r, u as s, v as t };
+export { p as a, d as c, _ as i, f as l, v as n, h as o, g as r, u as s, y as t };

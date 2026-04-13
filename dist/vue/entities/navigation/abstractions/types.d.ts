@@ -2,7 +2,7 @@ export interface INavCore {
     id: string;
     parentId?: string;
     title: string;
-    shortTitle?: string;
+    description?: string;
     icon?: string;
 }
 export interface IRoutingNavItem {

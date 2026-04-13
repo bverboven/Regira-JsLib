@@ -39,5 +39,6 @@ interface FormModalOut<T extends IEntity> {
         original?: T;
     }): void;
 }
-export declare function useModal<T extends IEntity>({ entityService, model, itemDefaults, closeOnSave, closeOnCancel, closeOnDelete, emit, feedback, }: FormModalIn<T>): FormModalOut<T>;
+export declare function useModalForm<T extends IEntity>({ entityService, model, itemDefaults, closeOnSave, closeOnCancel, closeOnDelete, emit, feedback, }: FormModalIn<T>): FormModalOut<T>;
+export declare const useModal: typeof useModalForm;
 export {};

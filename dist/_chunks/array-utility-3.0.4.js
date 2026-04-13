@@ -96,10 +96,10 @@ var t = (e) => typeof e == "object" && !!e && Object.prototype.toString.call(e) 
 	getRandom: u
 }, f = (e) => e, p = (e, t, n) => {
 	let r = n(e), i = n(t);
-	return r < i ? -1 : r > i ? 1 : 0;
+	return r < i ? -1 : +(r > i);
 }, m = (e, t, n) => {
 	let r = n(e), i = n(t);
-	return r > i ? -1 : r < i ? 1 : 0;
+	return r > i ? -1 : +(r < i);
 }, h = (e) => Array.isArray(e), g = (e) => e != null && typeof e[Symbol.iterator] == "function", _ = (e) => e ? h(e) ? e : g(e) ? [...e] : Object.values(e) : [], v = (e) => [...Array(e)], y = (e, t = f) => {
 	let n = [...e];
 	return n.sort((e, n) => p(e, n, t)), n;

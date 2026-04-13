@@ -1,4 +1,4 @@
-import { debounceToPromise, enqueue } from '../utilities/promise-utility';
+import { debounceToPromise, enqueue } from "../utilities/promise-utility";
 declare global {
     interface PromiseConstructor {
         debounce: typeof debounceToPromise;

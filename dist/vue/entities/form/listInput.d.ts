@@ -17,7 +17,7 @@ export declare function useListInput<T extends IEntity & {
 export declare function useListItemInput<T extends IEntity & {
     id: number;
     _deleted: boolean;
-}>({ props, emit }: {
+}>({ props, emit, }: {
     props: Readonly<Record<string, any>>;
     emit: any;
 }): {
