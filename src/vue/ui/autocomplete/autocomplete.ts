@@ -156,7 +156,7 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(
         handleSearch()
     }
     function handleChange(): void {
-        checkMatch()
+        // checkMatch() // disabled since it is called on blur and would interfere with clicking on results
         // emit select triggered automatically in selectedItem setter
     }
     function handleSelect(item: T, index: number): void {
@@ -184,6 +184,7 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(
         }
     }
     function moveSelection(step: number): void {
+        console.debug("moveSelection", { step, selectedIndex: selectedIndex.value, items: items.value })
         const newSelectedIndex = selectedIndex.value + step
         const newSelectedItem = (items.value as Array<T>)[newSelectedIndex]
         if (newSelectedIndex >= 0 && newSelectedIndex < (items.value as Array<T>).length) {
@@ -226,13 +227,15 @@ export function useAutocomplete<T = any, TKey = IDefaultKey | T>(
             return
         }
 
-        // clear visible input if no selection was made
-        checkMatch(true) // check match?
-        if (selectedItem.value == null) {
-            q.value = ""
-        }
+        setTimeout(() => {
+            // clear visible input if no selection was made
+            checkMatch(true)
+            if (selectedItem.value == null) {
+                q.value = ""
+            }
 
-        setTimeout(closeResults, 250)
+            closeResults()
+        }, 250)
     }
 
     function throwError<TReturn>(err: Error): TReturn {
