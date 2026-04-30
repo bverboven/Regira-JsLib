@@ -3,6 +3,7 @@ declare const _default: {
     admin: string;
     alert: string;
     attachment: string;
+    ban: string;
     bank: string;
     birthday: string;
     cancel: string;

@@ -72,6 +72,7 @@ var f = /* @__PURE__ */ r({
 	admin: "bi bi-person-gear",
 	alert: "bi bi-exclamation-circle",
 	attachment: "bi bi-paperclip",
+	ban: "bi bi-ban",
 	bank: "bi bi-piggy-bank",
 	birthday: "bi bi-balloon",
 	cancel: "bi bi-x-octagon",
